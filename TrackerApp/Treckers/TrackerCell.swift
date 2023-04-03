@@ -67,6 +67,7 @@ final class TrackerCell: UICollectionViewCell {
     static let identifier = "trackerCell"
     private var days = 0 {
         didSet {
+            
             daysCountLabel.text = "\(days)"
         }
     }
@@ -134,7 +135,7 @@ final class TrackerCell: UICollectionViewCell {
             emojiView.widthAnchor.constraint(equalToConstant: 24),
             
             doneButton.topAnchor.constraint(equalTo: trackerView.bottomAnchor, constant: 8),
-            doneButton.trailingAnchor.constraint(equalTo: trackerView.trailingAnchor, constant: -12),
+            doneButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             doneButton.heightAnchor.constraint(equalToConstant: 34),
             doneButton.widthAnchor.constraint(equalToConstant: 34),
             

@@ -24,7 +24,7 @@ final class TrackerCategoryView: UICollectionReusableView {
         
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: topAnchor),
-            categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28),
             categoryLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
