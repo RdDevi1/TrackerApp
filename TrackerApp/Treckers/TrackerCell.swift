@@ -40,7 +40,7 @@ final class TrackerCell: UICollectionViewCell {
         return label
     }()
     
-    private let daysCountLabel: UILabel = {
+    private let daysCounterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
@@ -67,8 +67,7 @@ final class TrackerCell: UICollectionViewCell {
     static let identifier = "trackerCell"
     private var days = 0 {
         didSet {
-            
-            daysCountLabel.text = "\(days)"
+            daysCounterLabel.text = formatDayString(for: days)
         }
     }
     private var tracker: Tracker?
@@ -108,13 +107,36 @@ final class TrackerCell: UICollectionViewCell {
         }
     }
     
+    func increaseCount() {
+        days += 1
+    }
+    
+    func decreaseCount() {
+        days -= 1
+    }
+    
+    private func formatDayString(for days: Int) -> String {
+        let mod10 = days % 10
+        let mod100 = days % 100
+        
+        if mod100 >= 11 && mod100 <= 19 {
+            return "\(days) дней"
+        } else if mod10 == 1 {
+            return "\(days) день"
+        } else if mod10 >= 2 && mod10 <= 4 {
+            return "\(days) дня"
+        } else {
+            return "\(days) дней"
+        }
+    }
+    
     
     private func setCellLayout() {
         contentView.addSubview(trackerView)
         contentView.addSubview(trackerLabel)
         contentView.addSubview(emojiView)
         contentView.addSubview(doneButton)
-        contentView.addSubview(daysCountLabel)
+        contentView.addSubview(daysCounterLabel)
         
         setConstraints()
     }
@@ -139,8 +161,8 @@ final class TrackerCell: UICollectionViewCell {
             doneButton.heightAnchor.constraint(equalToConstant: 34),
             doneButton.widthAnchor.constraint(equalToConstant: 34),
             
-            daysCountLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            daysCountLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor)
+            daysCounterLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            daysCounterLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor)
             
         ])
         
@@ -148,6 +170,7 @@ final class TrackerCell: UICollectionViewCell {
     
     @objc
     private func didTapDoneButton(_ sender: UIButton) {
-        
+        increaseCount()
+        toggleDoneButton(true)
     }
 }

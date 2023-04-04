@@ -59,7 +59,7 @@ class TrackersViewController: UIViewController {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "star")
-        
+        image.isHidden = true
         return image
     }()
     
@@ -68,6 +68,7 @@ class TrackersViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Что будем отслеживать?"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.isHidden = true
         return label
     }()
     
@@ -135,6 +136,8 @@ class TrackersViewController: UIViewController {
         setConstraints()
     }
     
+    
+//    MARK: - Methods
     private func setConstraints() {
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 57),
@@ -167,12 +170,19 @@ class TrackersViewController: UIViewController {
         ])
     }
     
+    private func showEmptyTracker(for visibleCategories: [TrackerCategory]) {
+        if visibleCategories.isEmpty {
+            emptyTrackersLabel.isHidden = false
+            emptyTrackersImageView.isHidden = false
+        }
+    }
+
     
     @objc
     private func didTapAddButton() {
-        let createEventViewController = CreateEventViewController()
-        createEventViewController.modalPresentationStyle = .pageSheet
-        present(createEventViewController, animated: true)
+        let eventTypeSelectionViewController = EventTypeSelectionViewController()
+        eventTypeSelectionViewController.modalPresentationStyle = .pageSheet
+        present(eventTypeSelectionViewController, animated: true)
     }
     
     @objc
@@ -222,7 +232,6 @@ extension TrackersViewController: UICollectionViewDataSource {
     }
     
 }
-
 
 
 //MARK: - UICollectionViewDelegateFlowLayout

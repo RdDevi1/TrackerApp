@@ -4,7 +4,7 @@ import UIKit
 
 final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     
-//  MARK: - Layout
+    //  MARK: - Layout
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -12,33 +12,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
-    }()
-    
-    private lazy var addRegularEventButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
-        button.setTitle("Привычка", for: .normal)
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 16
-        button.addTarget(self, action: #selector(didTapRegularEventButton), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var addIrregularEventButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
-        button.setTitle("Нерегулярные событие", for: .normal)
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 16
-        button.addTarget(self, action: #selector(didTapIrregularEventButton), for: .touchUpInside)
-        
-        return button
     }()
     
     private lazy var trackerTextField: UITextField = {
@@ -52,7 +25,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         field.layer.cornerRadius = 16
         field.backgroundColor = .lightGray.withAlphaComponent(0.3)
         field.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        field.isHidden = true
         return field
     }()
     
@@ -68,8 +40,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorColor = .ypGray
-        tableView.isHidden = true
-        
         return tableView
     }()
     
@@ -83,7 +53,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.backgroundColor = .ypGray
-        button.isHidden = true
         button.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
         return button
     }()
@@ -101,7 +70,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.ypRed?.cgColor
         button.addTarget(self, action: #selector(didTapCancelButon), for: .touchUpInside)
-        button.isHidden = true
         return button
     }()
     
@@ -109,7 +77,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Properties
     
-    private var isRegular = true
+    private let isRegular: Bool
     private var params = UICollectionView.GeometricParams(cellCount: 6,
                                                           leftInset: 25,
                                                           rightInset: 25,
@@ -128,35 +96,28 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     ]
     
     //    MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         
         
     }
+    
     //    MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
-        view.addSubview(addRegularEventButton)
-        view.addSubview(addIrregularEventButton)
         view.addSubview(createButton)
         view.addSubview(cancelButton)
         view.addSubview(trackerTextField)
         view.addSubview(tableView)
-        
+        if isRegular {
+            titleLabel.text = "Новая привычка"
+        } else {
+            titleLabel.text = "Новое нерегулярное событие"
+        }
         setConstraints()
-    }
-    
-    private func goToEventCreator() {
-        addRegularEventButton.isHidden = true
-        addIrregularEventButton.isHidden = true
-        createButton.isHidden = false
-        cancelButton.isHidden = false
-        trackerTextField.isHidden = false
-        setConstraints()
-        tableView.isHidden = false
-//        tableView.reloadData()
     }
     
     private func setConstraints() {
@@ -166,16 +127,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
             titleLabel.heightAnchor.constraint(equalToConstant: 49),
             
-            addRegularEventButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 295),
-            addRegularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            addRegularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addRegularEventButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            addIrregularEventButton.topAnchor.constraint(equalTo: addRegularEventButton.bottomAnchor, constant: 16),
-            addIrregularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            addIrregularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addIrregularEventButton.heightAnchor.constraint(equalToConstant: 60),
-            
             trackerTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             trackerTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trackerTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -184,7 +135,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             tableView.topAnchor.constraint(equalTo: trackerTextField.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: (isRegular ? 150 : 75)),
+            tableView.heightAnchor.constraint(equalToConstant: (self.isRegular ? 150 : 75)),
             
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -37),
@@ -200,20 +151,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     //    MARK: - Actions
-    @objc
-    private func didTapRegularEventButton() {
-        isRegular = true
-        titleLabel.text = "Новая привычка"
-        goToEventCreator()
-    }
-    
-    @objc
-    private func didTapIrregularEventButton() {
-        isRegular = false
-        titleLabel.text = "Новое нерегулярное событие"
-        goToEventCreator()
-    }
-    
+
     @objc
     private func didTapCreateButton() {
     
@@ -222,6 +160,15 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @objc
     private func didTapCancelButon() {
         dismiss(animated: true)
+    }
+    
+    init(isRegular: Bool) {
+        self.isRegular = isRegular
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
