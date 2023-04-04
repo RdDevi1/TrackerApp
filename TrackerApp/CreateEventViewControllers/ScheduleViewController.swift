@@ -11,6 +11,7 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
         label.text = "Расписание"
@@ -20,15 +21,12 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.layer.masksToBounds = true
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.isScrollEnabled = false
-        tableView.backgroundColor = .lightGray.withAlphaComponent(0.3)
-        tableView.layer.cornerRadius = 16
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        tableView.separatorColor = .ypGray
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.layer.masksToBounds = true
+        table.isScrollEnabled = false
+        table.layer.cornerRadius = 16
+        table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        table.separatorColor = .ypGray
         return table
     }()
     
@@ -60,6 +58,7 @@ final class ScheduleViewController: UIViewController {
     
     
     private func setLayout() {
+        view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(tableView)
         view.addSubview(confirmButton)
@@ -86,7 +85,7 @@ final class ScheduleViewController: UIViewController {
     
     @objc
     private func didTapConfirmButton() {
-        
+        dismiss(animated: true)
     }
     
 }
@@ -111,7 +110,7 @@ extension ScheduleViewController: UITableViewDataSource {
         
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         cell.selectionStyle = .none
-        cell.backgroundColor = .lightGray.withAlphaComponent(0.3)
+        cell.backgroundColor = .ypBackground
         cell.textLabel?.text = days[indexPath.row]
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.accessoryView = switcher
@@ -119,7 +118,6 @@ extension ScheduleViewController: UITableViewDataSource {
         return cell
         
     }
-    
     
     
     @objc

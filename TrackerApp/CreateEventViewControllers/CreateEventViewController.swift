@@ -23,7 +23,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         field.leftView = paddingView
         field.leftViewMode = .always
         field.layer.cornerRadius = 16
-        field.backgroundColor = .lightGray.withAlphaComponent(0.3)
+        field.backgroundColor = .ypBackground
         field.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         return field
     }()
@@ -33,10 +33,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.masksToBounds = true
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = .lightGray.withAlphaComponent(0.3)
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorColor = .ypGray
@@ -100,6 +97,9 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         
         
     }
@@ -176,6 +176,17 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
 
 extension CreateEventViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let categoriesViewController = CategoriesViewController()
+            present(categoriesViewController, animated: true)
+        case 1:
+            let scheduleViewController = ScheduleViewController()
+            present(scheduleViewController, animated: true)
+        default: break
+        }
+    }
 }
 
 
@@ -188,7 +199,7 @@ extension CreateEventViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
-        cell.backgroundColor = .clear
+        cell.backgroundColor = .ypBackground
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.detailTextLabel?.textColor = .systemBackground
         
@@ -197,7 +208,7 @@ extension CreateEventViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = "Расписание"
         }
-        cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
     

@@ -170,7 +170,13 @@ final class TrackerCell: UICollectionViewCell {
     
     @objc
     private func didTapDoneButton(_ sender: UIButton) {
-        increaseCount()
-        toggleDoneButton(true)
+        if sender.image(for: .normal) == UIImage(systemName: "plus") {
+            increaseCount()
+            toggleDoneButton(true)
+        } else {
+            decreaseCount()
+            toggleDoneButton(false)
+        }
     }
+    
 }
