@@ -59,7 +59,6 @@ class TrackersViewController: UIViewController {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "star")
-        image.isHidden = true
         return image
     }()
     
@@ -68,7 +67,6 @@ class TrackersViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Что будем отслеживать?"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.isHidden = true
         return label
     }()
     
@@ -78,60 +76,62 @@ class TrackersViewController: UIViewController {
    
     private var completedTrackers: Set<TrackerRecord> = []
     private var currentDate: Date = Date()
-    private var visibleCategories: [TrackerCategory] = [
-        TrackerCategory(
-            label: "Домашний уют",
-            trackers: [
-                Tracker(color: UIColor(named: "Color selection 5")!,
-                        label: "Поливать растения",
-                        emoji: "❤️",
-                        schedule: [.saturday]
-                       )
-            ]
-        ),
-        
-        TrackerCategory(
-            label: "Радостные мелочи",
-            trackers: [
-                Tracker(color: UIColor(named: "Color selection 2")!,
-                        label: "Кошка заслонила камеру на созвоне",
-                        emoji: "😻",
-                        schedule: nil
-                       ),
-                
-                Tracker(color: UIColor(named: "Color selection 1")!,
-                        label: "Бабушка прислала открытку в вотсапе",
-                        emoji: "🌺",
-                        schedule: nil
-                       ),
-                
-                Tracker(color: UIColor(named: "Color selection 14")!,
-                        label: "Свидания в апреле",
-                        emoji: "❤️",
-                        schedule: nil
-                       ),
-            ]
-        )
-    ]
+    private var visibleCategories: [TrackerCategory] = []
+//        TrackerCategory(
+//            label: "Домашний уют",
+//            trackers: [
+//                Tracker(color: UIColor(named: "Color selection 5")!,
+//                        label: "Поливать растения",
+//                        emoji: "❤️",
+//                        schedule: [.saturday]
+//                       )
+//            ]
+//        ),
+//
+//        TrackerCategory(
+//            label: "Радостные мелочи",
+//            trackers: [
+//                Tracker(color: UIColor(named: "Color selection 2")!,
+//                        label: "Кошка заслонила камеру на созвоне",
+//                        emoji: "😻",
+//                        schedule: nil
+//                       ),
+//
+//                Tracker(color: UIColor(named: "Color selection 1")!,
+//                        label: "Бабушка прислала открытку в вотсапе",
+//                        emoji: "🌺",
+//                        schedule: nil
+//                       ),
+//
+//                Tracker(color: UIColor(named: "Color selection 14")!,
+//                        label: "Свидания в апреле",
+//                        emoji: "❤️",
+//                        schedule: nil
+//                       ),
+//            ]
+//        )
+//    ]
 
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTrackersViewControllerLayout()
+        setLayout()
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        checkVisibleCategories()
     }
     
-    private func setTrackersViewControllerLayout() {
+    private func setLayout() {
         view.backgroundColor = .white
         view.addSubview(addButton)
         view.addSubview(trakersLabel)
         view.addSubview(datePicker)
         view.addSubview(searchTextField)
+        view.addSubview(collectionView)
         view.addSubview(emptyTrackersImageView)
         view.addSubview(emptyTrackersLabel)
-        view.addSubview(collectionView)
         setConstraints()
     }
     
@@ -169,10 +169,13 @@ class TrackersViewController: UIViewController {
         ])
     }
     
-    private func showEmptyTracker(for visibleCategories: [TrackerCategory]) {
+    private func checkVisibleCategories() {
         if visibleCategories.isEmpty {
             emptyTrackersLabel.isHidden = false
             emptyTrackersImageView.isHidden = false
+        } else {
+            emptyTrackersLabel.isHidden = true
+            emptyTrackersImageView.isHidden = true
         }
     }
 
