@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TrackerCellDelegate: AnyObject {
+    func didTapDoneButton(of cell: TrackerCell, with tracker: Tracker)
+}
+
 final class TrackerCell: UICollectionViewCell {
     
     //  MARK: - Layout
@@ -71,6 +75,7 @@ final class TrackerCell: UICollectionViewCell {
         }
     }
     private var tracker: Tracker?
+    weak var delegate: TrackerCellDelegate?
     
     
     // MARK: - Lifecycle
@@ -169,14 +174,9 @@ final class TrackerCell: UICollectionViewCell {
     }
     
     @objc
-    private func didTapDoneButton(_ sender: UIButton) {
-        if sender.image(for: .normal) == UIImage(systemName: "plus") {
-            increaseCount()
-            toggleDoneButton(true)
-        } else {
-            decreaseCount()
-            toggleDoneButton(false)
-        }
+    private func didTapDoneButton() {
+        guard let tracker else { return }
+        delegate?.didTapDoneButton(of: self, with: tracker)
     }
     
 }

@@ -73,7 +73,6 @@ class TrackersViewController: UIViewController {
     //    MARK: - Properties
     var eventTypeSelectionVC = EventTypeSelectionViewController()
     
-    
     private var params = UICollectionView.GeometricParams(cellCount: 2, leftInset: 16, rightInset: 16, cellSpacing: 9)
     private var categories: [TrackerCategory] = []
    
@@ -125,7 +124,7 @@ class TrackersViewController: UIViewController {
         
         checkVisibleCategories()
         
-        eventTypeSelectionVC.callback = { [weak self] in
+        eventTypeSelectionVC.dismissVC = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }
     }
@@ -290,4 +289,21 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController: UISearchTextFieldDelegate {
     
     
+}
+
+// MARK: - TrackerCellDelegate
+extension TrackersViewController: TrackerCellDelegate {
+    func didTapDoneButton(of cell: TrackerCell, with tracker: Tracker) {
+        let trackerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
+        
+        if completedTrackers.contains(trackerRecord) {
+            completedTrackers.remove(trackerRecord)
+            cell.toggleDoneButton(false)
+            cell.decreaseCount()
+        } else {
+            completedTrackers.insert(trackerRecord)
+            cell.toggleDoneButton(true)
+            cell.increaseCount()
+        }
+    }
 }

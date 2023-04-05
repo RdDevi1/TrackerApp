@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    
+    //  MARK: - Layout
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -43,11 +43,14 @@ final class ScheduleViewController: UIViewController {
         return button
     }()
     
+    //    MARK: - Properties
     
     private let days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
-    private var schedule: [String] = []
+    private var selectedDays: [String] = []
+    var provideSelectedDays: (([String]) -> Void)?
     
     
+    //    MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +59,14 @@ final class ScheduleViewController: UIViewController {
         setLayout()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let sortedSelectedDays = sortSelectedDays(selectedDays)
+        provideSelectedDays?(sortedSelectedDays)
+        print(sortedSelectedDays)
+    }
     
+    //   MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
@@ -64,6 +74,12 @@ final class ScheduleViewController: UIViewController {
         view.addSubview(confirmButton)
         setConstraints()
     }
+    
+    private func  sortSelectedDays(_ days: [String]) -> [String] {
+        let preferredOrder = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+        return days.sorted { preferredOrder.firstIndex(of: $0)! < preferredOrder.firstIndex(of: $1)! }
+    }
+
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
@@ -116,13 +132,33 @@ extension ScheduleViewController: UITableViewDataSource {
         cell.accessoryView = switcher
         
         return cell
-        
     }
     
     
     @objc
     private func didTapSwitcher(_ sender: UISwitch) {
-        
-        
+        if sender.isOn {
+            switch sender.tag {
+            case 0: selectedDays.append("Пн")
+            case 1: selectedDays.append("Вт")
+            case 2: selectedDays.append("Ср")
+            case 3: selectedDays.append("Чт")
+            case 4: selectedDays.append("Пт")
+            case 5: selectedDays.append("Сб")
+            case 6: selectedDays.append("Вс")
+            default: break
+            }
+        } else {
+            switch sender.tag {
+            case 0: selectedDays.removeAll { $0 == "Пн" }
+            case 1: selectedDays.removeAll { $0 == "Вт" }
+            case 2: selectedDays.removeAll { $0 == "Ср" }
+            case 3: selectedDays.removeAll { $0 == "Чт" }
+            case 4: selectedDays.removeAll { $0 == "Пт" }
+            case 5: selectedDays.removeAll { $0 == "Сб" }
+            case 6: selectedDays.removeAll { $0 == "Вс" }
+            default: break
+            }
+        }
     }
 }

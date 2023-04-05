@@ -1,7 +1,10 @@
-
-
 import UIKit
 
+
+enum TypeEvent {
+    case regularEvent
+    case irregularEvent
+}
 
 final class EventTypeSelectionViewController: UIViewController {
     
@@ -44,8 +47,15 @@ final class EventTypeSelectionViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    var createEventVC = CreateEventViewController(isRegular: Bool())
-    var callback: (() -> Void)?
+    
+    enum TypeEvent {
+        case regularEvent
+        case irregularEvent
+    }
+    
+    
+    let createEventVC = CreateEventViewController(isRegular: false)
+    var dismissVC: (() -> Void)?
     
     //    MARK: - LifeCycle
     override func viewDidLoad() {
@@ -54,11 +64,10 @@ final class EventTypeSelectionViewController: UIViewController {
         setLayout()
         setConstraints()
         
-        createEventVC.callback = { [weak self] in
-            self?.callback?()
+        createEventVC.dismissVC = { [weak self] in
+            self?.dismissVC?()
         }
     }
-    
     
     private func setLayout() {
         view.backgroundColor = .white
@@ -89,16 +98,16 @@ final class EventTypeSelectionViewController: UIViewController {
     @objc
     private func didTapRegularEventButton() {
         createEventVC.isRegular = true
-//        createEventVC.modalPresentationStyle = .pageSheet
+        createEventVC.modalPresentationStyle = .pageSheet
+        createEventVC.reloadInputViews()
         present(createEventVC, animated: true)
-        
     }
     
     @objc
     private func didTapIrregularEventButton() {
         createEventVC.isRegular = false
-//        createEventVC.modalPresentationStyle = .pageSheet
+        createEventVC.modalPresentationStyle = .pageSheet
+        createEventVC.reloadInputViews()
         present(createEventVC, animated: true)
     }
-    
 }

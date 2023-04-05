@@ -1,5 +1,4 @@
 
-
 import UIKit
 
 final class CreateEventViewController: UIViewController, UITextFieldDelegate {
@@ -73,9 +72,20 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     
     
     // MARK: - Properties
-    var callback: (() -> Void)?
+    
+    private var currentCategory: String?
+    private var currentSchedule: [String]?
+    private var category: String?
+    private var trackerColor: UIColor?
+    private var trackerEmoji: String?
+    private var trackerText: String?
+    private var trackerSchedule: [String]?
+    
+    var scheduleVC = ScheduleViewController()
+    var dismissVC: (() -> Void)?
     
     var isRegular: Bool?
+    
     private var params = UICollectionView.GeometricParams(cellCount: 6,
                                                           leftInset: 25,
                                                           rightInset: 25,
@@ -101,17 +111,22 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
+        scheduleVC.provideSelectedDays = { [weak self] Array in
+            self?.currentSchedule = Array
+            self?.tableView.reloadData()
+            self?.tableView.reloadData()
+        }
         tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        callback?()
+        
+        dismissVC?()
     }
     
     //    MARK: - Methods
@@ -161,17 +176,18 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     //    MARK: - Actions
-
+    
     @objc
     private func didTapCreateButton() {
-//    TO DO
         
-        callback?()
+        //    TO DO
+        
+        dismissVC?()
     }
     
     @objc
     private func didTapCancelButon() {
-        callback?()
+        dismissVC?()
         dismiss(animated: true)
         
     }
@@ -196,8 +212,7 @@ extension CreateEventViewController: UITableViewDelegate {
             let categoriesViewController = CategoriesViewController()
             present(categoriesViewController, animated: true)
         case 1:
-            let scheduleViewController = ScheduleViewController()
-            present(scheduleViewController, animated: true)
+            present(scheduleVC, animated: true)
         default: break
         }
     }
@@ -210,17 +225,28 @@ extension CreateEventViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
         cell.backgroundColor = .ypBackground
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        cell.detailTextLabel?.textColor = .systemBackground
+        cell.detailTextLabel?.textColor = .ypGray
         
-        if indexPath.row == 0 {
+        switch indexPath.row {
+        case 0:
             cell.textLabel?.text = "Категория"
-        } else {
+            cell.detailTextLabel?.text = currentCategory
+        case 1:
             cell.textLabel?.text = "Расписание"
+            if currentSchedule?.isEmpty == false {
+                if currentSchedule?.count == 7 {
+                    cell.detailTextLabel?.text = "Каждый день"
+                } else {
+                    cell.detailTextLabel?.text = currentSchedule?.joined(separator: ", ")
+                }
+            }
+        default:
+            break
         }
         
         return cell
