@@ -44,8 +44,8 @@ final class EventTypeSelectionViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    
-
+    var createEventVC = CreateEventViewController(isRegular: Bool())
+    var callback: (() -> Void)?
     
     //    MARK: - LifeCycle
     override func viewDidLoad() {
@@ -53,11 +53,10 @@ final class EventTypeSelectionViewController: UIViewController {
         
         setLayout()
         setConstraints()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.dismiss(animated: false)
+        
+        createEventVC.callback = { [weak self] in
+            self?.callback?()
+        }
     }
     
     
@@ -66,8 +65,6 @@ final class EventTypeSelectionViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(addRegularEventButton)
         view.addSubview(addIrregularEventButton)
-        
-        
     }
     
     private func setConstraints() {
@@ -91,17 +88,17 @@ final class EventTypeSelectionViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func didTapRegularEventButton() {
-        let createEventViewController = CreateEventViewController(isRegular: true)
-        createEventViewController.modalPresentationStyle = .pageSheet
-        present(createEventViewController, animated: true)
+        createEventVC.isRegular = true
+//        createEventVC.modalPresentationStyle = .pageSheet
+        present(createEventVC, animated: true)
         
     }
     
     @objc
     private func didTapIrregularEventButton() {
-        let createEventViewController = CreateEventViewController(isRegular: false)
-        createEventViewController.modalPresentationStyle = .pageSheet
-        present(createEventViewController, animated: true)
+        createEventVC.isRegular = false
+//        createEventVC.modalPresentationStyle = .pageSheet
+        present(createEventVC, animated: true)
     }
     
 }

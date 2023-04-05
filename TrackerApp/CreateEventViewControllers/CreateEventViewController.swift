@@ -73,8 +73,9 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     
     
     // MARK: - Properties
+    var callback: (() -> Void)?
     
-    private let isRegular: Bool
+    var isRegular: Bool?
     private var params = UICollectionView.GeometricParams(cellCount: 6,
                                                           leftInset: 25,
                                                           rightInset: 25,
@@ -101,7 +102,16 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        callback?()
     }
     
     //    MARK: - Methods
@@ -112,7 +122,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(cancelButton)
         view.addSubview(trackerTextField)
         view.addSubview(tableView)
-        if isRegular {
+        if isRegular! {
             titleLabel.text = "Новая привычка"
         } else {
             titleLabel.text = "Новое нерегулярное событие"
@@ -135,7 +145,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             tableView.topAnchor.constraint(equalTo: trackerTextField.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: (self.isRegular ? 150 : 75)),
+            tableView.heightAnchor.constraint(equalToConstant: (isRegular! ? 150 : 75)),
             
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -37),
@@ -154,12 +164,16 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
 
     @objc
     private func didTapCreateButton() {
-    
+//    TO DO
+        
+        callback?()
     }
     
     @objc
     private func didTapCancelButon() {
+        callback?()
         dismiss(animated: true)
+        
     }
     
     init(isRegular: Bool) {
@@ -192,7 +206,7 @@ extension CreateEventViewController: UITableViewDelegate {
 
 extension CreateEventViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        isRegular ? 2 : 1
+        isRegular! ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

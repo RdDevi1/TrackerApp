@@ -71,6 +71,9 @@ class TrackersViewController: UIViewController {
     }()
     
     //    MARK: - Properties
+    var eventTypeSelectionVC = EventTypeSelectionViewController()
+    
+    
     private var params = UICollectionView.GeometricParams(cellCount: 2, leftInset: 16, rightInset: 16, cellSpacing: 9)
     private var categories: [TrackerCategory] = []
    
@@ -121,6 +124,10 @@ class TrackersViewController: UIViewController {
         collectionView.delegate = self
         
         checkVisibleCategories()
+        
+        eventTypeSelectionVC.callback = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
     
     private func setLayout() {
@@ -182,9 +189,8 @@ class TrackersViewController: UIViewController {
     
     @objc
     private func didTapAddButton() {
-        let eventTypeSelectionViewController = EventTypeSelectionViewController()
-        eventTypeSelectionViewController.modalPresentationStyle = .pageSheet
-        present(eventTypeSelectionViewController, animated: true)
+        eventTypeSelectionVC.modalPresentationStyle = .pageSheet
+        present(eventTypeSelectionVC, animated: true)
     }
     
     @objc
