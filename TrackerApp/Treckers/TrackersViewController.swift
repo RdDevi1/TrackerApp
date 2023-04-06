@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TrackersViewController: UIViewController {
+class TrackersViewController: UIViewController, UISearchBarDelegate {
     
     //    MARK: - Layout
     
@@ -32,17 +32,18 @@ class TrackersViewController: UIViewController {
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .date
+        picker.maximumDate = Date()
         picker.locale = Locale(identifier: "ru_RU")
-        picker.addTarget(self, action: #selector(didChangePickerValue), for: .touchUpInside)
+        picker.addTarget(self, action: #selector(didChangePickerValue), for: .valueChanged)
         return picker
     }()
     
-    private lazy var searchTextField: UISearchTextField = {
-        let field = UISearchTextField()
+    private lazy var searchTextField: UISearchBar = {
+        let field = UISearchBar()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Поиск"
+        field.searchBarStyle = .minimal
         field.delegate = self
-    
         return field
     }()
     
@@ -68,6 +69,17 @@ class TrackersViewController: UIViewController {
         label.text = "Что будем отслеживать?"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
+    }()
+    
+    private lazy var filterButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Фильтры", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        button.titleLabel?.textColor = .white
+        button.layer.cornerRadius = 16
+        button.backgroundColor = .blue
+        return button
     }()
     
     //    MARK: - Properties
@@ -194,7 +206,7 @@ class TrackersViewController: UIViewController {
     
     @objc
     private func didChangePickerValue(_ sender: UIDatePicker) {
-        currentDate = sender.date
+        currentDate = sender.date.onlyDate()
         collectionView.reloadData()
     }
     
@@ -218,8 +230,10 @@ extension TrackersViewController: UICollectionViewDataSource {
         }
         
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-        
-        trackerCell.configCell(with: tracker, days: 0, isDone: false)
+        let daysCount = completedTrackers.filter { $0.trackerId == tracker.id }.count
+        let isDone = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id }
+        trackerCell.configCell(with: tracker, days: daysCount, isDone: isDone)
+        trackerCell.delegate = self
         return trackerCell
     }
 
@@ -287,7 +301,24 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UISearchBarDelegate
 
 extension TrackersViewController: UISearchTextFieldDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(true, animated: true)
+        return true
+    }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+       
+//        TO DO
+        
+        collectionView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.endEditing(true)
+        searchBar.setShowsCancelButton(false, animated: true)
+       
+    }
     
 }
 
@@ -296,7 +327,7 @@ extension TrackersViewController: TrackerCellDelegate {
     func didTapDoneButton(of cell: TrackerCell, with tracker: Tracker) {
         let trackerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
         
-        if completedTrackers.contains(trackerRecord) {
+        if completedTrackers.contains(where: { $0.date == currentDate && $0.trackerId == tracker.id }) {
             completedTrackers.remove(trackerRecord)
             cell.toggleDoneButton(false)
             cell.decreaseCount()

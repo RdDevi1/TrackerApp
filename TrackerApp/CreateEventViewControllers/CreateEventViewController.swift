@@ -160,7 +160,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             tableView.topAnchor.constraint(equalTo: trackerTextField.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: (isRegular! ? 150 : 74)),
+            tableView.heightAnchor.constraint(equalToConstant: (isRegular! ? 149 : 74)),
             
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -37),
