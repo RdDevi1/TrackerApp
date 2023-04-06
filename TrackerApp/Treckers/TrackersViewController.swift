@@ -20,7 +20,7 @@ class TrackersViewController: UIViewController {
     }()
     
     private lazy var addButton: UIButton = {
-        let button = UIButton.systemButton(with: UIImage(systemName: "plus")!, target: self, action: #selector(didTapAddButton))
+        let button = UIButton.systemButton(with: UIImage(named: "plus")!, target: self, action: #selector(didTapAddButton))
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .black
         
@@ -74,45 +74,45 @@ class TrackersViewController: UIViewController {
     var eventTypeSelectionVC = EventTypeSelectionViewController()
     
     private var params = UICollectionView.GeometricParams(cellCount: 2, leftInset: 16, rightInset: 16, cellSpacing: 9)
-    private var categories: [TrackerCategory] = []
-   
-    private var completedTrackers: Set<TrackerRecord> = []
     private var currentDate: Date = Date()
-    private var visibleCategories: [TrackerCategory] = []
-//        TrackerCategory(
-//            label: "Домашний уют",
-//            trackers: [
-//                Tracker(color: UIColor(named: "Color selection 5")!,
-//                        label: "Поливать растения",
-//                        emoji: "❤️",
-//                        schedule: [.saturday]
-//                       )
-//            ]
-//        ),
-//
-//        TrackerCategory(
-//            label: "Радостные мелочи",
-//            trackers: [
-//                Tracker(color: UIColor(named: "Color selection 2")!,
-//                        label: "Кошка заслонила камеру на созвоне",
-//                        emoji: "😻",
-//                        schedule: nil
-//                       ),
-//
-//                Tracker(color: UIColor(named: "Color selection 1")!,
-//                        label: "Бабушка прислала открытку в вотсапе",
-//                        emoji: "🌺",
-//                        schedule: nil
-//                       ),
-//
-//                Tracker(color: UIColor(named: "Color selection 14")!,
-//                        label: "Свидания в апреле",
-//                        emoji: "❤️",
-//                        schedule: nil
-//                       ),
-//            ]
-//        )
-//    ]
+    
+    private var categories: [TrackerCategory] = []
+    private var completedTrackers: Set<TrackerRecord> = []
+    private var visibleCategories: [TrackerCategory] = [
+        TrackerCategory(
+            label: "Домашний уют",
+            trackers: [
+                Tracker(color: UIColor(named: "Color selection 5")!,
+                        label: "Поливать растения",
+                        emoji: "❤️",
+                        schedule: [.saturday]
+                       )
+            ]
+        ),
+
+        TrackerCategory(
+            label: "Радостные мелочи",
+            trackers: [
+                Tracker(color: UIColor(named: "Color selection 2")!,
+                        label: "Кошка заслонила камеру на созвоне",
+                        emoji: "😻",
+                        schedule: nil
+                       ),
+
+                Tracker(color: UIColor(named: "Color selection 1")!,
+                        label: "Бабушка прислала открытку в вотсапе",
+                        emoji: "🌺",
+                        schedule: nil
+                       ),
+
+                Tracker(color: UIColor(named: "Color selection 14")!,
+                        label: "Свидания в апреле",
+                        emoji: "❤️",
+                        schedule: nil
+                       ),
+            ]
+        )
+    ]
 
     
     // MARK: - LifeCycle

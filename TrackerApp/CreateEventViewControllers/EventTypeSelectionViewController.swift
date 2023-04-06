@@ -8,7 +8,6 @@ enum TypeEvent {
 
 final class EventTypeSelectionViewController: UIViewController {
     
-    
     //  MARK: - Layout
     
     var titleLabel: UILabel = {

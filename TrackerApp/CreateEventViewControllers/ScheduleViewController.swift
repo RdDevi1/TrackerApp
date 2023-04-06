@@ -95,7 +95,6 @@ final class ScheduleViewController: UIViewController {
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             confirmButton.heightAnchor.constraint(equalToConstant: 60),
-            
         ])
     }
     
