@@ -43,7 +43,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Поиск"
         field.searchBarStyle = .minimal
-        field.delegate = self
         return field
     }()
     
@@ -88,44 +87,10 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
     private var params = UICollectionView.GeometricParams(cellCount: 2, leftInset: 16, rightInset: 16, cellSpacing: 9)
     private var currentDate: Date = Date()
     
-    private var categories: [TrackerCategory] = []
+    private var categories: [TrackerCategory] = mockData
     private var completedTrackers: Set<TrackerRecord> = []
-    private var visibleCategories: [TrackerCategory] = [
-        TrackerCategory(
-            label: "Домашний уют",
-            trackers: [
-                Tracker(color: UIColor(named: "Color selection 5")!,
-                        label: "Поливать растения",
-                        emoji: "❤️",
-                        schedule: [.saturday]
-                       )
-            ]
-        ),
-
-        TrackerCategory(
-            label: "Радостные мелочи",
-            trackers: [
-                Tracker(color: UIColor(named: "Color selection 2")!,
-                        label: "Кошка заслонила камеру на созвоне",
-                        emoji: "😻",
-                        schedule: nil
-                       ),
-
-                Tracker(color: UIColor(named: "Color selection 1")!,
-                        label: "Бабушка прислала открытку в вотсапе",
-                        emoji: "🌺",
-                        schedule: nil
-                       ),
-
-                Tracker(color: UIColor(named: "Color selection 14")!,
-                        label: "Свидания в апреле",
-                        emoji: "❤️",
-                        schedule: nil
-                       ),
-            ]
-        )
-    ]
-
+    private var visibleCategories: [TrackerCategory] = []
+    private var isSearching = false
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -133,7 +98,8 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         setLayout()
         collectionView.dataSource = self
         collectionView.delegate = self
-        
+        searchTextField.delegate = self
+        visibleCategories = categories
         checkVisibleCategories()
         
         eventTypeSelectionVC.dismissVC = { [weak self] in
@@ -307,17 +273,30 @@ extension TrackersViewController: UISearchTextFieldDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-       
-//        TO DO
-        
+        if searchText.isEmpty {
+            visibleCategories = categories
+            checkVisibleCategories()
+        } else {
+            visibleCategories = categories.compactMap { category in
+                let visibleTrackers = category.trackers.filter { tracker in
+                    let words = tracker.label.split(separator: " ").map { String($0) }
+                    return words.contains { word in
+                        word.lowercased().hasPrefix(searchText.lowercased())
+                    }
+                }
+                checkVisibleCategories()
+                return visibleTrackers.isEmpty ? nil : TrackerCategory(label: category.label, trackers: visibleTrackers)
+            }
+        }
         collectionView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchBar.endEditing(true)
+        visibleCategories = categories
         searchBar.setShowsCancelButton(false, animated: true)
-       
+        collectionView.reloadData()
     }
     
 }
