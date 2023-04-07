@@ -1,6 +1,11 @@
 
 import UIKit
 
+protocol CreateEventViewControllerDelegate: AnyObject {
+    func didTapCancelButton()
+    func didTapCreateButton(categoryLabel: String, tracker: Tracker)
+}
+
 final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     
     //  MARK: - Layout
@@ -49,6 +54,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.backgroundColor = .ypGray
+        button.isEnabled = false
         button.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
         return button
     }()
@@ -70,17 +76,15 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }()
     
     
-    
     // MARK: - Properties
     
-    private var currentCategory: String?
-    private var currentSchedule: [String]?
-    private var category: String?
+    private var trackerCategory: String?
+    private var trackerSchedule: [String]?
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
     private var trackerText: String?
-    private var trackerSchedule: [String]?
     
+    weak var delegate: CreateEventViewControllerDelegate?
     var scheduleVC = ScheduleViewController()
     var dismissVC: (() -> Void)?
     
@@ -116,7 +120,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scheduleVC.provideSelectedDays = { [weak self] Array in
-            self?.currentSchedule = Array
+            self?.trackerSchedule = Array
             self?.tableView.reloadData()
             self?.tableView.reloadData()
         }
@@ -180,16 +184,36 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @objc
     private func didTapCreateButton() {
         
-        //    TO DO
+        guard let category = trackerCategory,
+              let color = trackerColor,
+              let emoji = trackerEmoji,
+              let text = trackerText
+        else { return }
         
+        let schedule = trackerSchedule?.compactMap { dayString -> WeekDay? in
+            WeekDay.allCases.first(where: { $0.shortForm == dayString })
+        }
+        
+        let newTracker = Tracker(
+            color: color,
+            label: text,
+            emoji: emoji,
+            schedule: schedule
+        )
+        
+        delegate?.didTapCreateButton(categoryLabel: category, tracker: newTracker)
         dismissVC?()
     }
     
     @objc
     private func didTapCancelButon() {
+        trackerTextField.text = ""
+        trackerCategory = nil
+        trackerSchedule = nil
+        trackerColor = nil
+        trackerEmoji = nil
+        trackerText = nil
         dismissVC?()
-        dismiss(animated: true)
-        
     }
     
     init(isRegular: Bool) {
@@ -235,14 +259,14 @@ extension CreateEventViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = "Категория"
-            cell.detailTextLabel?.text = currentCategory
+            cell.detailTextLabel?.text = trackerCategory
         case 1:
             cell.textLabel?.text = "Расписание"
-            if currentSchedule?.isEmpty == false {
-                if currentSchedule?.count == 7 {
+            if trackerSchedule?.isEmpty == false {
+                if trackerSchedule?.count == 7 {
                     cell.detailTextLabel?.text = "Каждый день"
                 } else {
-                    cell.detailTextLabel?.text = currentSchedule?.joined(separator: ", ")
+                    cell.detailTextLabel?.text = trackerSchedule?.joined(separator: ", ")
                 }
             }
         default:

@@ -89,7 +89,11 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
     
     private var categories: [TrackerCategory] = mockData
     private var completedTrackers: Set<TrackerRecord> = []
-    private var visibleCategories: [TrackerCategory] = []
+    private var visibleCategories: [TrackerCategory] = [] {
+        didSet {
+            checkVisibleCategories()
+        }
+    }
     private var isSearching = false
     
     // MARK: - LifeCycle
@@ -275,7 +279,6 @@ extension TrackersViewController: UISearchTextFieldDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             visibleCategories = categories
-            checkVisibleCategories()
         } else {
             visibleCategories = categories.compactMap { category in
                 let visibleTrackers = category.trackers.filter { tracker in
@@ -284,7 +287,6 @@ extension TrackersViewController: UISearchTextFieldDelegate {
                         word.lowercased().hasPrefix(searchText.lowercased())
                     }
                 }
-                checkVisibleCategories()
                 return visibleTrackers.isEmpty ? nil : TrackerCategory(label: category.label, trackers: visibleTrackers)
             }
         }
@@ -315,5 +317,23 @@ extension TrackersViewController: TrackerCellDelegate {
             cell.toggleDoneButton(true)
             cell.increaseCount()
         }
+    }
+}
+
+
+extension TrackersViewController: CreateEventViewControllerDelegate {
+    func didTapCreateButton(categoryLabel: String, tracker: Tracker) {
+        dismiss(animated: true)
+        guard let categoryIndex = categories.firstIndex(where: { $0.label == categoryLabel }) else { return }
+        let updatedCategory = TrackerCategory(
+            label: categoryLabel,
+            trackers: categories[categoryIndex].trackers + [tracker]
+        )
+        categories[categoryIndex] = updatedCategory
+        collectionView.reloadData()
+    }
+    
+    func didTapCancelButton() {
+        dismiss(animated: true)
     }
 }

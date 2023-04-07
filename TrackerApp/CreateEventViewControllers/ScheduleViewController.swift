@@ -45,7 +45,6 @@ final class ScheduleViewController: UIViewController {
     
     //    MARK: - Properties
     
-    private let days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
     private var selectedDays: [String] = []
     var provideSelectedDays: (([String]) -> Void)?
     
@@ -75,12 +74,11 @@ final class ScheduleViewController: UIViewController {
         setConstraints()
     }
     
-    private func  sortSelectedDays(_ days: [String]) -> [String] {
+    private func sortSelectedDays(_ days: [String]) -> [String] {
         let preferredOrder = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
         return days.sorted { preferredOrder.firstIndex(of: $0)! < preferredOrder.firstIndex(of: $1)! }
     }
 
-    
     private func setConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -114,7 +112,7 @@ extension ScheduleViewController: UITableViewDelegate {
 
 extension ScheduleViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        days.count
+        WeekDay.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -124,9 +122,10 @@ extension ScheduleViewController: UITableViewDataSource {
         switcher.addTarget(self, action: #selector(didTapSwitcher(_:)), for: .valueChanged)
         
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let weekday = WeekDay.allCases[indexPath.row]
         cell.selectionStyle = .none
         cell.backgroundColor = .ypBackground
-        cell.textLabel?.text = days[indexPath.row]
+        cell.textLabel?.text = weekday.rawValue
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.accessoryView = switcher
         
@@ -138,24 +137,24 @@ extension ScheduleViewController: UITableViewDataSource {
     private func didTapSwitcher(_ sender: UISwitch) {
         if sender.isOn {
             switch sender.tag {
-            case 0: selectedDays.append("Пн")
-            case 1: selectedDays.append("Вт")
-            case 2: selectedDays.append("Ср")
-            case 3: selectedDays.append("Чт")
-            case 4: selectedDays.append("Пт")
-            case 5: selectedDays.append("Сб")
-            case 6: selectedDays.append("Вс")
+            case 0: selectedDays.append(WeekDay.monday.shortForm)
+            case 1: selectedDays.append(WeekDay.tuesday.shortForm)
+            case 2: selectedDays.append(WeekDay.wednesday.shortForm)
+            case 3: selectedDays.append(WeekDay.thurshday.shortForm)
+            case 4: selectedDays.append(WeekDay.friday.shortForm)
+            case 5: selectedDays.append(WeekDay.saturday.shortForm)
+            case 6: selectedDays.append(WeekDay.sunday.shortForm)
             default: break
             }
         } else {
             switch sender.tag {
-            case 0: selectedDays.removeAll { $0 == "Пн" }
-            case 1: selectedDays.removeAll { $0 == "Вт" }
-            case 2: selectedDays.removeAll { $0 == "Ср" }
-            case 3: selectedDays.removeAll { $0 == "Чт" }
-            case 4: selectedDays.removeAll { $0 == "Пт" }
-            case 5: selectedDays.removeAll { $0 == "Сб" }
-            case 6: selectedDays.removeAll { $0 == "Вс" }
+            case 0: selectedDays.removeAll { $0 == WeekDay.monday.shortForm }
+            case 1: selectedDays.removeAll { $0 == WeekDay.tuesday.shortForm }
+            case 2: selectedDays.removeAll { $0 == WeekDay.wednesday.shortForm }
+            case 3: selectedDays.removeAll { $0 == WeekDay.thurshday.shortForm }
+            case 4: selectedDays.removeAll { $0 == WeekDay.friday.shortForm }
+            case 5: selectedDays.removeAll { $0 == WeekDay.saturday.shortForm }
+            case 6: selectedDays.removeAll { $0 == WeekDay.sunday.shortForm }
             default: break
             }
         }
