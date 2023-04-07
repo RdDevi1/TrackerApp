@@ -333,7 +333,4 @@ extension TrackersViewController: CreateEventViewControllerDelegate {
         collectionView.reloadData()
     }
     
-    func didTapCancelButton() {
-        dismiss(animated: true)
-    }
 }

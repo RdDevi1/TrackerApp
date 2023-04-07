@@ -2,7 +2,6 @@
 import UIKit
 
 protocol CreateEventViewControllerDelegate: AnyObject {
-    func didTapCancelButton()
     func didTapCreateButton(categoryLabel: String, tracker: Tracker)
 }
 
@@ -90,11 +89,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     
     var isRegular: Bool?
     
-    private var params = UICollectionView.GeometricParams(cellCount: 6,
-                                                          leftInset: 25,
-                                                          rightInset: 25,
-                                                          cellSpacing: 17)
-    
     private let emojis = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
@@ -180,16 +174,13 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     //    MARK: - Actions
-    
     @objc
     private func didTapCreateButton() {
-        
         guard let category = trackerCategory,
               let color = trackerColor,
               let emoji = trackerEmoji,
               let text = trackerText
         else { return }
-        
         let schedule = trackerSchedule?.compactMap { dayString -> WeekDay? in
             WeekDay.allCases.first(where: { $0.shortForm == dayString })
         }
@@ -200,7 +191,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             emoji: emoji,
             schedule: schedule
         )
-        
         delegate?.didTapCreateButton(categoryLabel: category, tracker: newTracker)
         dismissVC?()
     }
@@ -215,6 +205,8 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         trackerText = nil
         dismissVC?()
     }
+    
+    
     
     init(isRegular: Bool) {
         self.isRegular = isRegular
