@@ -1,20 +1,48 @@
-
 import UIKit
 
+
 protocol CreateEventViewControllerDelegate: AnyObject {
-    func didTapCreateButton(categoryLabel: String, tracker: Tracker)
+    func didTapCreateButton(_ tracker: Tracker, toCategory categoryLabel: String)
 }
 
-final class CreateEventViewController: UIViewController, UITextFieldDelegate {
+
+final class CreateEventViewController: UIViewController {
     
     //  MARK: - Layout
-    private lazy var titleLabel: UILabel = {
+    
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Создание трекера"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
+    }()
+    
+    private lazy var addRegularEventButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .black
+        button.setTitle("Привычка", for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(didTapRegularEventButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var addIrregularEventButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .black
+        button.setTitle("Нерегулярные событие", for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(didTapIrregularEventButton), for: .touchUpInside)
+        return button
     }()
     
     private lazy var trackerTextField: UITextField = {
@@ -53,7 +81,6 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.backgroundColor = .ypGray
-        button.isEnabled = false
         button.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
         return button
     }()
@@ -74,20 +101,17 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    
     // MARK: - Properties
+    weak var delegate: CreateEventViewControllerDelegate?
+    var scheduleVC = ScheduleViewController()
     
     private var trackerCategory: String?
     private var trackerSchedule: [String]?
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
-    private var trackerText: String?
+    private var trackerLabel: String?
     
-    weak var delegate: CreateEventViewControllerDelegate?
-    var scheduleVC = ScheduleViewController()
-    var dismissVC: (() -> Void)?
-    
-    var isRegular: Bool?
+    var isRegular: Bool = false
     
     private let emojis = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
@@ -102,54 +126,49 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
     ]
     
     //    MARK: - LifeCycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLayout()
-        
         tableView.dataSource = self
         tableView.delegate = self
+        trackerTextField.delegate = self
+        
+        setLayout()
+        setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         scheduleVC.provideSelectedDays = { [weak self] Array in
             self?.trackerSchedule = Array
-            self?.tableView.reloadData()
             self?.tableView.reloadData()
         }
         tableView.reloadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        dismissVC?()
-    }
-    
-    //    MARK: - Methods
+//    MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
+        view.addSubview(addRegularEventButton)
+        view.addSubview(addIrregularEventButton)
+    }
+    
+    private func startCreateTracker(isRegular: Bool) {
+        addRegularEventButton.isHidden = true
+        addIrregularEventButton.isHidden = true
+        
         view.addSubview(createButton)
         view.addSubview(cancelButton)
         view.addSubview(trackerTextField)
         view.addSubview(tableView)
-        if isRegular! {
+        
+        if isRegular {
             titleLabel.text = "Новая привычка"
         } else {
             titleLabel.text = "Новое нерегулярное событие"
         }
-        setConstraints()
-    }
-    
-    private func setConstraints() {
+        
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
-            titleLabel.heightAnchor.constraint(equalToConstant: 49),
-            
             trackerTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             trackerTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trackerTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -158,7 +177,7 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             tableView.topAnchor.constraint(equalTo: trackerTextField.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: (isRegular! ? 149 : 74)),
+            tableView.heightAnchor.constraint(equalToConstant: (isRegular ? 149 : 74)),
             
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -37),
@@ -169,57 +188,70 @@ final class CreateEventViewController: UIViewController, UITextFieldDelegate {
             cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             cancelButton.widthAnchor.constraint(equalToConstant: 161)
-            
         ])
     }
     
-    //    MARK: - Actions
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+            
+            addRegularEventButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 295),
+            addRegularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addRegularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addRegularEventButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            addIrregularEventButton.topAnchor.constraint(equalTo: addRegularEventButton.bottomAnchor, constant: 16),
+            addIrregularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addIrregularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addIrregularEventButton.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    // MARK: - Actions
+    @objc
+    private func didTapRegularEventButton() {
+        isRegular = true
+        startCreateTracker(isRegular: true)
+    }
+    
+    @objc
+    private func didTapIrregularEventButton() {
+        isRegular = false
+        startCreateTracker(isRegular: false)
+    }
+    
     @objc
     private func didTapCreateButton() {
-        guard let category = trackerCategory,
-              let color = trackerColor,
-              let emoji = trackerEmoji,
-              let text = trackerText
+        guard
+//            let category = trackerCategory,
+//            let color = trackerColor,
+//            let emoji = trackerEmoji,
+            let text = trackerLabel
         else { return }
         let schedule = trackerSchedule?.compactMap { dayString -> WeekDay? in
             WeekDay.allCases.first(where: { $0.shortForm == dayString })
         }
         
+        let category = "category"
         let newTracker = Tracker(
-            color: color,
+            color: UIColor.black,
             label: text,
-            emoji: emoji,
+            emoji: "emoji",
             schedule: schedule
         )
-        delegate?.didTapCreateButton(categoryLabel: category, tracker: newTracker)
-        dismissVC?()
+        
+        delegate?.didTapCreateButton(newTracker, toCategory: category)
+        dismiss(animated: true)
     }
     
     @objc
     private func didTapCancelButon() {
-        trackerTextField.text = ""
-        trackerCategory = nil
-        trackerSchedule = nil
-        trackerColor = nil
-        trackerEmoji = nil
-        trackerText = nil
-        dismissVC?()
+        dismiss(animated: true)
     }
-    
-    
-    
-    init(isRegular: Bool) {
-        self.isRegular = isRegular
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
 
-
+// MARK: - UITableViewDelegate
 extension CreateEventViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -234,10 +266,10 @@ extension CreateEventViewController: UITableViewDelegate {
     }
 }
 
-
+// MARK: - UITableViewDataSource
 extension CreateEventViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        isRegular! ? 2 : 1
+        isRegular ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -271,6 +303,18 @@ extension CreateEventViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         75
     }
-    
 }
 
+// MARK: - UITextFieldDelegate
+extension CreateEventViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
+        
+        if newString.count <= 38 {
+            trackerLabel = newString
+            return true
+        } else {
+            return false
+        }
+    }
+}

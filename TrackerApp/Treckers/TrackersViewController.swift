@@ -82,12 +82,12 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
     }()
     
     //    MARK: - Properties
-    var eventTypeSelectionVC = EventTypeSelectionViewController()
-    
-    private var params = UICollectionView.GeometricParams(cellCount: 2, leftInset: 16, rightInset: 16, cellSpacing: 9)
+    private var params = UICollectionView.GeometricParams(cellCount: 2,
+                                                          leftInset: 16,
+                                                          rightInset: 16,
+                                                          cellSpacing: 9)
     private var currentDate: Date = Date()
-    
-    private var categories: [TrackerCategory] = mockData
+    private var categories: [TrackerCategory] = []   //mockData
     private var completedTrackers: Set<TrackerRecord> = []
     private var visibleCategories: [TrackerCategory] = [] {
         didSet {
@@ -105,12 +105,10 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         searchTextField.delegate = self
         visibleCategories = categories
         checkVisibleCategories()
-        
-        eventTypeSelectionVC.dismissVC = { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
     }
     
+    
+    //    MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
         view.addSubview(addButton)
@@ -123,8 +121,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         setConstraints()
     }
     
-    
-//    MARK: - Methods
     private func setConstraints() {
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 57),
@@ -153,7 +149,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
             
             emptyTrackersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyTrackersLabel.topAnchor.constraint(equalTo: emptyTrackersImageView.bottomAnchor, constant: 8)
-            
         ])
     }
     
@@ -166,12 +161,15 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
             emptyTrackersImageView.isHidden = true
         }
     }
-
     
+    //    MARK: - Actions
     @objc
     private func didTapAddButton() {
-        eventTypeSelectionVC.modalPresentationStyle = .pageSheet
-        present(eventTypeSelectionVC, animated: true)
+        print(categories)
+        let createEventVC = CreateEventViewController()
+        createEventVC.delegate = self
+        createEventVC.modalPresentationStyle = .pageSheet
+        present(createEventVC, animated: true)
     }
     
     @objc
@@ -179,7 +177,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         currentDate = sender.date.onlyDate()
         collectionView.reloadData()
     }
-    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -206,7 +203,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         trackerCell.delegate = self
         return trackerCell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard
             kind == UICollectionView.elementKindSectionHeader,
@@ -320,17 +317,17 @@ extension TrackersViewController: TrackerCellDelegate {
     }
 }
 
+// MARK: - CreateEventViewControllerDelegate
 
 extension TrackersViewController: CreateEventViewControllerDelegate {
-    func didTapCreateButton(categoryLabel: String, tracker: Tracker) {
-        dismiss(animated: true)
-        guard let categoryIndex = categories.firstIndex(where: { $0.label == categoryLabel }) else { return }
-        let updatedCategory = TrackerCategory(
-            label: categoryLabel,
-            trackers: categories[categoryIndex].trackers + [tracker]
-        )
-        categories[categoryIndex] = updatedCategory
-        collectionView.reloadData()
+    func didTapCreateButton(_ tracker: Tracker, toCategory categoryLabel: String) {
+        if let index = categories.firstIndex(where: { $0.label == categoryLabel }) {
+            categories[index].trackers.append(tracker)
+        } else {
+            let newCategory = TrackerCategory(label: categoryLabel, trackers: [tracker])
+            categories.append(newCategory)
+            
+            collectionView.reloadData()
+        }
     }
-    
 }
