@@ -32,7 +32,7 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .date
-        picker.maximumDate = Date()
+//        picker.maximumDate = Date()
         picker.locale = Locale(identifier: "ru_RU")
         picker.addTarget(self, action: #selector(didChangePickerValue), for: .valueChanged)
         return picker
@@ -86,15 +86,45 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
                                                           leftInset: 16,
                                                           rightInset: 16,
                                                           cellSpacing: 9)
+    private var searchText = ""
     private var currentDate: Date = Date()
-    private var categories: [TrackerCategory] = []   //mockData
+    private var categories: [TrackerCategory] = []
     private var completedTrackers: Set<TrackerRecord> = []
-    private var visibleCategories: [TrackerCategory] = [] {
-        didSet {
-            checkVisibleCategories()
+    private var visibleCategories: [TrackerCategory] {
+        
+        let weekday = Calendar.current.component(.weekday, from: currentDate)
+        var currentVisibleCategories = [TrackerCategory]()
+        
+        for category in categories {
+            let trackersByDay = category.trackers.filter { tracker in
+                guard let schedule = tracker.schedule else { return true }
+                return schedule.contains(WeekDay.allCases[weekday > 1 ? weekday - 2 : weekday + 5])
+            }
+            
+            if searchText.isEmpty && !trackersByDay.isEmpty {
+                currentVisibleCategories.append(TrackerCategory(label: category.label, trackers: trackersByDay))
+            } else {
+                let filteredTrackers = trackersByDay.filter { tracker in
+                    tracker.label.lowercased().contains(searchText.lowercased())
+                }
+                
+                if !filteredTrackers.isEmpty {
+                    currentVisibleCategories.append(TrackerCategory(label: category.label, trackers: filteredTrackers))
+                }
+            }
         }
+        
+        if currentVisibleCategories.isEmpty {
+            emptyTrackersLabel.isHidden = false
+            emptyTrackersImageView.isHidden = false
+            collectionView.isHidden = true
+        } else {
+            emptyTrackersLabel.isHidden = true
+            emptyTrackersImageView.isHidden = true
+            collectionView.isHidden = false
+        }
+        return currentVisibleCategories
     }
-    private var isSearching = false
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -103,10 +133,7 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         searchTextField.delegate = self
-        visibleCategories = categories
-        checkVisibleCategories()
     }
-    
     
     //    MARK: - Methods
     private func setLayout() {
@@ -150,16 +177,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
             emptyTrackersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyTrackersLabel.topAnchor.constraint(equalTo: emptyTrackersImageView.bottomAnchor, constant: 8)
         ])
-    }
-    
-    private func checkVisibleCategories() {
-        if visibleCategories.isEmpty {
-            emptyTrackersLabel.isHidden = false
-            emptyTrackersImageView.isHidden = false
-        } else {
-            emptyTrackersLabel.isHidden = true
-            emptyTrackersImageView.isHidden = true
-        }
     }
     
     //    MARK: - Actions
@@ -226,7 +243,6 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
-    // sizeForItemAt
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let availableSize = collectionView.frame.width - params.paddingWidth
@@ -269,35 +285,22 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: UISearchTextFieldDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.setShowsCancelButton(false, animated: true)
         return true
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-            visibleCategories = categories
-        } else {
-            visibleCategories = categories.compactMap { category in
-                let visibleTrackers = category.trackers.filter { tracker in
-                    let words = tracker.label.split(separator: " ").map { String($0) }
-                    return words.contains { word in
-                        word.lowercased().hasPrefix(searchText.lowercased())
-                    }
-                }
-                return visibleTrackers.isEmpty ? nil : TrackerCategory(label: category.label, trackers: visibleTrackers)
-            }
-        }
+        self.searchText = searchText
         collectionView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchBar.endEditing(true)
-        visibleCategories = categories
         searchBar.setShowsCancelButton(false, animated: true)
+        searchText = ""
         collectionView.reloadData()
     }
-    
 }
 
 // MARK: - TrackerCellDelegate
@@ -326,8 +329,7 @@ extension TrackersViewController: CreateEventViewControllerDelegate {
         } else {
             let newCategory = TrackerCategory(label: categoryLabel, trackers: [tracker])
             categories.append(newCategory)
-            
-            collectionView.reloadData()
         }
+        collectionView.reloadData()
     }
 }

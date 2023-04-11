@@ -140,7 +140,7 @@ extension ScheduleViewController: UITableViewDataSource {
             case 0: selectedDays.append(WeekDay.monday.shortForm)
             case 1: selectedDays.append(WeekDay.tuesday.shortForm)
             case 2: selectedDays.append(WeekDay.wednesday.shortForm)
-            case 3: selectedDays.append(WeekDay.thurshday.shortForm)
+            case 3: selectedDays.append(WeekDay.thursday.shortForm)
             case 4: selectedDays.append(WeekDay.friday.shortForm)
             case 5: selectedDays.append(WeekDay.saturday.shortForm)
             case 6: selectedDays.append(WeekDay.sunday.shortForm)
@@ -151,7 +151,7 @@ extension ScheduleViewController: UITableViewDataSource {
             case 0: selectedDays.removeAll { $0 == WeekDay.monday.shortForm }
             case 1: selectedDays.removeAll { $0 == WeekDay.tuesday.shortForm }
             case 2: selectedDays.removeAll { $0 == WeekDay.wednesday.shortForm }
-            case 3: selectedDays.removeAll { $0 == WeekDay.thurshday.shortForm }
+            case 3: selectedDays.removeAll { $0 == WeekDay.thursday.shortForm }
             case 4: selectedDays.removeAll { $0 == WeekDay.friday.shortForm }
             case 5: selectedDays.removeAll { $0 == WeekDay.saturday.shortForm }
             case 6: selectedDays.removeAll { $0 == WeekDay.sunday.shortForm }

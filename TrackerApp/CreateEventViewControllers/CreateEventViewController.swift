@@ -296,7 +296,6 @@ extension CreateEventViewController: UITableViewDataSource {
         default:
             break
         }
-        
         return cell
     }
     

@@ -15,5 +15,14 @@ extension Date {
         let date = Calendar.current.date(from: components)
         return date!
     }
-    
 }
+
+extension Calendar {
+    static let mondayFirst: Calendar = {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.firstWeekday = 2 // понедельник
+        calendar.locale = Locale(identifier: "ru_RU")
+        return calendar
+    }()
+}
+
