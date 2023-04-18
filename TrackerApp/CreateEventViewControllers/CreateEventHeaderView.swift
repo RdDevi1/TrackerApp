@@ -7,7 +7,8 @@
 
 import UIKit
 
-final class EventCellHeaderView: UICollectionReusableView {
+final class CreateEventHeaderView: UICollectionReusableView {
+    static let identifier = "CreateEventHeaderView"
     
     let headerLabel: UILabel = {
         let label = UILabel()
@@ -15,7 +16,6 @@ final class EventCellHeaderView: UICollectionReusableView {
         label.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         return label
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +25,7 @@ final class EventCellHeaderView: UICollectionReusableView {
         NSLayoutConstraint.activate([
             headerLabel.topAnchor.constraint(equalTo: topAnchor),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3)
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28)
         ])
     }
     

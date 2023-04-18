@@ -45,7 +45,15 @@ final class CreateEventViewController: UIViewController {
         return button
     }()
     
-    private lazy var trackerTextField: UITextField = {
+    private lazy var scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.backgroundColor = .white
+        scroll.frame = view.bounds
+        return scroll
+    }()
+    
+    private lazy var textField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.masksToBounds = true
@@ -71,6 +79,13 @@ final class CreateEventViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var collectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.backgroundColor = .white
+        return collection
+    }()
+    
     private lazy var createButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +96,7 @@ final class CreateEventViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.backgroundColor = .ypGray
+        button.isEnabled = false
         button.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
         return button
     }()
@@ -105,11 +121,28 @@ final class CreateEventViewController: UIViewController {
     weak var delegate: CreateEventViewControllerDelegate?
     var scheduleVC = ScheduleViewController()
     
-    private var trackerCategory: String?
+    private var trackerCategory: String? = "L"
     private var trackerSchedule: [String]?
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
     private var trackerLabel: String?
+    
+    private var isCreateButtonEnable: Bool = false {
+        willSet {
+            if newValue {
+                createButton.backgroundColor = .ypBlack
+                createButton.isEnabled = true
+            } else {
+                createButton.backgroundColor = .ypGray
+                createButton.isEnabled = false
+            }
+        }
+    }
+    
+    private var params = UICollectionView.GeometricParams(cellCount: 6,
+                                                          leftInset: 25,
+                                                          rightInset: 25,
+                                                          cellSpacing: 5)
     
     var isRegular: Bool = false
     
@@ -130,10 +163,17 @@ final class CreateEventViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        trackerTextField.delegate = self
+        textField.delegate = self
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(CreateEventHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.register(CreateEventCell.self, forCellWithReuseIdentifier: CreateEventCell.identifier)
         
         setLayout()
         setConstraints()
+        
+        isTreckerReady()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,6 +186,21 @@ final class CreateEventViewController: UIViewController {
     }
     
 //    MARK: - Methods
+    private func isTreckerReady() {
+        if isRegular {
+            if (trackerColor == nil) || (trackerEmoji == nil) || (trackerLabel == nil) || (trackerCategory == nil) || (trackerSchedule == nil) {
+                isCreateButtonEnable = false
+                return
+            }
+        } else {
+            if (trackerColor == nil) || (trackerEmoji == nil) || (trackerLabel == nil) || (trackerCategory == nil) {
+                isCreateButtonEnable = false
+                return
+            }
+        }
+        isCreateButtonEnable = true
+    }
+    
     private func setLayout() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
@@ -157,10 +212,12 @@ final class CreateEventViewController: UIViewController {
         addRegularEventButton.isHidden = true
         addIrregularEventButton.isHidden = true
         
-        view.addSubview(createButton)
-        view.addSubview(cancelButton)
-        view.addSubview(trackerTextField)
-        view.addSubview(tableView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(textField)
+        scrollView.addSubview(tableView)
+        scrollView.addSubview(collectionView)
+        scrollView.addSubview(createButton)
+        scrollView.addSubview(cancelButton)
         
         if isRegular {
             titleLabel.text = "Новая привычка"
@@ -169,25 +226,37 @@ final class CreateEventViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            trackerTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            trackerTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            trackerTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            trackerTextField.heightAnchor.constraint(equalToConstant: 75),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            tableView.topAnchor.constraint(equalTo: trackerTextField.bottomAnchor, constant: 24),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            textField.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            textField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            textField.heightAnchor.constraint(equalToConstant: 75),
+            textField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32),
+            
+            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
             tableView.heightAnchor.constraint(equalToConstant: (isRegular ? 149 : 74)),
             
-            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -37),
-            createButton.heightAnchor.constraint(equalToConstant: 60),
-            createButton.widthAnchor.constraint(equalToConstant: 161),
+            collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+            collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 484),
             
-            cancelButton.centerYAnchor.constraint(equalTo: createButton.centerYAnchor),
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            cancelButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            cancelButton.trailingAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -4),
+            cancelButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -34),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
-            cancelButton.widthAnchor.constraint(equalToConstant: 161)
+            
+            createButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            createButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            createButton.leadingAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 4),
+            createButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -34),
+            createButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -224,20 +293,19 @@ final class CreateEventViewController: UIViewController {
     @objc
     private func didTapCreateButton() {
         guard
-//            let category = trackerCategory,
-//            let color = trackerColor,
-//            let emoji = trackerEmoji,
+            let category = trackerCategory,
+            let color = trackerColor,
+            let emoji = trackerEmoji,
             let text = trackerLabel
         else { return }
         let schedule = trackerSchedule?.compactMap { dayString -> WeekDay? in
             WeekDay.allCases.first(where: { $0.shortForm == dayString })
         }
         
-        let category = "category"
         let newTracker = Tracker(
-            color: UIColor.black,
+            color: color,
             label: text,
-            emoji: "emoji",
+            emoji: emoji,
             schedule: schedule
         )
         
@@ -308,7 +376,6 @@ extension CreateEventViewController: UITableViewDataSource {
 extension CreateEventViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-        
         if newString.count <= 38 {
             trackerLabel = newString
             return true
@@ -316,4 +383,134 @@ extension CreateEventViewController: UITextFieldDelegate {
             return false
         }
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        isTreckerReady()
+    }
 }
+
+// MARK: - UICollectionViewDataSource
+extension CreateEventViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        emojis.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateEventCell.identifier,for: indexPath)
+        
+        guard let collectionCell = cell as? CreateEventCell else { return UICollectionViewCell() }
+        
+        collectionCell.layer.cornerRadius = 16
+        collectionCell.layer.masksToBounds = true
+        
+        switch indexPath.section {
+        case 0:
+            collectionCell.layer.cornerRadius = 16
+            collectionCell.label.text = emojis[indexPath.row]
+            collectionCell.label.font = UIFont.systemFont(ofSize: 32)
+        case 1:
+            collectionCell.layer.cornerRadius = 13
+            collectionCell.label.text = ""
+            collectionCell.contentView.backgroundColor = colors[indexPath.row]
+        default:
+            break
+        }
+        
+        collectionCell.prepareForReuse()
+        
+        return collectionCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? CreateEventHeaderView
+        guard let view = view else { return UICollectionReusableView() }
+        
+        switch indexPath.section {
+        case 0:
+            view.headerLabel.text = "Emoji"
+        case 1:
+            view.headerLabel.text = "Цвет"
+        default:
+            break
+        }
+    
+        return view
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension CreateEventViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+
+        return headerView.systemLayoutSizeFitting(
+            CGSize(
+                width: collectionView.frame.width,
+                height: UIView.layoutFittingExpandedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let availableWidth = collectionView.frame.width - params.paddingWidth
+        let cellWidth =  availableWidth / CGFloat(params.cellCount)
+        
+        return CGSize(width: cellWidth, height: cellWidth)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        return UIEdgeInsets(top: 25, left: params.leftInset, bottom: 25, right: params.rightInset)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return params.cellSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return params.cellSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath)  as? CreateEventCell  {
+            
+            switch indexPath.section {
+            case 0:
+                for item in 0..<collectionView.numberOfItems(inSection: 0) {
+                    guard let cell = collectionView.cellForItem(at: IndexPath(row: item, section: 0)) else { return }
+                    cell.backgroundColor = .clear
+                }
+                cell.backgroundColor = .ypLightGray
+                trackerEmoji = cell.label.text
+                isTreckerReady()
+            
+            case 1:
+                for item in 0..<collectionView.numberOfItems(inSection: 1) {
+                    guard let cell = collectionView.cellForItem(at: IndexPath(row: item, section: 1)) else { return }
+                    cell.backgroundColor = .clear
+                    cell.layer.borderWidth = 0
+                }
+                
+                cell.layer.borderColor = cell.contentView.backgroundColor?.withAlphaComponent(0.3).cgColor
+                cell.layer.borderWidth = 3
+                trackerColor = cell.contentView.backgroundColor
+                isTreckerReady()
+                
+            default:
+                break
+            }
+        }
+    }
+}
+
+

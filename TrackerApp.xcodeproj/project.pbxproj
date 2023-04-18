@@ -12,7 +12,7 @@
 		C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04229D4294300CF44E1 /* TrackerRecord.swift */; };
 		C44CA04629D46F4300CF44E1 /* TrackerCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */; };
 		C44CA04829D5817C00CF44E1 /* CreateEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */; };
-		C44CA04A29D5D0DB00CF44E1 /* EventCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04929D5D0DB00CF44E1 /* EventCellHeaderView.swift */; };
+		C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */; };
 		C48849D229D22F2C00A80AA6 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */; };
 		C48849D429D30A9100A80AA6 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849D329D30A9100A80AA6 /* TabBarViewController.swift */; };
 		C48849DB29D3146D00A80AA6 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DA29D3146D00A80AA6 /* TrackerModel.swift */; };
@@ -35,7 +35,7 @@
 		C44CA04229D4294300CF44E1 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
 		C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryView.swift; sourceTree = "<group>"; };
 		C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventCell.swift; sourceTree = "<group>"; };
-		C44CA04929D5D0DB00CF44E1 /* EventCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellHeaderView.swift; sourceTree = "<group>"; };
+		C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventHeaderView.swift; sourceTree = "<group>"; };
 		C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		C48849D329D30A9100A80AA6 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C48849DA29D3146D00A80AA6 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
@@ -70,7 +70,7 @@
 			children = (
 				C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */,
 				C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */,
-				C44CA04929D5D0DB00CF44E1 /* EventCellHeaderView.swift */,
+				C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */,
 				C4A56D0729DB0DB700038E38 /* ScheduleViewController.swift */,
 				C4A56D0B29DC501500038E38 /* CategoriesViewController.swift */,
 			);
@@ -230,7 +230,7 @@
 				C4A56D0C29DC501500038E38 /* CategoriesViewController.swift in Sources */,
 				C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */,
 				C4A56D0829DB0DB700038E38 /* ScheduleViewController.swift in Sources */,
-				C44CA04A29D5D0DB00CF44E1 /* EventCellHeaderView.swift in Sources */,
+				C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
 				C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */,
