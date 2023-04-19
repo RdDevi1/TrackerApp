@@ -82,6 +82,10 @@ final class TrackersViewController: UIViewController {
     }()
     
     //    MARK: - Properties
+    private let trackerStore = TrackerStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerRecordStore = TrackerRecordStore()
+    
     private var params = UICollectionView.GeometricParams(cellCount: 2,
                                                           leftInset: 16,
                                                           rightInset: 16,
