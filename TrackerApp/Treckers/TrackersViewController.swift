@@ -7,10 +7,9 @@
 
 import UIKit
 
-class TrackersViewController: UIViewController, UISearchBarDelegate {
+final class TrackersViewController: UIViewController {
     
     //    MARK: - Layout
-    
     private lazy var trakersLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +22,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         let button = UIButton.systemButton(with: UIImage(named: "plus")!, target: self, action: #selector(didTapAddButton))
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .black
-        
         return button
     }()
     
@@ -32,7 +30,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .date
-//        picker.maximumDate = Date()
         picker.locale = Locale(identifier: "ru_RU")
         picker.addTarget(self, action: #selector(didChangePickerValue), for: .valueChanged)
         return picker
@@ -50,8 +47,11 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = .white
-        collection.register(TrackerCell.self, forCellWithReuseIdentifier: "trackerCell")
-        collection.register(TrackerCategoryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collection.register(TrackerCell.self,
+                            forCellWithReuseIdentifier: "trackerCell")
+        collection.register(TrackerCategoryView.self,
+                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                            withReuseIdentifier: "header")
         return collection
     }()
     
@@ -107,7 +107,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
                 let filteredTrackers = trackersByDay.filter { tracker in
                     tracker.label.lowercased().contains(searchText.lowercased())
                 }
-                
                 if !filteredTrackers.isEmpty {
                     currentVisibleCategories.append(TrackerCategory(label: category.label, trackers: filteredTrackers))
                 }
@@ -132,7 +131,6 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
         setLayout()
         collectionView.dataSource = self
         collectionView.delegate = self
-        searchTextField.delegate = self
     }
     
     //    MARK: - Methods
@@ -183,10 +181,10 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
     @objc
     private func didTapAddButton() {
         print(categories)
-        let createEventVC = CreateEventViewController()
-        createEventVC.delegate = self
-        createEventVC.modalPresentationStyle = .pageSheet
-        present(createEventVC, animated: true)
+        let selectTypeEventViewController = SelectTypeEventViewController()
+        selectTypeEventViewController.delegate = self
+        selectTypeEventViewController.modalPresentationStyle = .pageSheet
+        present(selectTypeEventViewController, animated: true)
     }
     
     @objc
@@ -197,21 +195,22 @@ class TrackersViewController: UIViewController, UISearchBarDelegate {
 }
 
 //MARK: - UICollectionViewDataSource
-
 extension TrackersViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         visibleCategories.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         visibleCategories[section].trackers.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let trackerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell else {
-            return UICollectionViewCell()
-        }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let trackerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier,
+                                                                   for: indexPath)
+                as? TrackerCell else { return UICollectionViewCell() }
         
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         let daysCount = completedTrackers.filter { $0.trackerId == tracker.id }.count
@@ -221,7 +220,10 @@ extension TrackersViewController: UICollectionViewDataSource {
         return trackerCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
         guard
             kind == UICollectionView.elementKindSectionHeader,
             let view = collectionView.dequeueReusableSupplementaryView(
@@ -238,28 +240,36 @@ extension TrackersViewController: UICollectionViewDataSource {
     
 }
 
-
 //MARK: - UICollectionViewDelegateFlowLayout
-
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let availableSize = collectionView.frame.width - params.paddingWidth
         let cellWidth = availableSize / CGFloat(params.cellCount)
         return CGSize(width: cellWidth, height: 150)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 9
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        9
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
-    {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
         let indexPath = IndexPath(row: 0, section: section)
         let headerView = self.collectionView(
             collectionView,
@@ -275,14 +285,14 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         )
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 8, left: params.leftInset, bottom: 16, right: params.rightInset)
     }
 }
 
-
 // MARK: - UISearchBarDelegate
-
 extension TrackersViewController: UISearchTextFieldDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(false, animated: true)
@@ -320,8 +330,17 @@ extension TrackersViewController: TrackerCellDelegate {
     }
 }
 
-// MARK: - CreateEventViewControllerDelegate
+// MARK: - SelectTypeEventViewControllerDelegate
+extension TrackersViewController: SelectTypeEventViewControllerDelegate {
+    func didTapSelectTypeEventButton(isRegular: Bool) {
+        let createEventViewController = CreateEventViewController()
+        createEventViewController.isRegular = isRegular
+        createEventViewController.delegate = self
+        present(createEventViewController, animated: true, completion: nil)
+    }
+}
 
+// MARK: - CreateEventViewControllerDelegate
 extension TrackersViewController: CreateEventViewControllerDelegate {
     func didTapCreateButton(_ tracker: Tracker, toCategory categoryLabel: String) {
         if let index = categories.firstIndex(where: { $0.label == categoryLabel }) {

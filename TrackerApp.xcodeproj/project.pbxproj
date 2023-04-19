@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */; };
 		C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA03A29D335AF00CF44E1 /* TrackerCell.swift */; };
 		C44CA04129D4293400CF44E1 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04029D4293400CF44E1 /* TrackerCategory.swift */; };
 		C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04229D4294300CF44E1 /* TrackerRecord.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeEventViewController.swift; sourceTree = "<group>"; };
 		C44CA03A29D335AF00CF44E1 /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		C44CA04029D4293400CF44E1 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		C44CA04229D4294300CF44E1 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		C44CA04429D46F0400CF44E1 /* CreateEventViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */,
 				C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */,
 				C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */,
 				C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */,
@@ -233,6 +236,7 @@
 				C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
+				C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */,
 				C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */,
 				C48849E029D31FE000A80AA6 /* UICollectionView+extension.swift in Sources */,
 				C4F8C03229CC788D00284B5A /* SceneDelegate.swift in Sources */,
