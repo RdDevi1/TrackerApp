@@ -2,7 +2,7 @@ import UIKit
 
 
 protocol CreateEventViewControllerDelegate: AnyObject {
-    func didTapCreateButton(_ tracker: Tracker, toCategory categoryLabel: String)
+    func didTapCreateButton(_ tracker: Tracker, toCategory category: TrackerCategory)
 }
 
 
@@ -92,8 +92,13 @@ final class CreateEventViewController: UIViewController {
     // MARK: - Properties
     weak var delegate: CreateEventViewControllerDelegate?
     private var scheduleVC = ScheduleViewController()
-
-    private var trackerCategory: String? = "qwerty"
+    private let trackerCategoryStore = TrackerCategoryStore()
+    
+    private lazy var trackerCategory: TrackerCategory? = trackerCategoryStore.categories.randomElement() {
+        didSet {
+            isTreckerReady()
+        }
+    }
     private var trackerSchedule: [String]?
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
@@ -250,6 +255,7 @@ final class CreateEventViewController: UIViewController {
         let newTracker = Tracker(color: color,
                                  label: text,
                                  emoji: emoji,
+                                 completedDaysCount: 0,
                                  schedule: schedule
         )
         
@@ -298,7 +304,7 @@ extension CreateEventViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = "Категория"
-            cell.detailTextLabel?.text = trackerCategory
+            cell.detailTextLabel?.text = "New category"
         case 1:
             cell.textLabel?.text = "Расписание"
             if trackerSchedule?.isEmpty == false {
