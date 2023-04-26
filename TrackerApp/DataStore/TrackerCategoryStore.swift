@@ -16,7 +16,7 @@ final class TrackerCategoryStore: NSObject {
     
     var categories = [TrackerCategory]()
     private let context: NSManagedObjectContext
-
+    
     // MARK: - Lifecycle
     convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
