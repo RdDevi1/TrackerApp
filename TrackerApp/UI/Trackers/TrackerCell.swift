@@ -34,7 +34,7 @@ final class TrackerCell: UICollectionViewCell {
     }()
     
     private let emojiView: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
         label.layer.masksToBounds = true
@@ -53,7 +53,7 @@ final class TrackerCell: UICollectionViewCell {
     }()
     
     private lazy var  doneButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.backgroundColor = trackerView.backgroundColor
@@ -64,8 +64,8 @@ final class TrackerCell: UICollectionViewCell {
         
         return button
     }()
-
-
+    
+    
     //  MARK: - Properties
     
     static let identifier = "trackerCell"
@@ -87,7 +87,7 @@ final class TrackerCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        assertionFailure("init(coder:) has not been implemented")
     }
     
     // MARK: - Methods
@@ -172,7 +172,7 @@ final class TrackerCell: UICollectionViewCell {
         ])
         
     }
-    
+    // MARK: - Actions
     @objc
     private func didTapDoneButton() {
         guard let tracker else { return }

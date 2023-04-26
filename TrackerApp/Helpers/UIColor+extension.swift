@@ -7,5 +7,5 @@ extension UIColor {
     static let ypGray = UIColor(named: "ypGray")
     static let ypBlack = UIColor(named: "ypBlack")
     static let ypBackground = UIColor(named: "ypBackground")
-    
+    static let ypLightGray = UIColor(named: "ypLightGray")
 }

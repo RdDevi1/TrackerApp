@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */; };
+		C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C44172F229EFFEFC00F53BA0 /* Model.xcdatamodeld */; };
+		C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172F629F0010300F53BA0 /* TrackerStore.swift */; };
+		C44172F929F0011100F53BA0 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172F829F0011100F53BA0 /* TrackerCategoryStore.swift */; };
+		C44172FB29F0011F00F53BA0 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172FA29F0011F00F53BA0 /* TrackerRecordStore.swift */; };
+		C44172FD29F004A400F53BA0 /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */; };
 		C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA03A29D335AF00CF44E1 /* TrackerCell.swift */; };
 		C44CA04129D4293400CF44E1 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04029D4293400CF44E1 /* TrackerCategory.swift */; };
 		C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04229D4294300CF44E1 /* TrackerRecord.swift */; };
 		C44CA04629D46F4300CF44E1 /* TrackerCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */; };
 		C44CA04829D5817C00CF44E1 /* CreateEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */; };
-		C44CA04A29D5D0DB00CF44E1 /* EventCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04929D5D0DB00CF44E1 /* EventCellHeaderView.swift */; };
+		C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */; };
 		C48849D229D22F2C00A80AA6 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */; };
 		C48849D429D30A9100A80AA6 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849D329D30A9100A80AA6 /* TabBarViewController.swift */; };
 		C48849DB29D3146D00A80AA6 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DA29D3146D00A80AA6 /* TrackerModel.swift */; };
@@ -30,12 +36,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeEventViewController.swift; sourceTree = "<group>"; };
+		C44172F329EFFEFC00F53BA0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		C44172F629F0010300F53BA0 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
+		C44172F829F0011100F53BA0 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
+		C44172FA29F0011F00F53BA0 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorMarshalling.swift; sourceTree = "<group>"; };
 		C44CA03A29D335AF00CF44E1 /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		C44CA04029D4293400CF44E1 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		C44CA04229D4294300CF44E1 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
 		C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryView.swift; sourceTree = "<group>"; };
 		C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventCell.swift; sourceTree = "<group>"; };
-		C44CA04929D5D0DB00CF44E1 /* EventCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellHeaderView.swift; sourceTree = "<group>"; };
+		C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventHeaderView.swift; sourceTree = "<group>"; };
 		C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		C48849D329D30A9100A80AA6 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C48849DA29D3146D00A80AA6 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
@@ -65,16 +77,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C44CA04429D46F0400CF44E1 /* CreateEventViewControllers */ = {
+		C44172F129EFFE6100F53BA0 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C48849D829D30EE700A80AA6 /* TabBar */,
+				C48849D529D30AA700A80AA6 /* Trackers */,
+				C44CA04429D46F0400CF44E1 /* CreatingEvents */,
+				C48849DC29D315B500A80AA6 /* Statistics */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		C44172F529F000EA00F53BA0 /* DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				C44172F629F0010300F53BA0 /* TrackerStore.swift */,
+				C44172F829F0011100F53BA0 /* TrackerCategoryStore.swift */,
+				C44172FA29F0011F00F53BA0 /* TrackerRecordStore.swift */,
+			);
+			path = DataStore;
+			sourceTree = "<group>";
+		};
+		C44CA04429D46F0400CF44E1 /* CreatingEvents */ = {
+			isa = PBXGroup;
+			children = (
+				C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */,
 				C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */,
 				C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */,
-				C44CA04929D5D0DB00CF44E1 /* EventCellHeaderView.swift */,
+				C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */,
 				C4A56D0729DB0DB700038E38 /* ScheduleViewController.swift */,
 				C4A56D0B29DC501500038E38 /* CategoriesViewController.swift */,
 			);
-			path = CreateEventViewControllers;
+			path = CreatingEvents;
 			sourceTree = "<group>";
 		};
 		C48849D029D22F0B00A80AA6 /* Helpers */ = {
@@ -83,18 +117,19 @@
 				C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */,
 				C48849DF29D31FE000A80AA6 /* UICollectionView+extension.swift */,
 				C4A56D0D29DEE7F800038E38 /* Date+extension.swift */,
+				C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		C48849D529D30AA700A80AA6 /* Treckers */ = {
+		C48849D529D30AA700A80AA6 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
 				C4F8C03329CC788D00284B5A /* TrackersViewController.swift */,
 				C44CA03A29D335AF00CF44E1 /* TrackerCell.swift */,
 				C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */,
 			);
-			path = Treckers;
+			path = Trackers;
 			sourceTree = "<group>";
 		};
 		C48849D829D30EE700A80AA6 /* TabBar */ = {
@@ -108,6 +143,7 @@
 		C48849D929D3145200A80AA6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C44172F229EFFEFC00F53BA0 /* Model.xcdatamodeld */,
 				C48849DA29D3146D00A80AA6 /* TrackerModel.swift */,
 				C44CA04029D4293400CF44E1 /* TrackerCategory.swift */,
 				C44CA04229D4294300CF44E1 /* TrackerRecord.swift */,
@@ -144,10 +180,8 @@
 			children = (
 				C4F8C02F29CC788D00284B5A /* AppDelegate.swift */,
 				C4F8C03129CC788D00284B5A /* SceneDelegate.swift */,
-				C48849D829D30EE700A80AA6 /* TabBar */,
-				C48849D529D30AA700A80AA6 /* Treckers */,
-				C44CA04429D46F0400CF44E1 /* CreateEventViewControllers */,
-				C48849DC29D315B500A80AA6 /* Statistics */,
+				C44172F129EFFE6100F53BA0 /* UI */,
+				C44172F529F000EA00F53BA0 /* DataStore */,
 				C48849D929D3145200A80AA6 /* Models */,
 				C48849D029D22F0B00A80AA6 /* Helpers */,
 				C4F8C03829CC788E00284B5A /* Assets.xcassets */,
@@ -230,15 +264,21 @@
 				C4A56D0C29DC501500038E38 /* CategoriesViewController.swift in Sources */,
 				C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */,
 				C4A56D0829DB0DB700038E38 /* ScheduleViewController.swift in Sources */,
-				C44CA04A29D5D0DB00CF44E1 /* EventCellHeaderView.swift in Sources */,
+				C44172FB29F0011F00F53BA0 /* TrackerRecordStore.swift in Sources */,
+				C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
+				C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */,
+				C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */,
 				C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */,
+				C44172FD29F004A400F53BA0 /* UIColorMarshalling.swift in Sources */,
 				C48849E029D31FE000A80AA6 /* UICollectionView+extension.swift in Sources */,
 				C4F8C03229CC788D00284B5A /* SceneDelegate.swift in Sources */,
 				C44CA04829D5817C00CF44E1 /* CreateEventCell.swift in Sources */,
 				C44CA04129D4293400CF44E1 /* TrackerCategory.swift in Sources */,
 				C48849DE29D315D300A80AA6 /* StatisticsViewController.swift in Sources */,
+				C44172F929F0011100F53BA0 /* TrackerCategoryStore.swift in Sources */,
+				C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */,
 				C4A56D0A29DB1B2B00038E38 /* CreateEventViewController.swift in Sources */,
 				C44CA04629D46F4300CF44E1 /* TrackerCategoryView.swift in Sources */,
 				C48849D429D30A9100A80AA6 /* TabBarViewController.swift in Sources */,
@@ -458,6 +498,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C44172F229EFFEFC00F53BA0 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C44172F329EFFEFC00F53BA0 /* Model.xcdatamodel */,
+			);
+			currentVersion = C44172F329EFFEFC00F53BA0 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C4F8C02429CC788D00284B5A /* Project object */;
 }
