@@ -11,7 +11,6 @@ final class ScheduleViewController: UIViewController {
     //  MARK: - Layout
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
         label.text = "Расписание"
@@ -21,7 +20,6 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
         table.layer.masksToBounds = true
         table.isScrollEnabled = false
         table.layer.cornerRadius = 16
@@ -32,7 +30,6 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var confirmButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .black
         button.setTitle("Готово", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -68,9 +65,10 @@ final class ScheduleViewController: UIViewController {
     //   MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
-        view.addSubview(tableView)
-        view.addSubview(confirmButton)
+        [titleLabel, tableView, confirmButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
         setConstraints()
     }
     

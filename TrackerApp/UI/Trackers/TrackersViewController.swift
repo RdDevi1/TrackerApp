@@ -12,7 +12,6 @@ final class TrackersViewController: UIViewController {
     //    MARK: - Layout
     private lazy var trakersLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Трекеры"
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         return label
@@ -20,14 +19,12 @@ final class TrackersViewController: UIViewController {
     
     private lazy var addButton: UIButton = {
         let button = UIButton.systemButton(with: UIImage(named: "plus")!, target: self, action: #selector(didTapAddButton))
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .black
         return button
     }()
     
     private lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
-        picker.translatesAutoresizingMaskIntoConstraints = false
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .date
         picker.locale = Locale(identifier: "ru_RU")
@@ -37,7 +34,6 @@ final class TrackersViewController: UIViewController {
     
     private lazy var searchTextField: UISearchBar = {
         let field = UISearchBar()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Поиск"
         field.searchBarStyle = .minimal
         return field
@@ -45,7 +41,6 @@ final class TrackersViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = .white
         collection.register(TrackerCell.self,
                             forCellWithReuseIdentifier: "trackerCell")
@@ -57,14 +52,12 @@ final class TrackersViewController: UIViewController {
     
     private lazy var emptyTrackersImageView: UIImageView = {
         let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "star")
         return image
     }()
     
     private lazy var emptyTrackersLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Что будем отслеживать?"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
@@ -72,7 +65,6 @@ final class TrackersViewController: UIViewController {
     
     private lazy var filterButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Фильтры", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.titleLabel?.textColor = .white
@@ -129,14 +121,19 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setLayout() {
+        [
+            trakersLabel,
+            addButton,
+            datePicker,
+            searchTextField,
+            collectionView,
+            emptyTrackersLabel,
+            emptyTrackersImageView
+        ].forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         view.backgroundColor = .white
-        view.addSubview(addButton)
-        view.addSubview(trakersLabel)
-        view.addSubview(datePicker)
-        view.addSubview(searchTextField)
-        view.addSubview(collectionView)
-        view.addSubview(emptyTrackersImageView)
-        view.addSubview(emptyTrackersLabel)
         setConstraints()
     }
     

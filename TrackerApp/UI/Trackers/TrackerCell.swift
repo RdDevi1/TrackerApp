@@ -17,7 +17,6 @@ final class TrackerCell: UICollectionViewCell {
     
     private lazy var trackerView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
         return view
@@ -25,7 +24,6 @@ final class TrackerCell: UICollectionViewCell {
     
     private let trackerLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -35,7 +33,6 @@ final class TrackerCell: UICollectionViewCell {
     
     private let emojiView: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 12
@@ -46,7 +43,6 @@ final class TrackerCell: UICollectionViewCell {
     
     private let daysCounterLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.textColor = .black
         return label
@@ -54,14 +50,12 @@ final class TrackerCell: UICollectionViewCell {
     
     private lazy var  doneButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.backgroundColor = trackerView.backgroundColor
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 17
         button.tintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         button.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
-        
         return button
     }()
     
@@ -87,7 +81,7 @@ final class TrackerCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        assertionFailure("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Methods
@@ -137,12 +131,10 @@ final class TrackerCell: UICollectionViewCell {
     
     
     private func setCellLayout() {
-        contentView.addSubview(trackerView)
-        contentView.addSubview(trackerLabel)
-        contentView.addSubview(emojiView)
-        contentView.addSubview(doneButton)
-        contentView.addSubview(daysCounterLabel)
-        
+        [trackerView, trackerLabel, emojiView, doneButton, daysCounterLabel].forEach {
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         setConstraints()
     }
     

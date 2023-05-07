@@ -30,7 +30,7 @@ final class TrackerCategoryView: UICollectionReusableView {
     }
     
     required init?(coder: NSCoder) {
-        assertionFailure("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configure(with label: String) {

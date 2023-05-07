@@ -27,7 +27,6 @@ final class CreateEventViewController: UIViewController {
     
     private lazy var textField: UITextField = {
         let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.masksToBounds = true
         field.placeholder = "Введите название трекера"
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: field.frame.height))
@@ -42,7 +41,6 @@ final class CreateEventViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 16
@@ -53,14 +51,12 @@ final class CreateEventViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = .white
         return collection
     }()
     
     private lazy var createButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
         button.setTitle("Cоздать", for: .normal)
@@ -75,7 +71,6 @@ final class CreateEventViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
         button.setTitle("Отменить", for: .normal)
@@ -186,11 +181,10 @@ final class CreateEventViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(scrollView)
-        scrollView.addSubview(textField)
-        scrollView.addSubview(tableView)
-        scrollView.addSubview(collectionView)
-        scrollView.addSubview(createButton)
-        scrollView.addSubview(cancelButton)
+        [textField, tableView, collectionView, createButton, cancelButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview($0)
+        }
         
         if isRegular! {
             titleLabel.text = "Новая привычка"
