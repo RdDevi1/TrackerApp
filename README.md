@@ -4,6 +4,7 @@
 Ссылки
 
 Дизайн Figma
+https://www.figma.com/file/owAO4CAPTJdpM1BZU5JHv7/Tracker-(YP)?type=design&node-id=36-7186&t=0G6myAngJS5jTY0H-0
 
 Назначение и цели приложения
 
