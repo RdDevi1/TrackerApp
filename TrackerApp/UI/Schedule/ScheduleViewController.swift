@@ -59,7 +59,6 @@ final class ScheduleViewController: UIViewController {
         super.viewWillDisappear(animated)
         let sortedSelectedDays = sortSelectedDays(selectedDays)
         provideSelectedDays?(sortedSelectedDays)
-        print(sortedSelectedDays)
     }
     
     //   MARK: - Methods

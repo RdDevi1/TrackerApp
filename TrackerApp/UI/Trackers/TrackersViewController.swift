@@ -95,6 +95,7 @@ final class TrackersViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideKeyboardWhenTappedAround()
         setLayout()
         collectionView.dataSource = self
         collectionView.delegate = self

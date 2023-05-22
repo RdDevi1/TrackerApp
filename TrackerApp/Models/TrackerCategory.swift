@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct TrackerCategory {
+struct TrackerCategory: Equatable {
     let id: UUID
-    let label: String
+    var label: String
     
     init(id: UUID = UUID(), label: String) {
         self.id = id

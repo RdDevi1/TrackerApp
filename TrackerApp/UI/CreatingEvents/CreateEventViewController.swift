@@ -86,14 +86,17 @@ final class CreateEventViewController: UIViewController {
     
     // MARK: - Properties
     weak var delegate: CreateEventViewControllerDelegate?
-    private var scheduleVC = ScheduleViewController()
+    private lazy var scheduleVC = ScheduleViewController()
+    private lazy var categoriesVC = CategoriesViewController(selectedCategory: self.trackerCategory)
+    
     private let trackerCategoryStore = TrackerCategoryStore()
     
-    private lazy var trackerCategory: TrackerCategory? = trackerCategoryStore.categories.randomElement() {
+    private var trackerCategory: TrackerCategory? = nil {
         didSet {
             isTreckerReady()
         }
     }
+    
     private var trackerSchedule: [String]?
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
@@ -133,6 +136,9 @@ final class CreateEventViewController: UIViewController {
     //    MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        hideKeyboardWhenTappedAround()
+        
         tableView.dataSource = self
         tableView.delegate = self
         textField.delegate = self
@@ -146,9 +152,9 @@ final class CreateEventViewController: UIViewController {
         collectionView.register(CreateEventCell.self,
                                 forCellWithReuseIdentifier: CreateEventCell.identifier
         )
+        
         setLayout()
         setConstraints()
-        
         isTreckerReady()
     }
     
@@ -158,6 +164,12 @@ final class CreateEventViewController: UIViewController {
             self?.trackerSchedule = Array
             self?.tableView.reloadData()
         }
+        
+        categoriesVC.provideSelectedCategory = { [weak self] category in
+            self?.trackerCategory = category
+            self?.tableView.reloadData()
+        }
+        
         tableView.reloadData()
     }
     
@@ -233,7 +245,6 @@ final class CreateEventViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
     @objc
     private func didTapCreateButton() {
         guard
@@ -272,8 +283,7 @@ extension CreateEventViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let categoriesViewController = CategoriesViewController()
-            present(categoriesViewController, animated: true)
+            present(categoriesVC, animated: true)
         case 1:
             present(scheduleVC, animated: true)
         default: break
@@ -298,7 +308,9 @@ extension CreateEventViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = "Категория"
-            cell.detailTextLabel?.text = "New category"
+            if trackerCategory != nil {
+                cell.detailTextLabel?.text = trackerCategory?.label
+            }
         case 1:
             cell.textLabel?.text = "Расписание"
             if trackerSchedule?.isEmpty == false {
@@ -321,7 +333,10 @@ extension CreateEventViewController: UITableViewDataSource {
 
 // MARK: - UITextFieldDelegate
 extension CreateEventViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String)
+    -> Bool {
         let newString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
         if newString.count <= 38 {
             trackerLabel = newString
@@ -483,5 +498,14 @@ extension CreateEventViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
+//
+//// MARK: - CategoriesViewControllerDelegate
+//extension CreateEventViewController: CategoriesViewControllerDelegate {
+//    func didSelectCategory(_ category: TrackerCategory) {
+//        self.trackerCategory = category
+//        tableView.reloadData()
+//        dismiss(animated: true)
+//    }
+//}
 
 

@@ -74,7 +74,7 @@ final class SelectTypeEventViewController: UIViewController {
         createEventViewController.modalPresentationStyle = .pageSheet
         present(createEventViewController, animated: true)
     }
-    
+    //    MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
         [titleLabel, addRegularEventButton, addIrregularEventButton].forEach {

@@ -23,9 +23,6 @@ protocol TrackerStoreProtocol {
 
 final class TrackerStore: NSObject {
     // MARK: - Properties
-    enum StoreError: Error {
-        case decodeError
-    }
     
     weak var delegate: TrackerStoreDelegate?
     
@@ -35,12 +32,14 @@ final class TrackerStore: NSObject {
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
         let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt",
+                                                         ascending: true)]
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: context,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: context,
+            sectionNameKeyPath: nil,
+            cacheName: nil
         )
         
         fetchedResultsController.delegate = self
@@ -62,7 +61,6 @@ final class TrackerStore: NSObject {
     
     
     // MARK: - Methods
-    
     func makeTracker(from coreData: TrackerCoreData) throws -> Tracker {
         guard
             let idString = coreData.trackerId,
@@ -71,7 +69,7 @@ final class TrackerStore: NSObject {
             let emoji = coreData.emoji,
             let colorHEX = coreData.colorHEX,
             let completedDaysCount = coreData.records
-        else { throw StoreError.decodeError }
+        else { throw StoreError.decodeTrackerStoreError }
         let color = uiColorMarshalling.color(from: colorHEX)
         let scheduleString = coreData.schedule
         let schedule = WeekDay.decode(from: scheduleString)
@@ -124,9 +122,7 @@ final class TrackerStore: NSObject {
         }
         
         fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        
         try fetchedResultsController.performFetch()
-        
         delegate?.didUpdate()
     }
 }
@@ -177,7 +173,6 @@ extension TrackerStore: TrackerStoreProtocol {
 
 
 // MARK: - NSFetchedResultsControllerDelegate
-
 extension TrackerStore: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.didUpdate()
