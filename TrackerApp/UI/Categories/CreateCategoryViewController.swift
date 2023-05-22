@@ -103,7 +103,6 @@ final class CreateCategoryViewController: UIViewController {
                 if newTrackerCategory == nil {
                     delegate?.addCategory(newCategoryLabel: category)
                 } else {
-                    //                   
                     newTrackerCategory = nil
                 }
                 dismiss(animated: true)

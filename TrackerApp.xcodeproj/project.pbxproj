@@ -34,6 +34,7 @@
 		C4A56D0A29DB1B2B00038E38 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */; };
 		C4A56D0E29DEE7F800038E38 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A56D0D29DEE7F800038E38 /* Date+extension.swift */; };
 		C4A9AE9F2A053D8F009ABC10 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A9AE9E2A053D8F009ABC10 /* OnboardingViewController.swift */; };
+		C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E4209F2A1BBA4200F17332 /* EnterViewController.swift */; };
 		C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8C02F29CC788D00284B5A /* AppDelegate.swift */; };
 		C4F8C03229CC788D00284B5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8C03129CC788D00284B5A /* SceneDelegate.swift */; };
 		C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8C03329CC788D00284B5A /* TrackersViewController.swift */; };
@@ -69,6 +70,7 @@
 		C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		C4A56D0D29DEE7F800038E38 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		C4A9AE9E2A053D8F009ABC10 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		C4E4209F2A1BBA4200F17332 /* EnterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterViewController.swift; sourceTree = "<group>"; };
 		C4F8C02C29CC788D00284B5A /* TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4F8C02F29CC788D00284B5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4F8C03129CC788D00284B5A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		C44172F129EFFE6100F53BA0 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C4E4209F2A1BBA4200F17332 /* EnterViewController.swift */,
 				C4A9AE9D2A053D6E009ABC10 /* Onboarding */,
 				C48849D829D30EE700A80AA6 /* TabBar */,
 				C48849D529D30AA700A80AA6 /* Trackers */,
@@ -311,6 +314,7 @@
 				C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */,
 				C49571342A12C54100B43FF9 /* StoreError.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
+				C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
 				C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */,
 				C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */,

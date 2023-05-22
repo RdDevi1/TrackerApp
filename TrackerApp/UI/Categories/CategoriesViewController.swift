@@ -143,8 +143,8 @@ final class CategoriesViewController: UIViewController {
         createCategoryVC.modalPresentationStyle = .pageSheet
         present(createCategoryVC, animated: true)
     }
-    
 }
+
 
     // MARK: - UITableViewDataSource
 extension CategoriesViewController: UITableViewDataSource {
@@ -155,27 +155,32 @@ extension CategoriesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCell.identifier) as? CategoryCell else { return UITableViewCell() }
         
+        let category = viewModel.categories[indexPath.row]
+        cell.configCell(with: category.label)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         
         if isLastCell {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: tableView.bounds.size.width, bottom: 0, right: 0)
             cell.contentView.layer.cornerRadius = 16
             cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
         }
-        
-        let category = viewModel.categories[indexPath.row]
-        let isSelected = viewModel.selectedCategory == category
-        
-        cell.configCell(with: category.label, isSelected: isSelected)
-        
-        return cell
+        else {
+            cell.contentView.layer.cornerRadius = 0
+            cell.contentView.layer.maskedCorners = []
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
     }
 }
 
 // MARK: - UITableViewDelegate
 extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        74
+        75
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -184,10 +189,7 @@ extension CategoriesViewController: UITableViewDelegate {
         dismiss(animated: true)
     }
     
-    
-    func tableView(
-        _ tableView: UITableView,
-        contextMenuConfigurationForRowAt indexPath: IndexPath,
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
         let category = viewModel.categories[indexPath.row]
@@ -233,6 +235,5 @@ extension CategoriesViewController: CategoriesViewModelDelegate {
     func didSelectCategories(category: TrackerCategory) {
         delegate?.didSelectCategory(category)
     }
-    
     
 }

@@ -64,7 +64,7 @@ final class CategoryCell: UITableViewCell {
         ])
     }
     
-    func configCell(with label: String, isSelected: Bool) {
+    func configCell(with label: String) {
         self.label.text = label
     }
 }
