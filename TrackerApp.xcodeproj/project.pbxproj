@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C42316192A1DFC7A0081D267 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42316182A1DFC7A0081D267 /* CoreDataManager.swift */; };
+		C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */; };
 		C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */; };
 		C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C44172F229EFFEFC00F53BA0 /* Model.xcdatamodeld */; };
 		C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172F629F0010300F53BA0 /* TrackerStore.swift */; };
@@ -43,6 +45,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C42316182A1DFC7A0081D267 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeEventViewController.swift; sourceTree = "<group>"; };
 		C44172F329EFFEFC00F53BA0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		C44172F629F0010300F53BA0 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 		C44172F529F000EA00F53BA0 /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
+				C42316182A1DFC7A0081D267 /* CoreDataManager.swift */,
 				C44172F629F0010300F53BA0 /* TrackerStore.swift */,
 				C44172F829F0011100F53BA0 /* TrackerCategoryStore.swift */,
 				C44172FA29F0011F00F53BA0 /* TrackerRecordStore.swift */,
@@ -192,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				C4A9AE9E2A053D8F009ABC10 /* OnboardingViewController.swift */,
+				C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -316,10 +322,12 @@
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
 				C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
+				C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */,
 				C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */,
 				C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */,
 				C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */,
 				C44172FD29F004A400F53BA0 /* UIColorMarshalling.swift in Sources */,
+				C42316192A1DFC7A0081D267 /* CoreDataManager.swift in Sources */,
 				C48849E029D31FE000A80AA6 /* UICollectionView+extension.swift in Sources */,
 				C49571282A0BE33E00B43FF9 /* CategoriesViewController.swift in Sources */,
 				C4A9AE9F2A053D8F009ABC10 /* OnboardingViewController.swift in Sources */,

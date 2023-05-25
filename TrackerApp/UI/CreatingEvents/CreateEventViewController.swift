@@ -87,7 +87,7 @@ final class CreateEventViewController: UIViewController {
     // MARK: - Properties
     weak var delegate: CreateEventViewControllerDelegate?
     private lazy var scheduleVC = ScheduleViewController()
-    private lazy var categoriesVC = CategoriesViewController(selectedCategory: self.trackerCategory)
+    private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory, trackerCategoryStore: trackerCategoryStore))
     
     private let trackerCategoryStore = TrackerCategoryStore()
     
@@ -141,7 +141,9 @@ final class CreateEventViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
         textField.delegate = self
+        textField.text = trackerLabel
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -154,7 +156,6 @@ final class CreateEventViewController: UIViewController {
         )
         
         setLayout()
-        setConstraints()
         isTreckerReady()
     }
     
@@ -169,11 +170,11 @@ final class CreateEventViewController: UIViewController {
             self?.trackerCategory = category
             self?.tableView.reloadData()
         }
-        
+    
         tableView.reloadData()
     }
     
-//    MARK: - Methods
+    //    MARK: - Methods
     private func isTreckerReady() {
         if isRegular! {
             if (trackerColor == nil) || (trackerEmoji == nil) || (trackerLabel == nil) || (trackerCategory == nil) || (trackerSchedule == nil) {
@@ -203,9 +204,7 @@ final class CreateEventViewController: UIViewController {
         } else {
             titleLabel.text = "Новое нерегулярное событие"
         }
-    }
-    
-    private func setConstraints() {
+        
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 40),
@@ -346,7 +345,7 @@ extension CreateEventViewController: UITextFieldDelegate {
         }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         isTreckerReady()
     }
 }
@@ -498,14 +497,5 @@ extension CreateEventViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-//
-//// MARK: - CategoriesViewControllerDelegate
-//extension CreateEventViewController: CategoriesViewControllerDelegate {
-//    func didSelectCategory(_ category: TrackerCategory) {
-//        self.trackerCategory = category
-//        tableView.reloadData()
-//        dismiss(animated: true)
-//    }
-//}
 
 

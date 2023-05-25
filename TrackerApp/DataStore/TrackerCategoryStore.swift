@@ -5,14 +5,24 @@
 //  Created by Vitaly Anpilov on 19.04.2023.
 //
 
-import UIKit
 import CoreData
 
 protocol TrackerCategoryStoreDelegate: AnyObject {
     func didUpdate()
 }
 
-final class TrackerCategoryStore: NSObject {
+protocol TrackerCategoryStoreProtocol {
+    var delegate: TrackerCategoryStoreDelegate? { get set }
+    var categories: [TrackerCategory] { get }
+    var categoriesCoreData: [TrackerCategoryCoreData] { get }
+    func deleteCategory(category: TrackerCategory) throws
+    func makeCategory(from coreData: TrackerCategoryCoreData) throws -> TrackerCategory
+    func makeCategory(with label: String) throws
+}
+
+
+final class TrackerCategoryStore: NSObject, TrackerCategoryStoreProtocol {
+    
     // MARK: - Properties
     weak var delegate: TrackerCategoryStoreDelegate?
     
@@ -43,7 +53,7 @@ final class TrackerCategoryStore: NSObject {
     
     // MARK: - Lifecycle
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = CoreDataManager.shared.persistentContainer.viewContext
         try! self.init(context: context)
     }
     
@@ -73,14 +83,13 @@ final class TrackerCategoryStore: NSObject {
         return TrackerCategory(id: id,label: label)
     }
     
-    func makeCategory(with label: String) throws -> TrackerCategory {
+    func makeCategory(with label: String) throws {
         let category = TrackerCategory(label: label)
         let categoryCoreData = TrackerCategoryCoreData(context: context)
         categoryCoreData.label = category.label
         categoryCoreData.categoryId = category.id.uuidString
         categoryCoreData.createdAt = Date()
         try context.save()
-        return category
     }
     
     func deleteCategory(category: TrackerCategory) throws {

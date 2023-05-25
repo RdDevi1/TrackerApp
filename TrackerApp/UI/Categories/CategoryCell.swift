@@ -25,6 +25,16 @@ final class CategoryCell: UITableViewCell {
         return label
     }()
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupContent()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
@@ -35,14 +45,8 @@ final class CategoryCell: UITableViewCell {
         }
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setupContent()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func configCell(with label: String) {
+        self.label.text = label
     }
     
     private func setupContent() {
@@ -56,15 +60,13 @@ final class CategoryCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -83),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26),
+            label.trailingAnchor.constraint(equalTo: checkmarkImage.leadingAnchor, constant: -6),
             
             checkmarkImage.centerYAnchor.constraint(equalTo: label.centerYAnchor),
-            checkmarkImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            checkmarkImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
-    func configCell(with label: String) {
-        self.label.text = label
-    }
 }

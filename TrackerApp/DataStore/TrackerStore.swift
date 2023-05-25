@@ -5,7 +5,6 @@
 //  Created by Vitaly Anpilov on 19.04.2023.
 //
 
-import UIKit
 import CoreData
 
 protocol TrackerStoreDelegate: AnyObject {
@@ -50,7 +49,7 @@ final class TrackerStore: NSObject {
     
     // MARK: - Lifecycle
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = CoreDataManager.shared.persistentContainer.viewContext
         self.init(context: context)
     }
     

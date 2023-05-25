@@ -7,19 +7,25 @@
 
 import UIKit
 
-class EnterViewController: UIViewController {
+final class EnterViewController: UIViewController {
 
+    private let userDefaults = UserDefaults.standard
+    
+    private enum Keys: String {
+        case onboardingShown
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let onboardingShown = UserDefaults.standard.bool(forKey: "OnboardingShown")
+        let onboardingShown = userDefaults.bool(forKey: Keys.onboardingShown.rawValue)
         
         if !onboardingShown {
-            let OnboardingVC = OnboardingViewController()
-            OnboardingVC.modalPresentationStyle = .fullScreen
-            present(OnboardingVC, animated: false)
+            let onboardingVC = OnboardingViewController()
+            onboardingVC.modalPresentationStyle = .fullScreen
+            present(onboardingVC, animated: false)
         
-            UserDefaults.standard.set(true, forKey: "OnboardingShown")
+            userDefaults.set(true, forKey: Keys.onboardingShown.rawValue)
         } else {
             let tabBarVC = TabBarController()
             tabBarVC.modalPresentationStyle = .fullScreen

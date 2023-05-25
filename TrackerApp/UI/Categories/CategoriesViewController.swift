@@ -25,7 +25,7 @@ final class CategoriesViewController: UIViewController {
         table.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.separatorColor = .ypGray
-        
+        table.rowHeight = UITableView.automaticDimension
         return table
     }()
     
@@ -61,6 +61,16 @@ final class CategoriesViewController: UIViewController {
     weak var delegate: CategoriesViewControllerDelegate?
     var provideSelectedCategory: ((TrackerCategory) -> Void)?
     
+    
+    init(viewModel: CategoriesViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //    MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,15 +81,6 @@ final class CategoriesViewController: UIViewController {
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
-    }
-    
-    init(selectedCategory: TrackerCategory?) {
-        viewModel = CategoriesViewModel(selectedCategory: selectedCategory)
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     //   MARK: - Methods
@@ -119,14 +120,14 @@ final class CategoriesViewController: UIViewController {
         ])
     }
     
-    private func deleteCategory(_ category: TrackerCategory) {
+    private func deleteCategory(category: TrackerCategory) {
         let alert = UIAlertController(title: nil,
                                       message: "Эта категория точно не нужна?",
                                       preferredStyle: .actionSheet
         )
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
-        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) {[weak self] _ in
-            self?.viewModel.deleteCategory(category)
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            self?.viewModel.deleteCategory(category: category)
         }
         
         alert.addAction(cancelAction)
@@ -179,9 +180,6 @@ extension CategoriesViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension CategoriesViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        75
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.selectCategory(indexPath: indexPath)
@@ -200,7 +198,7 @@ extension CategoriesViewController: UITableViewDelegate {
                     // TO DO
                 },
                 UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
-                    self?.deleteCategory(category)
+                    self?.deleteCategory(category: category)
                 }
             ])
         })
