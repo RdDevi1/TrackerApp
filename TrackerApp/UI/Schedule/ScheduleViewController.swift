@@ -11,7 +11,6 @@ final class ScheduleViewController: UIViewController {
     //  MARK: - Layout
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
         label.text = "Расписание"
@@ -21,9 +20,8 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
         table.layer.masksToBounds = true
-        table.isScrollEnabled = false
+        table.bounces = false
         table.layer.cornerRadius = 16
         table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.separatorColor = .ypGray
@@ -32,7 +30,6 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var confirmButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .black
         button.setTitle("Готово", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -62,15 +59,15 @@ final class ScheduleViewController: UIViewController {
         super.viewWillDisappear(animated)
         let sortedSelectedDays = sortSelectedDays(selectedDays)
         provideSelectedDays?(sortedSelectedDays)
-        print(sortedSelectedDays)
     }
     
     //   MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
-        view.addSubview(tableView)
-        view.addSubview(confirmButton)
+        [titleLabel, tableView, confirmButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
         setConstraints()
     }
     
@@ -87,7 +84,7 @@ final class ScheduleViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 73),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 524),
+            tableView.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -39),
             
             confirmButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -96,42 +93,12 @@ final class ScheduleViewController: UIViewController {
         ])
     }
     
+    
+    // MARK: - Actions
     @objc
     private func didTapConfirmButton() {
         dismiss(animated: true)
     }
-    
-}
-
-extension ScheduleViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        75
-    }
-}
-
-
-extension ScheduleViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        WeekDay.allCases.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let switcher = UISwitch()
-        switcher.onTintColor = .ypBlue
-        switcher.tag = indexPath.row
-        switcher.addTarget(self, action: #selector(didTapSwitcher(_:)), for: .valueChanged)
-        
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        let weekday = WeekDay.allCases[indexPath.row]
-        cell.selectionStyle = .none
-        cell.backgroundColor = .ypBackground
-        cell.textLabel?.text = weekday.rawValue
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        cell.accessoryView = switcher
-        
-        return cell
-    }
-    
     
     @objc
     private func didTapSwitcher(_ sender: UISwitch) {
@@ -159,4 +126,37 @@ extension ScheduleViewController: UITableViewDataSource {
             }
         }
     }
+    
+}
+
+// MARK: - UITableViewDelegate
+extension ScheduleViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        75
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension ScheduleViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        WeekDay.allCases.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let switcher = UISwitch()
+        switcher.onTintColor = .ypBlue
+        switcher.tag = indexPath.row
+        switcher.addTarget(self, action: #selector(didTapSwitcher(_:)), for: .valueChanged)
+        
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let weekday = WeekDay.allCases[indexPath.row]
+        cell.selectionStyle = .none
+        cell.backgroundColor = .ypBackground
+        cell.textLabel?.text = weekday.rawValue
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        cell.accessoryView = switcher
+        
+        return cell
+    }
+    
 }

@@ -27,7 +27,6 @@ final class CreateEventViewController: UIViewController {
     
     private lazy var textField: UITextField = {
         let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.masksToBounds = true
         field.placeholder = "Введите название трекера"
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: field.frame.height))
@@ -42,7 +41,6 @@ final class CreateEventViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 16
@@ -53,14 +51,12 @@ final class CreateEventViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = .white
         return collection
     }()
     
     private lazy var createButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
         button.setTitle("Cоздать", for: .normal)
@@ -75,7 +71,6 @@ final class CreateEventViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
         button.setTitle("Отменить", for: .normal)
@@ -91,14 +86,17 @@ final class CreateEventViewController: UIViewController {
     
     // MARK: - Properties
     weak var delegate: CreateEventViewControllerDelegate?
-    private var scheduleVC = ScheduleViewController()
+    private lazy var scheduleVC = ScheduleViewController()
+    private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory, trackerCategoryStore: trackerCategoryStore))
+    
     private let trackerCategoryStore = TrackerCategoryStore()
     
-    private lazy var trackerCategory: TrackerCategory? = trackerCategoryStore.categories.randomElement() {
+    private var trackerCategory: TrackerCategory? = nil {
         didSet {
             isTreckerReady()
         }
     }
+    
     private var trackerSchedule: [String]?
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
@@ -138,9 +136,14 @@ final class CreateEventViewController: UIViewController {
     //    MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        hideKeyboardWhenTappedAround()
+        
         tableView.dataSource = self
         tableView.delegate = self
+        
         textField.delegate = self
+        textField.text = trackerLabel
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -151,9 +154,8 @@ final class CreateEventViewController: UIViewController {
         collectionView.register(CreateEventCell.self,
                                 forCellWithReuseIdentifier: CreateEventCell.identifier
         )
-        setLayout()
-        setConstraints()
         
+        setLayout()
         isTreckerReady()
     }
     
@@ -163,10 +165,16 @@ final class CreateEventViewController: UIViewController {
             self?.trackerSchedule = Array
             self?.tableView.reloadData()
         }
+        
+        categoriesVC.provideSelectedCategory = { [weak self] category in
+            self?.trackerCategory = category
+            self?.tableView.reloadData()
+        }
+    
         tableView.reloadData()
     }
     
-//    MARK: - Methods
+    //    MARK: - Methods
     private func isTreckerReady() {
         if isRegular! {
             if (trackerColor == nil) || (trackerEmoji == nil) || (trackerLabel == nil) || (trackerCategory == nil) || (trackerSchedule == nil) {
@@ -186,20 +194,17 @@ final class CreateEventViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(scrollView)
-        scrollView.addSubview(textField)
-        scrollView.addSubview(tableView)
-        scrollView.addSubview(collectionView)
-        scrollView.addSubview(createButton)
-        scrollView.addSubview(cancelButton)
+        [textField, tableView, collectionView, createButton, cancelButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview($0)
+        }
         
         if isRegular! {
             titleLabel.text = "Новая привычка"
         } else {
             titleLabel.text = "Новое нерегулярное событие"
         }
-    }
-    
-    private func setConstraints() {
+        
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 40),
@@ -239,7 +244,6 @@ final class CreateEventViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
     @objc
     private func didTapCreateButton() {
         guard
@@ -278,8 +282,7 @@ extension CreateEventViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let categoriesViewController = CategoriesViewController()
-            present(categoriesViewController, animated: true)
+            present(categoriesVC, animated: true)
         case 1:
             present(scheduleVC, animated: true)
         default: break
@@ -304,7 +307,9 @@ extension CreateEventViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = "Категория"
-            cell.detailTextLabel?.text = "New category"
+            if trackerCategory != nil {
+                cell.detailTextLabel?.text = trackerCategory?.label
+            }
         case 1:
             cell.textLabel?.text = "Расписание"
             if trackerSchedule?.isEmpty == false {
@@ -327,7 +332,10 @@ extension CreateEventViewController: UITableViewDataSource {
 
 // MARK: - UITextFieldDelegate
 extension CreateEventViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String)
+    -> Bool {
         let newString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
         if newString.count <= 38 {
             trackerLabel = newString
@@ -337,7 +345,7 @@ extension CreateEventViewController: UITextFieldDelegate {
         }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         isTreckerReady()
     }
 }

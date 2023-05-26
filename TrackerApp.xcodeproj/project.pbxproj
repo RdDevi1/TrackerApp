@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C42316192A1DFC7A0081D267 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42316182A1DFC7A0081D267 /* CoreDataManager.swift */; };
+		C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */; };
 		C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */; };
 		C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C44172F229EFFEFC00F53BA0 /* Model.xcdatamodeld */; };
 		C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172F629F0010300F53BA0 /* TrackerStore.swift */; };
@@ -24,10 +26,17 @@
 		C48849DB29D3146D00A80AA6 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DA29D3146D00A80AA6 /* TrackerModel.swift */; };
 		C48849DE29D315D300A80AA6 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */; };
 		C48849E029D31FE000A80AA6 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DF29D31FE000A80AA6 /* UICollectionView+extension.swift */; };
+		C49571282A0BE33E00B43FF9 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */; };
+		C495712A2A0BE36A00B43FF9 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */; };
+		C495712C2A0BE45A00B43FF9 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */; };
+		C495712E2A0BE77400B43FF9 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495712D2A0BE77400B43FF9 /* CategoryCell.swift */; };
+		C49571302A1128F100B43FF9 /* UIViewController+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495712F2A1128F100B43FF9 /* UIViewController+hideKeyboard.swift */; };
+		C49571342A12C54100B43FF9 /* StoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571332A12C54100B43FF9 /* StoreError.swift */; };
 		C4A56D0829DB0DB700038E38 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A56D0729DB0DB700038E38 /* ScheduleViewController.swift */; };
 		C4A56D0A29DB1B2B00038E38 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */; };
-		C4A56D0C29DC501500038E38 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A56D0B29DC501500038E38 /* CategoriesViewController.swift */; };
 		C4A56D0E29DEE7F800038E38 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A56D0D29DEE7F800038E38 /* Date+extension.swift */; };
+		C4A9AE9F2A053D8F009ABC10 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A9AE9E2A053D8F009ABC10 /* OnboardingViewController.swift */; };
+		C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E4209F2A1BBA4200F17332 /* EnterViewController.swift */; };
 		C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8C02F29CC788D00284B5A /* AppDelegate.swift */; };
 		C4F8C03229CC788D00284B5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8C03129CC788D00284B5A /* SceneDelegate.swift */; };
 		C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8C03329CC788D00284B5A /* TrackersViewController.swift */; };
@@ -36,6 +45,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C42316182A1DFC7A0081D267 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeEventViewController.swift; sourceTree = "<group>"; };
 		C44172F329EFFEFC00F53BA0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		C44172F629F0010300F53BA0 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
@@ -53,10 +64,17 @@
 		C48849DA29D3146D00A80AA6 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
 		C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		C48849DF29D31FE000A80AA6 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
+		C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
+		C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
+		C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
+		C495712D2A0BE77400B43FF9 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		C495712F2A1128F100B43FF9 /* UIViewController+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+hideKeyboard.swift"; sourceTree = "<group>"; };
+		C49571332A12C54100B43FF9 /* StoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreError.swift; sourceTree = "<group>"; };
 		C4A56D0729DB0DB700038E38 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
-		C4A56D0B29DC501500038E38 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		C4A56D0D29DEE7F800038E38 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
+		C4A9AE9E2A053D8F009ABC10 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		C4E4209F2A1BBA4200F17332 /* EnterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterViewController.swift; sourceTree = "<group>"; };
 		C4F8C02C29CC788D00284B5A /* TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4F8C02F29CC788D00284B5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4F8C03129CC788D00284B5A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,9 +98,13 @@
 		C44172F129EFFE6100F53BA0 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C4E4209F2A1BBA4200F17332 /* EnterViewController.swift */,
+				C4A9AE9D2A053D6E009ABC10 /* Onboarding */,
 				C48849D829D30EE700A80AA6 /* TabBar */,
 				C48849D529D30AA700A80AA6 /* Trackers */,
 				C44CA04429D46F0400CF44E1 /* CreatingEvents */,
+				C49571262A0BE30100B43FF9 /* Categories */,
+				C4E4209E2A16279500F17332 /* Schedule */,
 				C48849DC29D315B500A80AA6 /* Statistics */,
 			);
 			path = UI;
@@ -91,9 +113,11 @@
 		C44172F529F000EA00F53BA0 /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
+				C42316182A1DFC7A0081D267 /* CoreDataManager.swift */,
 				C44172F629F0010300F53BA0 /* TrackerStore.swift */,
 				C44172F829F0011100F53BA0 /* TrackerCategoryStore.swift */,
 				C44172FA29F0011F00F53BA0 /* TrackerRecordStore.swift */,
+				C49571332A12C54100B43FF9 /* StoreError.swift */,
 			);
 			path = DataStore;
 			sourceTree = "<group>";
@@ -105,8 +129,6 @@
 				C4A56D0929DB1B2B00038E38 /* CreateEventViewController.swift */,
 				C44CA04729D5817C00CF44E1 /* CreateEventCell.swift */,
 				C44CA04929D5D0DB00CF44E1 /* CreateEventHeaderView.swift */,
-				C4A56D0729DB0DB700038E38 /* ScheduleViewController.swift */,
-				C4A56D0B29DC501500038E38 /* CategoriesViewController.swift */,
 			);
 			path = CreatingEvents;
 			sourceTree = "<group>";
@@ -118,6 +140,7 @@
 				C48849DF29D31FE000A80AA6 /* UICollectionView+extension.swift */,
 				C4A56D0D29DEE7F800038E38 /* Date+extension.swift */,
 				C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */,
+				C495712F2A1128F100B43FF9 /* UIViewController+hideKeyboard.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -157,6 +180,34 @@
 				C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */,
 			);
 			path = Statistics;
+			sourceTree = "<group>";
+		};
+		C49571262A0BE30100B43FF9 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */,
+				C495712D2A0BE77400B43FF9 /* CategoryCell.swift */,
+				C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */,
+				C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		C4A9AE9D2A053D6E009ABC10 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C4A9AE9E2A053D8F009ABC10 /* OnboardingViewController.swift */,
+				C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C4E4209E2A16279500F17332 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				C4A56D0729DB0DB700038E38 /* ScheduleViewController.swift */,
+			);
+			path = Schedule;
 			sourceTree = "<group>";
 		};
 		C4F8C02329CC788D00284B5A = {
@@ -261,20 +312,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4A56D0C29DC501500038E38 /* CategoriesViewController.swift in Sources */,
 				C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */,
 				C4A56D0829DB0DB700038E38 /* ScheduleViewController.swift in Sources */,
+				C495712C2A0BE45A00B43FF9 /* CreateCategoryViewController.swift in Sources */,
+				C495712E2A0BE77400B43FF9 /* CategoryCell.swift in Sources */,
 				C44172FB29F0011F00F53BA0 /* TrackerRecordStore.swift in Sources */,
 				C44CA04A29D5D0DB00CF44E1 /* CreateEventHeaderView.swift in Sources */,
+				C49571342A12C54100B43FF9 /* StoreError.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
+				C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
+				C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */,
 				C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */,
 				C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */,
 				C44CA04329D4294300CF44E1 /* TrackerRecord.swift in Sources */,
 				C44172FD29F004A400F53BA0 /* UIColorMarshalling.swift in Sources */,
+				C42316192A1DFC7A0081D267 /* CoreDataManager.swift in Sources */,
 				C48849E029D31FE000A80AA6 /* UICollectionView+extension.swift in Sources */,
+				C49571282A0BE33E00B43FF9 /* CategoriesViewController.swift in Sources */,
+				C4A9AE9F2A053D8F009ABC10 /* OnboardingViewController.swift in Sources */,
 				C4F8C03229CC788D00284B5A /* SceneDelegate.swift in Sources */,
 				C44CA04829D5817C00CF44E1 /* CreateEventCell.swift in Sources */,
+				C495712A2A0BE36A00B43FF9 /* CategoriesViewModel.swift in Sources */,
 				C44CA04129D4293400CF44E1 /* TrackerCategory.swift in Sources */,
 				C48849DE29D315D300A80AA6 /* StatisticsViewController.swift in Sources */,
 				C44172F929F0011100F53BA0 /* TrackerCategoryStore.swift in Sources */,
@@ -285,6 +344,7 @@
 				C4A56D0E29DEE7F800038E38 /* Date+extension.swift in Sources */,
 				C48849D229D22F2C00A80AA6 /* UIColor+extension.swift in Sources */,
 				C48849DB29D3146D00A80AA6 /* TrackerModel.swift in Sources */,
+				C49571302A1128F100B43FF9 /* UIViewController+hideKeyboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,7 +15,6 @@ final class SelectTypeEventViewController: UIViewController {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Создание трекера"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -24,7 +23,6 @@ final class SelectTypeEventViewController: UIViewController {
     
     private lazy var addRegularEventButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .black
         button.setTitle("Привычка", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -37,7 +35,6 @@ final class SelectTypeEventViewController: UIViewController {
     
     private lazy var addIrregularEventButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .black
         button.setTitle("Нерегулярные событие", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -77,12 +74,13 @@ final class SelectTypeEventViewController: UIViewController {
         createEventViewController.modalPresentationStyle = .pageSheet
         present(createEventViewController, animated: true)
     }
-    
+    //    MARK: - Methods
     private func setLayout() {
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
-        view.addSubview(addRegularEventButton)
-        view.addSubview(addIrregularEventButton)
+        [titleLabel, addRegularEventButton, addIrregularEventButton].forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
     
     private func setConstraints() {
