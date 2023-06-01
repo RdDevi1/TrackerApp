@@ -13,7 +13,7 @@ final class ScheduleViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
-        label.text = "Расписание"
+        label.text = NSLocalizedString("schedule", comment: "")
         
         return label
     }()
@@ -31,7 +31,7 @@ final class ScheduleViewController: UIViewController {
     private lazy var confirmButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .black
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(NSLocalizedString("ready", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true

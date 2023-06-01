@@ -28,7 +28,7 @@ final class CreateEventViewController: UIViewController {
     private lazy var textField: UITextField = {
         let field = UITextField()
         field.layer.masksToBounds = true
-        field.placeholder = "Введите название трекера"
+        field.placeholder = NSLocalizedString("tracker.name", comment: "")
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: field.frame.height))
         field.leftView = paddingView
         field.leftViewMode = .always
@@ -59,7 +59,7 @@ final class CreateEventViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.setTitle("Cоздать", for: .normal)
+        button.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -73,7 +73,7 @@ final class CreateEventViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.setTitleColor(.ypRed, for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -200,9 +200,9 @@ final class CreateEventViewController: UIViewController {
         }
         
         if isRegular! {
-            titleLabel.text = "Новая привычка"
+            titleLabel.text = NSLocalizedString("newHabit", comment: "")
         } else {
-            titleLabel.text = "Новое нерегулярное событие"
+            titleLabel.text = NSLocalizedString("newEvent", comment: "")
         }
         
         NSLayoutConstraint.activate([
@@ -306,15 +306,15 @@ extension CreateEventViewController: UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-            cell.textLabel?.text = "Категория"
+            cell.textLabel?.text = NSLocalizedString("category", comment: "")
             if trackerCategory != nil {
                 cell.detailTextLabel?.text = trackerCategory?.label
             }
         case 1:
-            cell.textLabel?.text = "Расписание"
+            cell.textLabel?.text = NSLocalizedString("schedule", comment: "")
             if trackerSchedule?.isEmpty == false {
                 if trackerSchedule?.count == 7 {
-                    cell.detailTextLabel?.text = "Каждый день"
+                    cell.detailTextLabel?.text = NSLocalizedString("everyDay", comment: "")
                 } else {
                     cell.detailTextLabel?.text = trackerSchedule?.joined(separator: ", ")
                 }
@@ -398,9 +398,9 @@ extension CreateEventViewController: UICollectionViewDataSource {
         
         switch indexPath.section {
         case 0:
-            view.headerLabel.text = "Emoji"
+            view.headerLabel.text = NSLocalizedString("emoji", comment: "")
         case 1:
-            view.headerLabel.text = "Цвет"
+            view.headerLabel.text = NSLocalizedString("colors", comment: "")
         default:
             break
         }

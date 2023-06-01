@@ -12,7 +12,7 @@ final class TrackersViewController: UIViewController {
     //    MARK: - Layout
     private lazy var trakersLabel: UILabel = {
         let label = UILabel()
-        label.text = "Трекеры"
+        label.text = NSLocalizedString("trackers", comment: "")
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         return label
     }()
@@ -34,7 +34,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var searchTextField: UISearchBar = {
         let field = UISearchBar()
-        field.placeholder = "Поиск"
+        field.placeholder = NSLocalizedString("search", comment: "")
         field.searchBarStyle = .minimal
         return field
     }()
@@ -58,14 +58,14 @@ final class TrackersViewController: UIViewController {
     
     private lazy var emptyTrackersLabel: UILabel = {
         let label = UILabel()
-        label.text = "Что будем отслеживать?"
+        label.text = NSLocalizedString("emptyTrackers.text", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
     }()
     
     private lazy var filterButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitle(NSLocalizedString("filters", comment: ""), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.titleLabel?.textColor = .white
         button.layer.cornerRadius = 16

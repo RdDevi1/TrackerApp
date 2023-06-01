@@ -65,9 +65,16 @@ final class TrackerCell: UICollectionViewCell {
     static let identifier = "trackerCell"
     private var days = 0 {
         didSet {
-            daysCounterLabel.text = formatDayString(for: days)
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .currency
+            numberFormatter.locale = Locale.current
+            daysCounterLabel.text = String.localizedStringWithFormat(
+                NSLocalizedString("numberOfDays", comment: "Number of checked days"),
+                days
+            )
         }
     }
+    
     private var tracker: Tracker?
     weak var delegate: TrackerCellDelegate?
     

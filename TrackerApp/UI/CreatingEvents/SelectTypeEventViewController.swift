@@ -15,7 +15,7 @@ final class SelectTypeEventViewController: UIViewController {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Создание трекера"
+        label.text = NSLocalizedString("trackerCreation", comment: "")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
@@ -24,7 +24,7 @@ final class SelectTypeEventViewController: UIViewController {
     private lazy var addRegularEventButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .black
-        button.setTitle("Привычка", for: .normal)
+        button.setTitle(NSLocalizedString("event", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true
@@ -36,7 +36,7 @@ final class SelectTypeEventViewController: UIViewController {
     private lazy var addIrregularEventButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .black
-        button.setTitle("Нерегулярные событие", for: .normal)
+        button.setTitle(NSLocalizedString("habit", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true
