@@ -23,6 +23,9 @@
 // Text displayed on empty schedule
 "emptyTrackers.text" = "Что будем отслеживат?";
 
+// Alert delete tracker
+"alertTracker.text" = "Уверены что хотите удалить трекер?";
+
 
 
 // Tracker creation page name
@@ -84,6 +87,9 @@
 
 // Edit menu item text
 "edit" = "Редактировать";
+
+// Alert delete category
+"alertCategory.text" = "Эта категория точно не нужна?";
 
 
 

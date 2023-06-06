@@ -11,5 +11,6 @@ enum StoreError: Error {
     case decodeCategoryStoreError
     case decodeTrackerStoreError
     case decodeRecordStoreError
+    case deleteError
     
 }

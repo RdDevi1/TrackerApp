@@ -122,7 +122,7 @@ final class CategoriesViewController: UIViewController {
     
     private func deleteCategory(category: TrackerCategory) {
         let alert = UIAlertController(title: nil,
-                                      message: "Эта категория точно не нужна?",
+                                      message: NSLocalizedString("alertCategory.text", comment: ""),
                                       preferredStyle: .actionSheet
         )
         let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel)

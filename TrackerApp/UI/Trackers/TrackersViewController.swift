@@ -135,6 +135,25 @@ final class TrackersViewController: UIViewController {
         }
     }
     
+    private func deleteTracker(forIndexPath: IndexPath) {
+        
+        guard let tracker = trackerStore.tracker(at: forIndexPath) else { return }
+        let alert = UIAlertController(title: nil,
+                                      message: NSLocalizedString("alertTracker.text", comment: ""),
+                                      preferredStyle: .actionSheet
+        )
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            try? self.trackerStore.deleteTracker(tracker)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        present(alert, animated: true)
+    }
+    
     private func setLayout() {
         [
             trakersLabel,
@@ -228,7 +247,9 @@ extension TrackersViewController: UICollectionViewDataSource {
         trackerStore.numberOfRowsInSection(section)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard
             let trackerCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: TrackerCell.identifier,
@@ -316,32 +337,33 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         UIEdgeInsets(top: 8, left: params.leftInset, bottom: 16, right: params.rightInset)
     }
     
+    
     func collectionView(_ collectionView: UICollectionView,
-                           contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
-                           point: CGPoint
-       ) -> UIContextMenuConfiguration? {
-               guard indexPaths.count > 0 else {
-                   return nil
-               }
-               
-               let indexPath = indexPaths[0]
-               
-               return UIContextMenuConfiguration(actionProvider: { actions in
-                   return UIMenu(children: [
-                       UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
-                          /* TO DO */
-                       },
-                       UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
-                           /* TO DO */
-                           self?.analyticsService.reportEvent(event: .click, screen: .main, item: .edit)
-                       },
-                       UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
-                           /* TO DO */
-                           self?.analyticsService.reportEvent(event: .click, screen: .main, item: .delete)
-                       }
-                   ])
-               })
-           }
+                        contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+                        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        guard indexPaths.count > 0 else {
+            return nil
+        }
+        
+        let indexPath = indexPaths[0]
+        
+        return UIContextMenuConfiguration(actionProvider: { actions in
+            return UIMenu(children: [
+                UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
+                    /* TO DO */
+                },
+                UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
+                    /* TO DO */
+                    self?.analyticsService.reportEvent(event: .click, screen: .main, item: .edit)
+                },
+                UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
+                    self?.analyticsService.reportEvent(event: .click, screen: .main, item: .delete)
+                    self?.deleteTracker(forIndexPath: indexPath)
+                }
+            ])
+        })
+    }
 }
 
 // MARK: - UISearchBarDelegate

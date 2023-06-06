@@ -168,6 +168,12 @@ extension TrackerStore: TrackerStoreProtocol {
         try context.save()
     }
     
+    func deleteTracker(_ tracker: Tracker) throws {
+        guard let trackerToDelete = try getTrackerCoreData(by: tracker.id) else { throw StoreError.deleteError }
+        context.delete(trackerToDelete)
+        try context.save()
+    }
+    
 }
 
 

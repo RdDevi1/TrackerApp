@@ -23,6 +23,9 @@
 // Text displayed on empty schedule
 "emptyTrackers.text" = "What will we track?";
 
+// Alert delete tracker
+"alertTracker.text" = "Are you sure?";
+
 
 
 // Tracker creation page name
@@ -84,6 +87,9 @@
 
 // Edit menu item text
 "edit" = "Edit";
+
+// Alert delete category
+"alertCategory.text" = "Are you sure?";
 
 
 
