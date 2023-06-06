@@ -68,8 +68,8 @@ final class TrackersViewController: UIViewController {
         button.setTitle(NSLocalizedString("filters", comment: ""), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.titleLabel?.textColor = .white
+        button.backgroundColor = .ypBlue
         button.layer.cornerRadius = 16
-        button.backgroundColor = .blue
         return button
     }()
     
@@ -126,10 +126,12 @@ final class TrackersViewController: UIViewController {
             emptyTrackersLabel.isHidden = false
             emptyTrackersImageView.isHidden = false
             collectionView.isHidden = true
+            filterButton.isHidden = true
         } else {
             emptyTrackersLabel.isHidden = true
             emptyTrackersImageView.isHidden = true
             collectionView.isHidden = false
+            filterButton.isHidden = false
         }
     }
     
@@ -141,7 +143,8 @@ final class TrackersViewController: UIViewController {
             searchTextField,
             collectionView,
             emptyTrackersLabel,
-            emptyTrackersImageView
+            emptyTrackersImageView,
+            filterButton
         ].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -177,14 +180,19 @@ final class TrackersViewController: UIViewController {
             emptyTrackersImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 402),
             
             emptyTrackersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyTrackersLabel.topAnchor.constraint(equalTo: emptyTrackersImageView.bottomAnchor, constant: 8)
+            emptyTrackersLabel.topAnchor.constraint(equalTo: emptyTrackersImageView.bottomAnchor, constant: 8),
+            
+            filterButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filterButton.widthAnchor.constraint(equalToConstant: 114),
+            filterButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     //    MARK: - Actions
     @objc
     private func didTapAddButton() {
-        analyticsService.reportEvent(event: .click, onItem: .add_track)
+        analyticsService.reportEvent(event: .click, screen: .main, item: .add_track)
         let selectTypeEventViewController = SelectTypeEventViewController()
         selectTypeEventViewController.delegate = self
         selectTypeEventViewController.modalPresentationStyle = .pageSheet
@@ -203,7 +211,7 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func didTapFilterButton() {
-        analyticsService.reportEvent(event: .click, onItem: .filter)
+        analyticsService.reportEvent(event: .click, screen: .main, item: .filter)
 //        TO DO
     }
 }
@@ -325,11 +333,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                        },
                        UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                            /* TO DO */
-                           self?.analyticsService.reportEvent(event: .click, onItem: .edit)
+                           self?.analyticsService.reportEvent(event: .click, screen: .main, item: .edit)
                        },
-                       UIAction(title: NSLocalizedString("delete", comment: "")) { [weak self] _ in
+                       UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                            /* TO DO */
-                           self?.analyticsService.reportEvent(event: .click, onItem: .delete)
+                           self?.analyticsService.reportEvent(event: .click, screen: .main, item: .delete)
                        }
                    ])
                })
@@ -360,7 +368,7 @@ extension TrackersViewController: UISearchTextFieldDelegate {
 // MARK: - TrackerCellDelegate
 extension TrackersViewController: TrackerCellDelegate {
     func didTapDoneButton(of cell: TrackerCell, with tracker: Tracker) {
-        analyticsService.reportEvent(event: .click, onItem: .track)
+        analyticsService.reportEvent(event: .click, screen: .main, item: .track)
         if let recordToRemove = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id }) {
             try? trackerRecordStore.remove(recordToRemove)
             cell.toggleDoneButton(false)

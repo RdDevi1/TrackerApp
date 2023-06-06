@@ -34,8 +34,11 @@ struct AnalyticsService {
     }
     
     
-    func reportEvent(event: Events, onItem: Items) {
-        let params = ["Item" : onItem.rawValue]
+    func reportEvent(event: Events, screen: Screens, item: Items) {
+        let params = [
+            "screen": screen.rawValue,
+            "item" : item.rawValue
+        ]
         YMMYandexMetrica.reportEvent(event.rawValue, parameters: params, onFailure: { error in
             print("REPORT ERROR: %@", error.localizedDescription)
         })
