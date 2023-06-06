@@ -83,7 +83,7 @@
 "delete" = "Удалить";
 
 // Edit menu item text
-"edit" = "Изменить";
+"edit" = "Редактировать";
 
 
 
@@ -104,9 +104,15 @@
 // Pin menu item text
 "pin" = "Закрепить";
 
+// Pin menu item text
+"unPin" = "Открепить";
+
 
 
 // Statistics
 "statistics" = "Статистика";
+
+// Empty Statistics
+"emptyStatistics.text" = "Анализировать пока нечего";
 
 

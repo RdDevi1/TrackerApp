@@ -74,6 +74,8 @@ final class TrackersViewController: UIViewController {
     }()
     
     //    MARK: - Properties
+    private let analyticsService = AnalyticsService()
+    
     private let trackerStore = TrackerStore()
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
@@ -106,6 +108,16 @@ final class TrackersViewController: UIViewController {
         try? trackerRecordStore.loadCompletedTrackers(by: currentDate)
         
         checkTrackers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        analyticsService.reportScreen(event: .open, onScreen: .main)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        analyticsService.reportScreen(event: .close, onScreen: .main)
     }
     
     //    MARK: - Methods
@@ -172,7 +184,7 @@ final class TrackersViewController: UIViewController {
     //    MARK: - Actions
     @objc
     private func didTapAddButton() {
-        print(categories)
+        analyticsService.reportEvent(event: .click, onItem: .add_track)
         let selectTypeEventViewController = SelectTypeEventViewController()
         selectTypeEventViewController.delegate = self
         selectTypeEventViewController.modalPresentationStyle = .pageSheet
@@ -187,6 +199,12 @@ final class TrackersViewController: UIViewController {
             try trackerRecordStore.loadCompletedTrackers(by: currentDate)
         } catch {}
         collectionView.reloadData()
+    }
+    
+    @objc
+    private func didTapFilterButton() {
+        analyticsService.reportEvent(event: .click, onItem: .filter)
+//        TO DO
     }
 }
 
@@ -289,6 +307,33 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 8, left: params.leftInset, bottom: 16, right: params.rightInset)
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                           contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+                           point: CGPoint
+       ) -> UIContextMenuConfiguration? {
+               guard indexPaths.count > 0 else {
+                   return nil
+               }
+               
+               let indexPath = indexPaths[0]
+               
+               return UIContextMenuConfiguration(actionProvider: { actions in
+                   return UIMenu(children: [
+                       UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
+                          /* TO DO */
+                       },
+                       UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
+                           /* TO DO */
+                           self?.analyticsService.reportEvent(event: .click, onItem: .edit)
+                       },
+                       UIAction(title: NSLocalizedString("delete", comment: "")) { [weak self] _ in
+                           /* TO DO */
+                           self?.analyticsService.reportEvent(event: .click, onItem: .delete)
+                       }
+                   ])
+               })
+           }
 }
 
 // MARK: - UISearchBarDelegate
@@ -315,6 +360,7 @@ extension TrackersViewController: UISearchTextFieldDelegate {
 // MARK: - TrackerCellDelegate
 extension TrackersViewController: TrackerCellDelegate {
     func didTapDoneButton(of cell: TrackerCell, with tracker: Tracker) {
+        analyticsService.reportEvent(event: .click, onItem: .track)
         if let recordToRemove = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id }) {
             try? trackerRecordStore.remove(recordToRemove)
             cell.toggleDoneButton(false)

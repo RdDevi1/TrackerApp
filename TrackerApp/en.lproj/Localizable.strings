@@ -104,9 +104,17 @@
 // Pin menu item text
 "pin" = "Pin";
 
+// Pin menu item text
+"unPin" = "Unpin";
+
 
 
 // Statistics
 "statistics" = "Statistics";
+
+// Empty Statistics
+"emptyStatistics.text" = "Nothing to analyze";
+
+
 
 
