@@ -44,7 +44,7 @@ final class TrackerCell: UICollectionViewCell {
     private let daysCounterLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
     

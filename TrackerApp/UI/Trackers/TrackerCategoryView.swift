@@ -13,7 +13,7 @@ final class TrackerCategoryView: UICollectionReusableView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        label.textColor = .black
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
     

@@ -19,7 +19,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var addButton: UIButton = {
         let button = UIButton.systemButton(with: UIImage(named: "plus")!, target: self, action: #selector(didTapAddButton))
-        button.tintColor = .black
+        button.tintColor = .toggleBlackWhiteColor
         return button
     }()
     
@@ -47,6 +47,7 @@ final class TrackersViewController: UIViewController {
         collection.register(TrackerCategoryView.self,
                             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                             withReuseIdentifier: "header")
+        collection.backgroundColor = .systemBackground
         return collection
     }()
     
@@ -168,7 +169,7 @@ final class TrackersViewController: UIViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         setConstraints()
     }
     

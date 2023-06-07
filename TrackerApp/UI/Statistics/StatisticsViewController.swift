@@ -14,6 +14,7 @@ final class StatisticsViewController: UIViewController {
         let label = UILabel()
         label.text = NSLocalizedString("statistics", comment: "")
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
     
@@ -43,6 +44,8 @@ final class StatisticsViewController: UIViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
+        view.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
