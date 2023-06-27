@@ -59,10 +59,21 @@ final class TrackerCell: UICollectionViewCell {
         return button
     }()
     
+    private let pinImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "pin.fill")
+        imageView.tintColor = .white
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     
     //  MARK: - Properties
     
     static let identifier = "trackerCell"
+    private var tracker: Tracker?
+    weak var delegate: TrackerCellDelegate?
+    
     private var days = 0 {
         didSet {
             let numberFormatter = NumberFormatter()
@@ -74,9 +85,6 @@ final class TrackerCell: UICollectionViewCell {
             )
         }
     }
-    
-    private var tracker: Tracker?
-    weak var delegate: TrackerCellDelegate?
     
     
     // MARK: - Lifecycle
@@ -93,7 +101,7 @@ final class TrackerCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func configCell(with tracker: Tracker, days: Int, isDone: Bool) {
+    func configCell(with tracker: Tracker, days: Int, isDone: Bool, interaction: UIInteraction) {
         self.tracker = tracker
         self.days = days
         trackerView.backgroundColor = tracker.color
@@ -101,6 +109,7 @@ final class TrackerCell: UICollectionViewCell {
         trackerLabel.text = tracker.label
         emojiView.text = tracker.emoji
         toggleDoneButton(isDone)
+        trackerView.addInteraction(interaction)
     }
     
     func toggleDoneButton(_ isDone: Bool) {
@@ -138,8 +147,14 @@ final class TrackerCell: UICollectionViewCell {
     
     
     private func setCellLayout() {
-        [trackerView, trackerLabel, emojiView, doneButton, daysCounterLabel].forEach {
+        [trackerView, doneButton, daysCounterLabel].forEach {
             contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        /* set cell view for call context munu */
+        [trackerLabel, emojiView, pinImage].forEach {
+            trackerView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         setConstraints()
@@ -148,6 +163,7 @@ final class TrackerCell: UICollectionViewCell {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             trackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            trackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             trackerView.heightAnchor.constraint(equalToConstant: 90),
             
@@ -166,8 +182,10 @@ final class TrackerCell: UICollectionViewCell {
             doneButton.widthAnchor.constraint(equalToConstant: 34),
             
             daysCounterLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            daysCounterLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor)
+            daysCounterLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor),
             
+            pinImage.topAnchor.constraint(equalTo: trackerView.topAnchor, constant: 18),
+            pinImage.trailingAnchor.constraint(equalTo: trackerView.trailingAnchor, constant: -12)
         ])
         
     }

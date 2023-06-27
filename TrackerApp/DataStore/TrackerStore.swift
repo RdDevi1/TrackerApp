@@ -37,7 +37,7 @@ final class TrackerStore: NSObject {
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: context,
-            sectionNameKeyPath: nil,
+            sectionNameKeyPath: "category",
             cacheName: nil
         )
         

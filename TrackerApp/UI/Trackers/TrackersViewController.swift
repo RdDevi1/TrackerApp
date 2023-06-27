@@ -136,8 +136,19 @@ final class TrackersViewController: UIViewController {
         }
     }
     
-    private func deleteTracker(forIndexPath: IndexPath) {
+    private func editTracker(from indexPath: IndexPath) {
+       
+    }
+    
+    private func startEditTracker() {
         
+        
+        
+    }
+    
+    
+    
+    private func deleteTracker(forIndexPath: IndexPath) {
         guard let tracker = trackerStore.tracker(at: forIndexPath) else { return }
         let alert = UIAlertController(title: nil,
                                       message: NSLocalizedString("alertTracker.text", comment: ""),
@@ -261,8 +272,9 @@ extension TrackersViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        let interaction = UIContextMenuInteraction(delegate: self)
         let isCompleted = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id }
-        trackerCell.configCell(with: tracker, days: tracker.completedDaysCount, isDone: isCompleted)
+        trackerCell.configCell(with: tracker, days: tracker.completedDaysCount, isDone: isCompleted, interaction: interaction)
         trackerCell.delegate = self
         
         return trackerCell
@@ -338,16 +350,20 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         UIEdgeInsets(top: 8, left: params.leftInset, bottom: 16, right: params.rightInset)
     }
     
+}
+
+// MARK: - UIContextMenuInteractionDelegate
+extension TrackersViewController: UIContextMenuInteractionDelegate {
     
-    func collectionView(_ collectionView: UICollectionView,
-                        contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
-                        point: CGPoint
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
     ) -> UIContextMenuConfiguration? {
-        guard indexPaths.count > 0 else {
-            return nil
-        }
-        
-        let indexPath = indexPaths[0]
+        guard
+            let location = interaction.view?.convert(location, to: collectionView),
+            let indexPath = collectionView.indexPathForItem(at: location),
+            let tracker = trackerStore.tracker(at: indexPath)
+        else { return nil }
         
         return UIContextMenuConfiguration(actionProvider: { actions in
             return UIMenu(children: [
@@ -355,8 +371,9 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                     /* TO DO */
                 },
                 UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
-                    /* TO DO */
                     self?.analyticsService.reportEvent(event: .click, screen: .main, item: .edit)
+                    self?.editTracker(from: indexPath)
+                    /* TO DO */
                 },
                 UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                     self?.analyticsService.reportEvent(event: .click, screen: .main, item: .delete)
@@ -365,6 +382,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
             ])
         })
     }
+    
+    
 }
 
 // MARK: - UISearchBarDelegate
