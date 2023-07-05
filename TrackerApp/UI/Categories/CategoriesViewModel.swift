@@ -9,7 +9,7 @@ protocol CategoriesViewModelDelegate: AnyObject {
 
 final class CategoriesViewModel {
     // MARK: - Properties
-    private var trackerCategoryStore: TrackerCategoryStoreProtocol
+    private var trackerCategoryStore = TrackerCategoryStore.shared
     
     weak var delegate: CategoriesViewModelDelegate?
     
@@ -26,9 +26,8 @@ final class CategoriesViewModel {
         }
     }
     
-    init(selectedCategory: TrackerCategory?, trackerCategoryStore: TrackerCategoryStoreProtocol) {
+    init(selectedCategory: TrackerCategory?) {
         self.selectedCategory = selectedCategory
-        self.trackerCategoryStore = trackerCategoryStore
         self.trackerCategoryStore.delegate = self
     }
     
@@ -43,7 +42,7 @@ final class CategoriesViewModel {
     
     func deleteCategory(category: TrackerCategory) {
         do {
-            try trackerCategoryStore.deleteCategory(category: category)
+            try trackerCategoryStore.deleteCategory(category)
             categories = getCategoriesFromStore()
             if category == selectedCategory {
                 selectedCategory = nil
@@ -62,17 +61,17 @@ final class CategoriesViewModel {
     private func getCategoriesFromStore() -> [TrackerCategory] {
         do {
             let categories = try trackerCategoryStore.categoriesCoreData.map {
-                try trackerCategoryStore.makeCategory(from: $0)
+                try trackerCategoryStore.getCategory(from: $0)
             }
             return categories
-        } catch  {
+        } catch {
             return []
         }
     }
     
     private func addCategory(with label: String) {
         do {
-            try trackerCategoryStore.makeCategory(with: label)
+            try trackerCategoryStore.addCategory(with: label)
             loadCategories()
         } catch {}
     }

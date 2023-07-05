@@ -79,7 +79,7 @@ final class TrackerRecordStore: NSObject {
             let id = UUID(uuidString: idString),
             let date = coreData.date,
             let trackerCoreData = coreData.tracker,
-            let tracker = try? trackerStore.makeTracker(from: trackerCoreData)
+            let tracker = try? trackerStore.getTracker(from: trackerCoreData)
         else { throw StoreError.decodeError }
         return TrackerRecord(id: id, trackerId: tracker.id, date: date)
     }

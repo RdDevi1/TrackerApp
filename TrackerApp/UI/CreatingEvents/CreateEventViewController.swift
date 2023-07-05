@@ -87,9 +87,9 @@ final class CreateEventViewController: UIViewController {
     // MARK: - Properties
     weak var delegate: CreateEventViewControllerDelegate?
     private lazy var scheduleVC = ScheduleViewController()
-    private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory, trackerCategoryStore: trackerCategoryStore))
+    private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory))
     
-    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerCategoryStore = TrackerCategoryStore.shared
     
     private var trackerCategory: TrackerCategory? = nil {
         didSet {
@@ -166,8 +166,8 @@ final class CreateEventViewController: UIViewController {
             self?.tableView.reloadData()
         }
         
-        categoriesVC.provideSelectedCategory = { [weak self] category in
-            self?.trackerCategory = category
+        categoriesVC.provideSelectedCategory = { [weak self] Category in
+            self?.trackerCategory = Category
             self?.tableView.reloadData()
         }
     
@@ -260,7 +260,9 @@ final class CreateEventViewController: UIViewController {
                                  label: text,
                                  emoji: emoji,
                                  completedDaysCount: 0,
-                                 schedule: schedule
+                                 schedule: schedule,
+                                 isPinned: false,
+                                 category: category
         )
         
         delegate?.didTapCreateButton(newTracker, toCategory: category)

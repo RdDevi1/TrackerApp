@@ -12,5 +12,7 @@ enum StoreError: Error {
     case decodeTrackerStoreError
     case decodeRecordStoreError
     case deleteError
+    case pinError
+    case updateError
     
 }

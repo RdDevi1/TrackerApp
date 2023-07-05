@@ -143,10 +143,12 @@ final class TrackersViewController: UIViewController {
     private func startEditTracker() {
         
         
-        
     }
     
-    
+    private func changeTogglePin(tracker: Tracker) {
+        try? trackerStore.togglePin(for: tracker)
+        
+    }
     
     private func deleteTracker(forIndexPath: IndexPath) {
         guard let tracker = trackerStore.tracker(at: forIndexPath) else { return }
@@ -367,8 +369,8 @@ extension TrackersViewController: UIContextMenuInteractionDelegate {
         
         return UIContextMenuConfiguration(actionProvider: { actions in
             return UIMenu(children: [
-                UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
-                    /* TO DO */
+                UIAction(title: tracker.isPinned ? NSLocalizedString("unPin", comment: "") : NSLocalizedString("pin", comment: "") ) { [weak self] _ in
+                    self?.changeTogglePin(tracker: tracker)
                 },
                 UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                     self?.analyticsService.reportEvent(event: .click, screen: .main, item: .edit)

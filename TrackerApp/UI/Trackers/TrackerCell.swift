@@ -110,6 +110,7 @@ final class TrackerCell: UICollectionViewCell {
         emojiView.text = tracker.emoji
         toggleDoneButton(isDone)
         trackerView.addInteraction(interaction)
+        changePin(for: tracker)
     }
     
     func toggleDoneButton(_ isDone: Bool) {
@@ -119,6 +120,14 @@ final class TrackerCell: UICollectionViewCell {
         } else {
             doneButton.setImage(UIImage(systemName: "plus"), for: .normal)
             doneButton.layer.opacity = 1
+        }
+    }
+    
+    private func changePin(for tracker: Tracker) {
+        if tracker.isPinned {
+            pinImage.isHidden = false
+        } else {
+            pinImage.isHidden = true
         }
     }
     
@@ -185,7 +194,9 @@ final class TrackerCell: UICollectionViewCell {
             daysCounterLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor),
             
             pinImage.topAnchor.constraint(equalTo: trackerView.topAnchor, constant: 18),
-            pinImage.trailingAnchor.constraint(equalTo: trackerView.trailingAnchor, constant: -12)
+            pinImage.trailingAnchor.constraint(equalTo: trackerView.trailingAnchor, constant: -12),
+            pinImage.heightAnchor.constraint(equalToConstant: 12),
+            pinImage.widthAnchor.constraint(equalToConstant: 8)
         ])
         
     }
