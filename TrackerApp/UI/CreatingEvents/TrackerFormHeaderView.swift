@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CreateEventHeaderView: UICollectionReusableView {
-    static let identifier = "CreateEventHeaderView"
+final class TrackerFormHeaderView: UICollectionReusableView {
+    static let identifier = "TrackerFormHeaderView"
     
     let headerLabel: UILabel = {
         let label = UILabel()

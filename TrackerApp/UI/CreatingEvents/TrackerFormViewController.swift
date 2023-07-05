@@ -1,12 +1,12 @@
 import UIKit
 
 
-protocol CreateEventViewControllerDelegate: AnyObject {
+protocol TrackerFormViewControllerDelegate: AnyObject {
     func didTapCreateButton(_ tracker: Tracker, toCategory category: TrackerCategory)
 }
 
 
-final class CreateEventViewController: UIViewController {
+final class TrackerFormViewController: UIViewController {
     
     //  MARK: - Layout
     var titleLabel: UILabel = {
@@ -85,7 +85,7 @@ final class CreateEventViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    weak var delegate: CreateEventViewControllerDelegate?
+    weak var delegate: TrackerFormViewControllerDelegate?
     private lazy var scheduleVC = ScheduleViewController()
     private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory))
     
@@ -147,12 +147,12 @@ final class CreateEventViewController: UIViewController {
         
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(CreateEventHeaderView.self,
+        collectionView.register(TrackerFormHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "header"
         )
-        collectionView.register(CreateEventCell.self,
-                                forCellWithReuseIdentifier: CreateEventCell.identifier
+        collectionView.register(TrackerFormCell.self,
+                                forCellWithReuseIdentifier: TrackerFormCell.identifier
         )
         
         setLayout()
@@ -279,7 +279,7 @@ final class CreateEventViewController: UIViewController {
 }
 
 // MARK: - UITableViewDelegate
-extension CreateEventViewController: UITableViewDelegate {
+extension TrackerFormViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
@@ -293,7 +293,7 @@ extension CreateEventViewController: UITableViewDelegate {
 }
 
 // MARK: - UITableViewDataSource
-extension CreateEventViewController: UITableViewDataSource {
+extension TrackerFormViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         isRegular! ? 2 : 1
     }
@@ -333,7 +333,7 @@ extension CreateEventViewController: UITableViewDataSource {
 }
 
 // MARK: - UITextFieldDelegate
-extension CreateEventViewController: UITextFieldDelegate {
+extension TrackerFormViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String)
@@ -353,7 +353,7 @@ extension CreateEventViewController: UITextFieldDelegate {
 }
 
 // MARK: - UICollectionViewDataSource
-extension CreateEventViewController: UICollectionViewDataSource {
+extension TrackerFormViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         2
     }
@@ -365,10 +365,10 @@ extension CreateEventViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateEventCell.identifier,
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerFormCell.identifier,
                                                       for: indexPath)
         
-        guard let collectionCell = cell as? CreateEventCell else { return UICollectionViewCell() }
+        guard let collectionCell = cell as? TrackerFormCell else { return UICollectionViewCell() }
         
         collectionCell.layer.cornerRadius = 16
         collectionCell.layer.masksToBounds = true
@@ -395,7 +395,7 @@ extension CreateEventViewController: UICollectionViewDataSource {
     ) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                    withReuseIdentifier: "header",
-                                                                   for: indexPath) as? CreateEventHeaderView
+                                                                   for: indexPath) as? TrackerFormHeaderView
         guard let view = view else { return UICollectionReusableView() }
         
         switch indexPath.section {
@@ -411,7 +411,7 @@ extension CreateEventViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension CreateEventViewController: UICollectionViewDelegateFlowLayout {
+extension TrackerFormViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int
@@ -468,7 +468,7 @@ extension CreateEventViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath)  as? CreateEventCell  {
+        if let cell = collectionView.cellForItem(at: indexPath)  as? TrackerFormCell  {
             
             switch indexPath.section {
                 

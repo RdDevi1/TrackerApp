@@ -46,6 +46,12 @@
 // New habit
 "newHabit" = "New habit";
 
+// Edit event
+"editEvent" = "Edit event";
+
+// Edit habit
+"editHabit" = "Edit habit";
+
 // Tracker name text field placeholder
 "tracker.name" = "Enter tracker name";
 

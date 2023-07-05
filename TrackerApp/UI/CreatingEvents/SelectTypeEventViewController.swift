@@ -46,7 +46,7 @@ final class SelectTypeEventViewController: UIViewController {
     }()
     
     //    MARK: - Properties
-    weak var delegate: CreateEventViewControllerDelegate?
+    weak var delegate: TrackerFormViewControllerDelegate?
     
     
     //    MARK: - LifeCycle
@@ -59,7 +59,7 @@ final class SelectTypeEventViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func didTapRegularEventButton() {
-        let createEventViewController = CreateEventViewController()
+        let createEventViewController = TrackerFormViewController()
         createEventViewController.isRegular = true
         createEventViewController.delegate = delegate
         createEventViewController.modalPresentationStyle = .pageSheet
@@ -68,7 +68,7 @@ final class SelectTypeEventViewController: UIViewController {
     
     @objc
     private func didTapIrregularEventButton() {
-        let createEventViewController = CreateEventViewController()
+        let createEventViewController = TrackerFormViewController()
         createEventViewController.isRegular = false
         createEventViewController.delegate = delegate
         createEventViewController.modalPresentationStyle = .pageSheet

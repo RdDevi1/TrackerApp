@@ -194,10 +194,10 @@ extension CategoriesViewController: UITableViewDelegate {
         
         return UIContextMenuConfiguration(actionProvider:  { _ in
             UIMenu(children: [
-                UIAction(title: "Редактировать") { [weak self] _ in
+                UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                     // TO DO
                 },
-                UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                     self?.deleteCategory(category: category)
                 }
             ])

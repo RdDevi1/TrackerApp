@@ -429,7 +429,7 @@ extension TrackersViewController: TrackerCellDelegate {
 // MARK: - SelectTypeEventViewControllerDelegate
 extension TrackersViewController: SelectTypeEventViewControllerDelegate {
     func didTapSelectTypeEventButton(isRegular: Bool) {
-        let createEventViewController = CreateEventViewController()
+        let createEventViewController = TrackerFormViewController()
         createEventViewController.isRegular = isRegular
         createEventViewController.delegate = self
         present(createEventViewController, animated: true, completion: nil)
@@ -437,7 +437,7 @@ extension TrackersViewController: SelectTypeEventViewControllerDelegate {
 }
 
 // MARK: - CreateEventViewControllerDelegate
-extension TrackersViewController: CreateEventViewControllerDelegate {
+extension TrackersViewController: TrackerFormViewControllerDelegate {
     func didTapCreateButton(_ tracker: Tracker, toCategory category: TrackerCategory) {
         try? trackerStore.addTracker(tracker, with: category)
     }

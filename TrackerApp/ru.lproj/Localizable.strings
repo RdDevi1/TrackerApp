@@ -46,6 +46,12 @@
 // New habit
 "newHabit" = "Новая привычка";
 
+// Edit event
+"editEvent" = "Редактирование нерегулярного события";
+
+// Edit habit
+"editHabit" = "Редактирование привычки";
+
 // Tracker name text field placeholder
 "tracker.name" = "Введите название трекера";
 

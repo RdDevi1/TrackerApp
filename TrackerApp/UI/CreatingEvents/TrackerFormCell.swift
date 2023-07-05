@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CreateEventCell: UICollectionViewCell {
-    static let identifier = "CreateEventCell"
+final class TrackerFormCell: UICollectionViewCell {
+    static let identifier = "TrackerFormCell"
     lazy var label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 32)

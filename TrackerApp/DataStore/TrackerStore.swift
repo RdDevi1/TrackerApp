@@ -123,7 +123,7 @@ extension TrackerStore: TrackerStoreProtocol {
     private var sections: [[Tracker]] {
         guard let sectionsCoreData = fetchedResultsController.sections else { return [] }
         var sections: [[Tracker]] = []
-        
+            // добавление закрепленных трекеров в начало массива, если они есть
         if !pinnedTrackers.isEmpty {
             sections.append(pinnedTrackers)
         }
