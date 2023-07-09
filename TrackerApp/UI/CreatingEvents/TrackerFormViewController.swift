@@ -3,6 +3,7 @@ import UIKit
 
 protocol TrackerFormViewControllerDelegate: AnyObject {
     func didTapCreateButton(_ tracker: Tracker, toCategory category: TrackerCategory)
+    func didUpdateTracker(with tracker: Tracker)
 }
 
 
@@ -59,7 +60,11 @@ final class TrackerFormViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
+        if isEditor {
+            button.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
+        } else {
+            button.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
+        }
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -86,7 +91,7 @@ final class TrackerFormViewController: UIViewController {
     
     // MARK: - Properties
     weak var delegate: TrackerFormViewControllerDelegate?
-    private lazy var scheduleVC = ScheduleViewController()
+    private lazy var scheduleVC = ScheduleViewController(selectedDays: trackerSchedule ?? [])
     private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory))
     
     private let trackerCategoryStore = TrackerCategoryStore.shared
@@ -101,8 +106,12 @@ final class TrackerFormViewController: UIViewController {
     private var trackerColor: UIColor?
     private var trackerEmoji: String?
     private var trackerLabel: String?
+    private var trackerCompletedDaysCount: Int?
     
-    var isRegular: Bool?
+    var isRegular: Bool
+    var isEditor: Bool
+    
+    var editingTracker: Tracker?
     
     private var isCreateButtonEnable: Bool = false {
         willSet {
@@ -134,6 +143,16 @@ final class TrackerFormViewController: UIViewController {
     ]
     
     //    MARK: - LifeCycle
+    init(isRegular: Bool, isEditor: Bool) {
+        self.isRegular = isRegular
+        self.isEditor = isEditor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -156,6 +175,11 @@ final class TrackerFormViewController: UIViewController {
         )
         
         setLayout()
+        
+        if isEditor {
+            setEditingForm()
+        }
+        
         isTreckerReady()
     }
     
@@ -170,19 +194,30 @@ final class TrackerFormViewController: UIViewController {
             self?.trackerCategory = Category
             self?.tableView.reloadData()
         }
-    
         tableView.reloadData()
     }
     
     //    MARK: - Methods
+    private func setEditingForm() {
+        guard let tracker = editingTracker else { return }
+        textField.text = tracker.label
+        trackerColor = tracker.color
+        trackerEmoji = tracker.emoji
+        trackerCategory = tracker.category
+        trackerCompletedDaysCount = tracker.completedDaysCount
+        if tracker.schedule != nil {
+            trackerSchedule = tracker.schedule?.compactMap { $0.shortForm }
+        }
+    }
+    
     private func isTreckerReady() {
-        if isRegular! {
-            if (trackerColor == nil) || (trackerEmoji == nil) || (trackerLabel == nil) || (trackerCategory == nil) || (trackerSchedule == nil) {
+        if isRegular {
+            if (trackerColor == nil) || (trackerEmoji == nil) || (textField.hasText == false) || (trackerCategory == nil) || (trackerSchedule == nil) {
                 isCreateButtonEnable = false
                 return
             }
         } else {
-            if (trackerColor == nil) || (trackerEmoji == nil) || (trackerLabel == nil) || (trackerCategory == nil) {
+            if (trackerColor == nil) || (trackerEmoji == nil) || (textField.hasText == false) || (trackerCategory == nil) {
                 isCreateButtonEnable = false
                 return
             }
@@ -199,10 +234,18 @@ final class TrackerFormViewController: UIViewController {
             scrollView.addSubview($0)
         }
         
-        if isRegular! {
-            titleLabel.text = NSLocalizedString("newHabit", comment: "")
+        if isEditor {
+            if isRegular {
+                titleLabel.text = NSLocalizedString("editHabit", comment: "")
+            } else {
+                titleLabel.text = NSLocalizedString("editEvent", comment: "")
+            }
         } else {
-            titleLabel.text = NSLocalizedString("newEvent", comment: "")
+            if self.isRegular {
+                titleLabel.text = NSLocalizedString("newHabit", comment: "")
+            } else {
+                titleLabel.text = NSLocalizedString("newEvent", comment: "")
+            }
         }
         
         NSLayoutConstraint.activate([
@@ -223,7 +266,7 @@ final class TrackerFormViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: (isRegular! ? 149 : 74)),
+            tableView.heightAnchor.constraint(equalToConstant: (isRegular ? 149 : 74)),
             
             collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
             collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -256,7 +299,7 @@ final class TrackerFormViewController: UIViewController {
             WeekDay.allCases.first(where: { $0.shortForm == dayString })
         }
         
-        let newTracker = Tracker(color: color,
+        let tracker = Tracker(color: color,
                                  label: text,
                                  emoji: emoji,
                                  completedDaysCount: 0,
@@ -265,7 +308,13 @@ final class TrackerFormViewController: UIViewController {
                                  category: category
         )
         
-        delegate?.didTapCreateButton(newTracker, toCategory: category)
+        editingTracker = tracker
+        
+        if isEditor == true {
+            delegate?.didUpdateTracker(with: tracker)
+        } else {
+            delegate?.didTapCreateButton(tracker, toCategory: category)
+        }
 
         self.presentingViewController?.dismiss(animated: false, completion: nil)
         self.presentingViewController?.dismiss(animated: true, completion: nil)
@@ -286,6 +335,7 @@ extension TrackerFormViewController: UITableViewDelegate {
         case 0:
             present(categoriesVC, animated: true)
         case 1:
+            scheduleVC.selectedDays = trackerSchedule ?? []
             present(scheduleVC, animated: true)
         default: break
         }
@@ -295,7 +345,7 @@ extension TrackerFormViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension TrackerFormViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        isRegular! ? 2 : 1
+        isRegular ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

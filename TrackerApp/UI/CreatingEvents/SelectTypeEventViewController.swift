@@ -29,7 +29,7 @@ final class SelectTypeEventViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.addTarget(self, action: #selector(didTapRegularEventButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapHabitButton), for: .touchUpInside)
         return button
     }()
     
@@ -58,9 +58,8 @@ final class SelectTypeEventViewController: UIViewController {
     
     // MARK: - Actions
     @objc
-    private func didTapRegularEventButton() {
-        let createEventViewController = TrackerFormViewController()
-        createEventViewController.isRegular = true
+    private func didTapHabitButton() {
+        let createEventViewController = TrackerFormViewController(isRegular: true, isEditor: false)
         createEventViewController.delegate = delegate
         createEventViewController.modalPresentationStyle = .pageSheet
         present(createEventViewController, animated: true)
@@ -68,8 +67,7 @@ final class SelectTypeEventViewController: UIViewController {
     
     @objc
     private func didTapIrregularEventButton() {
-        let createEventViewController = TrackerFormViewController()
-        createEventViewController.isRegular = false
+        let createEventViewController = TrackerFormViewController(isRegular: false, isEditor: false)
         createEventViewController.delegate = delegate
         createEventViewController.modalPresentationStyle = .pageSheet
         present(createEventViewController, animated: true)

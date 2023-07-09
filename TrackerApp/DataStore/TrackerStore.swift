@@ -21,7 +21,7 @@ protocol TrackerStoreProtocol {
     func headerLabelInSection(_ section: Int) -> String?
     func tracker(at indexPath: IndexPath) -> Tracker?
     func addTracker(_ tracker: Tracker, with category: TrackerCategory) throws
-    func updateTracker(_ tracker: Tracker) throws
+    func updateTracker(_ tracker: Tracker, with newData: Tracker) throws
     func deleteTracker(_ tracker: Tracker) throws
     func togglePin(for tracker: Tracker) throws
 }
@@ -210,13 +210,19 @@ extension TrackerStore: TrackerStoreProtocol {
         try context.save()
     }
     
-    func updateTracker(_ tracker: Tracker) throws {
+    func updateTracker(_ tracker: Tracker, with newData: Tracker) throws {
+//        guard
+//            let emoji = newData.emoji,
+//            let color = newData.color,
+//            let category = newData.category
+//        else { return }
+        
         let trackerCoreData = try getTrackerCoreData(by: tracker.id)
-        let categoryCoreData = try trackerCategoryStore.categoryCoreData(with: tracker.category.id)
-        trackerCoreData?.label = tracker.label
-        trackerCoreData?.emoji = tracker.emoji
-        trackerCoreData?.colorHEX = uiColorMarshalling.hexString(from: tracker.color)
-        trackerCoreData?.schedule = WeekDay.code(tracker.schedule)
+        let categoryCoreData = try trackerCategoryStore.categoryCoreData(with: newData.category.id)
+        trackerCoreData?.label = newData.label
+        trackerCoreData?.emoji = newData.emoji
+        trackerCoreData?.colorHEX = uiColorMarshalling.hexString(from: newData.color)
+        trackerCoreData?.schedule = WeekDay.code(newData.schedule)
         trackerCoreData?.category = categoryCoreData
         try context.save()
     }

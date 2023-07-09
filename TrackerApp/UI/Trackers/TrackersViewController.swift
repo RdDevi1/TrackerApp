@@ -94,6 +94,7 @@ final class TrackersViewController: UIViewController {
     private var currentDate: Date = Date()
     private var categories = [TrackerCategory]()
     private var completedTrackers: Set<TrackerRecord> = []
+    private var editingTracker: Tracker?
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -137,17 +138,26 @@ final class TrackersViewController: UIViewController {
     }
     
     private func editTracker(from indexPath: IndexPath) {
-       
+        guard let tracker = trackerStore.tracker(at: indexPath) else { return }
+        if tracker.schedule != nil {
+            startEditTracker(isRegular: true, tracker: tracker)
+        } else {
+            startEditTracker(isRegular: false, tracker: tracker)
+        }
     }
     
-    private func startEditTracker() {
-        
-        
+    private func startEditTracker(isRegular: Bool, tracker: Tracker) {
+        editingTracker = tracker
+        let trackerEditorVC = TrackerFormViewController(isRegular: isRegular, isEditor: true)
+        trackerEditorVC.editingTracker = tracker
+        trackerEditorVC.delegate = self
+        trackerEditorVC.modalPresentationStyle = .pageSheet
+        present(trackerEditorVC, animated: true)
     }
     
     private func changeTogglePin(tracker: Tracker) {
         try? trackerStore.togglePin(for: tracker)
-        
+        try? trackerStore.loadFilteredTrackers(date: currentDate, searchString: searchText)
     }
     
     private func deleteTracker(forIndexPath: IndexPath) {
@@ -429,17 +439,22 @@ extension TrackersViewController: TrackerCellDelegate {
 // MARK: - SelectTypeEventViewControllerDelegate
 extension TrackersViewController: SelectTypeEventViewControllerDelegate {
     func didTapSelectTypeEventButton(isRegular: Bool) {
-        let createEventViewController = TrackerFormViewController()
-        createEventViewController.isRegular = isRegular
+        let createEventViewController = TrackerFormViewController(isRegular: isRegular, isEditor: false)
         createEventViewController.delegate = self
         present(createEventViewController, animated: true, completion: nil)
     }
 }
 
-// MARK: - CreateEventViewControllerDelegate
+// MARK: - TrackerFormViewControllerDelegate
 extension TrackersViewController: TrackerFormViewControllerDelegate {
     func didTapCreateButton(_ tracker: Tracker, toCategory category: TrackerCategory) {
         try? trackerStore.addTracker(tracker, with: category)
+    }
+    
+    func didUpdateTracker(with tracker: Tracker) {
+        guard let editingTracker else { return }
+        try? trackerStore.updateTracker(editingTracker, with: tracker)
+        self.editingTracker = nil
     }
 }
 

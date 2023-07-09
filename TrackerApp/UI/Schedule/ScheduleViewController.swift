@@ -42,11 +42,20 @@ final class ScheduleViewController: UIViewController {
     
     //    MARK: - Properties
     
-    private var selectedDays: [String] = []
+    var selectedDays: [String]
     var provideSelectedDays: (([String]) -> Void)?
     
     
     //    MARK: - LifeCycle
+    init(selectedDays: [String]) {
+        self.selectedDays = selectedDays
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
