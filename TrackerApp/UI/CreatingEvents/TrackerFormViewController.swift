@@ -54,6 +54,7 @@ final class TrackerFormViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.backgroundColor = .white
+        collection.allowsMultipleSelection = true
         return collection
     }()
     
@@ -100,7 +101,7 @@ final class TrackerFormViewController: UIViewController {
     
     private var trackerCategory: TrackerCategory? = nil {
         didSet {
-            isTreckerReady()
+            isTrackerReady()
         }
     }
     
@@ -181,8 +182,7 @@ final class TrackerFormViewController: UIViewController {
         if isEditor {
             setEditingForm()
         }
-        
-        isTreckerReady()
+        isTrackerReady()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -203,6 +203,7 @@ final class TrackerFormViewController: UIViewController {
     private func setEditingForm() {
         guard let tracker = editingTracker else { return }
         textField.text = tracker.label
+        trackerLabel = tracker.label
         trackerColor = tracker.color
         trackerEmoji = tracker.emoji
         trackerCategory = tracker.category
@@ -212,14 +213,14 @@ final class TrackerFormViewController: UIViewController {
         }
     }
     
-    private func isTreckerReady() {
+    private func isTrackerReady() {
         if isRegular {
-            if (trackerColor == nil) || (trackerEmoji == nil) || (textField.hasText == false) || (trackerCategory == nil) || (trackerSchedule == nil) {
+            if (trackerColor == nil) || (trackerEmoji == nil) || (textField.text?.isEmpty == true) || (trackerCategory == nil) || (trackerSchedule == nil) {
                 isCreateButtonEnable = false
                 return
             }
         } else {
-            if (trackerColor == nil) || (trackerEmoji == nil) || (textField.hasText == false) || (trackerCategory == nil) {
+            if (trackerColor == nil) || (trackerEmoji == nil) || (textField.text?.isEmpty == true) || (trackerCategory == nil) {
                 isCreateButtonEnable = false
                 return
             }
@@ -387,21 +388,16 @@ extension TrackerFormViewController: UITableViewDataSource {
 
 // MARK: - UITextFieldDelegate
 extension TrackerFormViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String)
-    -> Bool {
-        let newString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-        if newString.count <= 38 {
-            trackerLabel = newString
-            return true
-        } else {
-            return false
-        }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        isTreckerReady()
+        if let text = textField.text {
+            trackerLabel = text
+        }
+        isTrackerReady()
     }
 }
 
@@ -432,8 +428,7 @@ extension TrackerFormViewController: UICollectionViewDataSource {
             collectionCell.label.text = emojis[indexPath.row]
             collectionCell.label.font = UIFont.systemFont(ofSize: 32)
             if collectionCell.label.text == trackerEmoji {
-                collectionCell.contentView.backgroundColor = .lightGray
-                
+                collectionCell.backgroundColor = .ypLightGray
             }
         case 1:
             let color = colors[indexPath.row]
@@ -485,7 +480,7 @@ extension TrackerFormViewController: UICollectionViewDelegateFlowLayout {
         let headerView = self.collectionView(collectionView,
                                              viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
                                              at: indexPath)
-
+        
         return headerView.systemLayoutSizeFitting(
             CGSize(
                 width: collectionView.frame.width,
@@ -536,7 +531,6 @@ extension TrackerFormViewController: UICollectionViewDelegateFlowLayout {
         if let cell = collectionView.cellForItem(at: indexPath)  as? TrackerFormCell  {
             
             switch indexPath.section {
-                
             case 0:
                 for item in 0..<collectionView.numberOfItems(inSection: 0) {
                     guard let cell = collectionView.cellForItem(at: IndexPath(row: item, section: 0)) else { return }
@@ -544,25 +538,21 @@ extension TrackerFormViewController: UICollectionViewDelegateFlowLayout {
                 }
                 cell.backgroundColor = .ypLightGray
                 trackerEmoji = cell.label.text
-                isTreckerReady()
-                
+                isTrackerReady()
             case 1:
                 for item in 0..<collectionView.numberOfItems(inSection: 1) {
                     guard let cell = collectionView.cellForItem(at: IndexPath(row: item, section: 1)) else { return }
                     cell.backgroundColor = .clear
                     cell.layer.borderWidth = 0
                 }
-                
                 cell.layer.borderColor = cell.contentView.backgroundColor?.withAlphaComponent(0.3).cgColor
                 cell.layer.borderWidth = 3
                 trackerColor = cell.contentView.backgroundColor
-                isTreckerReady()
-                
+                isTrackerReady()
             default:
                 break
             }
         }
     }
 }
-
 

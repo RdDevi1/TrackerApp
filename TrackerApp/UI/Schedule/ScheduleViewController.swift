@@ -41,7 +41,7 @@ final class ScheduleViewController: UIViewController {
     }()
     
     //    MARK: - Properties
-    
+    private let preferredOrder = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
     var selectedDays: [String]
     var provideSelectedDays: (([String]) -> Void)?
     
@@ -81,7 +81,6 @@ final class ScheduleViewController: UIViewController {
     }
     
     private func sortSelectedDays(_ days: [String]) -> [String] {
-        let preferredOrder = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
         return days.sorted { preferredOrder.firstIndex(of: $0)! < preferredOrder.firstIndex(of: $1)! }
     }
 
@@ -161,9 +160,14 @@ extension ScheduleViewController: UITableViewDataSource {
         let weekday = WeekDay.allCases[indexPath.row]
         cell.selectionStyle = .none
         cell.backgroundColor = .ypBackground
-        cell.textLabel?.text = weekday.rawValue
+        cell.textLabel?.text = weekday.localizedName
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.accessoryView = switcher
+        if !selectedDays.isEmpty {
+            if selectedDays.contains(weekday.shortForm) {
+                switcher.isOn = true
+            }
+        }
         
         return cell
     }
