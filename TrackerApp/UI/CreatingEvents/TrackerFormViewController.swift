@@ -4,6 +4,7 @@ import UIKit
 protocol TrackerFormViewControllerDelegate: AnyObject {
     func didTapCreateButton(_ tracker: Tracker, toCategory category: TrackerCategory)
     func didUpdateTracker(with tracker: Tracker)
+    func didTapCancelButton()
 }
 
 
@@ -93,6 +94,7 @@ final class TrackerFormViewController: UIViewController {
     weak var delegate: TrackerFormViewControllerDelegate?
     private lazy var scheduleVC = ScheduleViewController(selectedDays: trackerSchedule ?? [])
     private lazy var categoriesVC = CategoriesViewController(viewModel: CategoriesViewModel(selectedCategory: trackerCategory))
+    private let uiColorMarshalling = UIColorMarshalling.shared
     
     private let trackerCategoryStore = TrackerCategoryStore.shared
     
@@ -322,6 +324,7 @@ final class TrackerFormViewController: UIViewController {
     
     @objc
     private func didTapCancelButon() {
+        delegate?.didTapCancelButton()
         self.presentingViewController?.dismiss(animated: false, completion: nil)
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
@@ -428,10 +431,22 @@ extension TrackerFormViewController: UICollectionViewDataSource {
             collectionCell.layer.cornerRadius = 16
             collectionCell.label.text = emojis[indexPath.row]
             collectionCell.label.font = UIFont.systemFont(ofSize: 32)
+            if collectionCell.label.text == trackerEmoji {
+                collectionCell.contentView.backgroundColor = .lightGray
+                
+            }
         case 1:
+            let color = colors[indexPath.row]
             collectionCell.layer.cornerRadius = 13
             collectionCell.label.text = ""
-            collectionCell.contentView.backgroundColor = colors[indexPath.row]
+            collectionCell.contentView.backgroundColor = color
+            if isEditor {
+                if uiColorMarshalling.hexString(from: color) == uiColorMarshalling.hexString(from: trackerColor ?? UIColor()) {
+                    collectionCell.layer.borderColor = collectionCell.contentView.backgroundColor?.withAlphaComponent(0.3).cgColor
+                    collectionCell.layer.borderWidth = 3
+                }
+            }
+            
         default:
             break
         }

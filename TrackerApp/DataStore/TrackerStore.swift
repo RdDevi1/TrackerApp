@@ -32,7 +32,7 @@ final class TrackerStore: NSObject {
     weak var delegate: TrackerStoreDelegate?
     
     private let context: NSManagedObjectContext
-    private let uiColorMarshalling = UIColorMarshalling()
+    private let uiColorMarshalling = UIColorMarshalling.shared
     private let trackerCategoryStore = TrackerCategoryStore()
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
@@ -211,11 +211,6 @@ extension TrackerStore: TrackerStoreProtocol {
     }
     
     func updateTracker(_ tracker: Tracker, with newData: Tracker) throws {
-//        guard
-//            let emoji = newData.emoji,
-//            let color = newData.color,
-//            let category = newData.category
-//        else { return }
         
         let trackerCoreData = try getTrackerCoreData(by: tracker.id)
         let categoryCoreData = try trackerCategoryStore.categoryCoreData(with: newData.category.id)

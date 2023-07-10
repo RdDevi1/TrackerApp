@@ -127,12 +127,10 @@ final class TrackersViewController: UIViewController {
         if trackerStore.numberOfTrackers == 0 {
             emptyTrackersLabel.isHidden = false
             emptyTrackersImageView.isHidden = false
-            collectionView.isHidden = true
             filterButton.isHidden = true
         } else {
             emptyTrackersLabel.isHidden = true
             emptyTrackersImageView.isHidden = true
-            collectionView.isHidden = false
             filterButton.isHidden = false
         }
     }
@@ -385,7 +383,6 @@ extension TrackersViewController: UIContextMenuInteractionDelegate {
                 UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                     self?.analyticsService.reportEvent(event: .click, screen: .main, item: .edit)
                     self?.editTracker(from: indexPath)
-                    /* TO DO */
                 },
                 UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                     self?.analyticsService.reportEvent(event: .click, screen: .main, item: .delete)
@@ -394,8 +391,6 @@ extension TrackersViewController: UIContextMenuInteractionDelegate {
             ])
         })
     }
-    
-    
 }
 
 // MARK: - UISearchBarDelegate
@@ -455,6 +450,11 @@ extension TrackersViewController: TrackerFormViewControllerDelegate {
         guard let editingTracker else { return }
         try? trackerStore.updateTracker(editingTracker, with: tracker)
         self.editingTracker = nil
+    }
+    
+    func didTapCancelButton() {
+        collectionView.reloadData()
+        editingTracker = nil
     }
 }
 
