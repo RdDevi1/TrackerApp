@@ -28,6 +28,7 @@
 		C48849DE29D315D300A80AA6 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */; };
 		C48849E029D31FE000A80AA6 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DF29D31FE000A80AA6 /* UICollectionView+extension.swift */; };
 		C4901E332A5CAC28000367BA /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E322A5CAC28000367BA /* WeekDay.swift */; };
+		C4901E3A2A5D7D54000367BA /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E392A5D7D54000367BA /* StatisticCell.swift */; };
 		C49571282A0BE33E00B43FF9 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */; };
 		C495712A2A0BE36A00B43FF9 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */; };
 		C495712C2A0BE45A00B43FF9 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */; };
@@ -73,6 +74,7 @@
 		C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		C48849DF29D31FE000A80AA6 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
 		C4901E322A5CAC28000367BA /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
+		C4901E392A5D7D54000367BA /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
 		C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */,
+				C4901E392A5D7D54000367BA /* StatisticCell.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				C44CA04129D4293400CF44E1 /* TrackerCategory.swift in Sources */,
 				C48849DE29D315D300A80AA6 /* StatisticsViewController.swift in Sources */,
 				C44172F929F0011100F53BA0 /* TrackerCategoryStore.swift in Sources */,
+				C4901E3A2A5D7D54000367BA /* StatisticCell.swift in Sources */,
 				C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */,
 				C4A56D0A29DB1B2B00038E38 /* TrackerFormViewController.swift in Sources */,
 				C44CA04629D46F4300CF44E1 /* TrackerCategoryView.swift in Sources */,

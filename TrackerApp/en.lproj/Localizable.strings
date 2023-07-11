@@ -132,6 +132,16 @@
 // Empty Statistics
 "emptyStatistics.text" = "Nothing to analyze";
 
+// Best period
+"bestPeriod" = "Best Period";
 
+// Perfect days
+"perfectDays" = "Perfect days";
+
+// complited trackers
+"complitedTrackers" = "Complited trackers";
+
+// Medium value
+"mediumValue" = "Medium value";
 
 

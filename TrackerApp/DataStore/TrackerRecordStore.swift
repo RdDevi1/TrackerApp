@@ -14,9 +14,7 @@ protocol TrackerRecordStoreDelegate: AnyObject {
 
 final class TrackerRecordStore: NSObject {
     // MARK: - Properties
-    enum StoreError: Error {
-        case decodeError
-    }
+    static let shared = TrackerRecordStore()
     
     weak var delegate: TrackerRecordStoreDelegate?
     
@@ -87,7 +85,18 @@ final class TrackerRecordStore: NSObject {
             let date = coreData.date,
             let trackerCoreData = coreData.tracker,
             let tracker = try? trackerStore.getTracker(from: trackerCoreData)
-        else { throw StoreError.decodeError }
+        else { throw StoreError.getRecordError}
         return TrackerRecord(id: id, trackerId: tracker.id, date: date)
+    }
+    
+    func fetchAllRecords() throws -> [TrackerRecordCoreData] {
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        do {
+            let recordsCoreData = try context.fetch(request)
+            return recordsCoreData
+        } catch {
+            throw error
+        }
     }
 }

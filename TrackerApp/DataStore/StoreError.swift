@@ -14,5 +14,7 @@ enum StoreError: Error {
     case deleteError
     case pinError
     case updateError
-    
+    case getRecordError
+    case saveRecordError
+    case deleteRecordError
 }

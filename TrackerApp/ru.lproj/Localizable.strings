@@ -132,4 +132,15 @@
 // Empty Statistics
 "emptyStatistics.text" = "Анализировать пока нечего";
 
+// Best period
+"bestPeriod" = "Лучший период";
+
+// Perfect days
+"perfectDays" = "Идеальные дни";
+
+// complited trackers
+"complitedTrackers" = "Трекеров завершено";
+
+// Medium value
+"mediumValue" = "Среднее значение";
 
