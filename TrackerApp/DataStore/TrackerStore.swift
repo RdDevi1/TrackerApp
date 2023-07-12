@@ -29,6 +29,7 @@ protocol TrackerStoreProtocol {
 final class TrackerStore: NSObject {
     // MARK: - Properties
     
+    static let shared = TrackerStore()
     weak var delegate: TrackerStoreDelegate?
     
     private let context: NSManagedObjectContext

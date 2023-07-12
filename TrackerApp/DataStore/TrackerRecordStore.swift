@@ -19,7 +19,7 @@ final class TrackerRecordStore: NSObject {
     weak var delegate: TrackerRecordStoreDelegate?
     
     private let context: NSManagedObjectContext
-    private let trackerStore = TrackerStore()
+    private let trackerStore = TrackerStore.shared
     private var completedTrackers: Set<TrackerRecord> = []
     
     // MARK: - Lifecycle

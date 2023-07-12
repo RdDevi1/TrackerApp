@@ -32,10 +32,13 @@ final class TrackersViewController: UIViewController {
         return picker
     }()
     
-    private lazy var searchTextField: UISearchBar = {
-        let field = UISearchBar()
+    private lazy var searchTextField: UISearchTextField = {
+        let field = UISearchTextField()
+        field.backgroundColor = .ypBackground
         field.placeholder = NSLocalizedString("search", comment: "")
-        field.searchBarStyle = .minimal
+        field.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        field.layer.cornerRadius = 10
+        field.addTarget(self, action: #selector(searchTracker), for: .editingChanged)
         return field
     }()
     
@@ -77,9 +80,9 @@ final class TrackersViewController: UIViewController {
     //    MARK: - Properties
     private let analyticsService = AnalyticsService()
     
-    private let trackerStore = TrackerStore()
-    private let trackerCategoryStore = TrackerCategoryStore()
-    private let trackerRecordStore = TrackerRecordStore()
+    private let trackerStore = TrackerStore.shared
+    private let trackerCategoryStore = TrackerCategoryStore.shared
+    private let trackerRecordStore = TrackerRecordStore.shared
     
     private var params = UICollectionView.GeometricParams(cellCount: 2,
                                                           leftInset: 16,
@@ -106,9 +109,7 @@ final class TrackersViewController: UIViewController {
         trackerRecordStore.delegate = self
         trackerStore.delegate = self
         
-        try? trackerStore.loadFilteredTrackers(date: currentDate, searchString: searchText)
-        try? trackerRecordStore.loadCompletedTrackers(by: currentDate)
-        
+        loadTrackers()
         checkTrackers()
     }
     
@@ -123,6 +124,14 @@ final class TrackersViewController: UIViewController {
     }
     
     //    MARK: - Methods
+    private func loadTrackers() {
+        do {
+            try trackerStore.loadFilteredTrackers(date: currentDate, searchString: searchText)
+            try trackerRecordStore.loadCompletedTrackers(by: currentDate)
+        } catch {}
+        collectionView.reloadData()
+    }
+        
     private func checkTrackers() {
         if trackerStore.numberOfTrackers == 0 {
             emptyTrackersLabel.isHidden = false
@@ -168,6 +177,7 @@ final class TrackersViewController: UIViewController {
         let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .destructive) { [weak self] _ in
             guard let self else { return }
             try? self.trackerStore.deleteTracker(tracker)
+            loadTrackers()
         }
         
         alert.addAction(cancelAction)
@@ -243,18 +253,23 @@ final class TrackersViewController: UIViewController {
     @objc
     private func didChangePickerValue(_ sender: UIDatePicker) {
         currentDate = sender.date.onlyDate()
-        do {
-            try trackerStore.loadFilteredTrackers(date: currentDate, searchString: searchText)
-            try trackerRecordStore.loadCompletedTrackers(by: currentDate)
-        } catch {}
-        collectionView.reloadData()
+        loadTrackers()
     }
     
     @objc
     private func didTapFilterButton() {
         analyticsService.reportEvent(event: .click, screen: .main, item: .filter)
-//        TO DO
+        //        TO DO
     }
+    
+    @objc
+    private func searchTracker() {
+        let searchText = searchTextField.text ?? ""
+        try? trackerStore.loadFilteredTrackers(date: currentDate, searchString: searchText)
+        collectionView.reloadData()
+        checkTrackers()
+    }
+    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -428,6 +443,7 @@ extension TrackersViewController: TrackerCellDelegate {
             cell.toggleDoneButton(true)
             cell.increaseCount()
         }
+        loadTrackers()
     }
 }
 

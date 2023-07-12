@@ -54,9 +54,9 @@ final class StatisticCell: UITableViewCell {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = gradientBorderView.bounds
         gradientLayer.colors = [
-            uiColorMarshalling.color(from: "#FD4C49").cgColor,
-            uiColorMarshalling.color(from: "#46E69D").cgColor,
-            uiColorMarshalling.color(from: "#007BFA").cgColor
+            UIColor.colorFromHex(hexString: "#FD4C49").cgColor,
+            UIColor.colorFromHex(hexString: "#46E69D").cgColor,
+            UIColor.colorFromHex(hexString: "#007BFA").cgColor,
         ]
 
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
@@ -65,7 +65,6 @@ final class StatisticCell: UITableViewCell {
         return gradientLayer
     }
     
-    private let uiColorMarshalling = UIColorMarshalling.shared
     static let identifier = "statisticCell"
     
     //MARK: - Lifecycle

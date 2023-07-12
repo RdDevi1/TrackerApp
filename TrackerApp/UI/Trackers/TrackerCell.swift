@@ -103,7 +103,7 @@ final class TrackerCell: UICollectionViewCell {
     
     func configCell(with tracker: Tracker, days: Int, isDone: Bool, interaction: UIInteraction) {
         self.tracker = tracker
-        self.days = days
+        self.days = tracker.completedDaysCount
         trackerView.backgroundColor = tracker.color
         doneButton.backgroundColor = tracker.color
         trackerLabel.text = tracker.label
