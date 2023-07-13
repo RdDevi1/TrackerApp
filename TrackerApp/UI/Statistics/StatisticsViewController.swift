@@ -147,14 +147,23 @@ extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
         var title = ""
         let subtitle = StatisticsCases.allCases[indexPath.row].name
         
-        if indexPath.row == 2 {
+        switch indexPath.row {
+        case 0:
+            title = String(0)
+            // TO DO
+        case 1:
+            title = String(0)
+            // TO DO
+        case 2:
             title = "\(records.count)"
-        } else {
-            title = "0"
+        case 3:
+            title = String(0)
+            // TO DO
+        default:
+            break
         }
-                
-        cell.configureCell(title, subtitle)
         
+        cell.configureCell(title, subtitle)
         return cell
     }
 }

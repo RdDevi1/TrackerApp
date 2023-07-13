@@ -15,7 +15,7 @@ final class TabBarController: UITabBarController {
         tabBar.backgroundColor = .systemBackground
         tabBar.tintColor = .ypBlue
         
-        let trackersViewController = TrackersViewController()
+        let trackersViewController = TrackersViewController(trackerStore: TrackerStore())
         let statisticsViewController = StatisticsViewController()
         
         trackersViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("trackers", comment: ""),

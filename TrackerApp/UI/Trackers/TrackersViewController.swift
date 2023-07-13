@@ -80,7 +80,7 @@ final class TrackersViewController: UIViewController {
     //    MARK: - Properties
     private let analyticsService = AnalyticsService()
     
-    private let trackerStore = TrackerStore.shared
+    private var trackerStore: TrackerStoreProtocol
     private let trackerCategoryStore = TrackerCategoryStore.shared
     private let trackerRecordStore = TrackerRecordStore.shared
     
@@ -95,11 +95,19 @@ final class TrackersViewController: UIViewController {
         }
     }
     private var currentDate: Date = Date()
-    private var categories = [TrackerCategory]()
     private var completedTrackers: Set<TrackerRecord> = []
     private var editingTracker: Tracker?
     
     // MARK: - LifeCycle
+    init(trackerStore: TrackerStoreProtocol) {
+        self.trackerStore = trackerStore
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
