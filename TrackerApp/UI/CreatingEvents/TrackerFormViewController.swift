@@ -11,6 +11,8 @@ protocol TrackerFormViewControllerDelegate: AnyObject {
 final class TrackerFormViewController: UIViewController {
     
     //  MARK: - Layout
+    private let contentView = UIView()
+    
     var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,6 +25,8 @@ final class TrackerFormViewController: UIViewController {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
         scroll.backgroundColor = .white
+        scroll.showsHorizontalScrollIndicator = false
+        scroll.showsVerticalScrollIndicator = false
         scroll.frame = view.bounds
         return scroll
     }()
@@ -30,6 +34,7 @@ final class TrackerFormViewController: UIViewController {
     private lazy var textField: UITextField = {
         let field = UITextField()
         field.layer.masksToBounds = true
+        field.returnKeyType = .done
         field.placeholder = NSLocalizedString("tracker.name", comment: "")
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: field.frame.height))
         field.leftView = paddingView
@@ -89,6 +94,25 @@ final class TrackerFormViewController: UIViewController {
         button.layer.borderColor = UIColor.ypRed?.cgColor
         button.addTarget(self, action: #selector(didTapCancelButon), for: .touchUpInside)
         return button
+    }()
+    
+    private let stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.spacing = 8
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    private lazy var warningLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.text = NSLocalizedString("stringLengthLimit", comment: "")
+        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     // MARK: - Properties
@@ -178,7 +202,7 @@ final class TrackerFormViewController: UIViewController {
         )
         
         setLayout()
-        
+        setConstraints()
         if isEditor {
             setEditingForm()
         }
@@ -200,6 +224,18 @@ final class TrackerFormViewController: UIViewController {
     }
     
     //    MARK: - Methods
+    private func showWarningLabel(isNeedShow: Bool) {
+        UIView.animate(withDuration: 0.8) {
+            if isNeedShow {
+                self.stackView.addArrangedSubview(self.warningLabel)
+                self.warningLabel.layer.opacity = 1
+            } else {
+                self.warningLabel.layer.opacity = 0
+                self.warningLabel.removeFromSuperview()
+            }
+        }
+    }
+    
     private func setEditingForm() {
         guard let tracker = editingTracker else { return }
         textField.text = tracker.label
@@ -229,13 +265,18 @@ final class TrackerFormViewController: UIViewController {
     }
     
     private func setLayout() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(titleLabel)
         view.addSubview(scrollView)
-        [textField, tableView, collectionView, createButton, cancelButton].forEach {
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        [stackView, tableView, collectionView, createButton, cancelButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview($0)
+            contentView.addSubview($0)
         }
+        
+        stackView.addArrangedSubview(textField)
         
         if isEditor {
             if isRegular {
@@ -250,7 +291,9 @@ final class TrackerFormViewController: UIViewController {
                 titleLabel.text = NSLocalizedString("newEvent", comment: "")
             }
         }
-        
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 40),
@@ -258,33 +301,39 @@ final class TrackerFormViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            textField.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            textField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             textField.heightAnchor.constraint(equalToConstant: 75),
-            textField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32),
+
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
-            tableView.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            
+            tableView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: (isRegular ? 149 : 74)),
             
             collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 484),
             
-            cancelButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            cancelButton.trailingAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -4),
-            cancelButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -34),
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            cancelButton.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -4),
+            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             
             createButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            createButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
-            createButton.leadingAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 4),
-            createButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -34),
+            createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            createButton.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 4),
+            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
             createButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
@@ -393,11 +442,19 @@ extension TrackerFormViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if let text = textField.text {
-            trackerLabel = text
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        trackerLabel = newText
+        
+        if newText.count <= 38 {
+            showWarningLabel(isNeedShow: false)
+            return true
+        } else {
+            showWarningLabel(isNeedShow: true)
+            return false
         }
-        isTrackerReady()
     }
 }
 
