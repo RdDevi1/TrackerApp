@@ -19,6 +19,7 @@ final class CreateCategoryViewController: UIViewController {
         label.textAlignment = .center
         label.text = NSLocalizedString("newCategory", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
    
@@ -67,8 +68,7 @@ final class CreateCategoryViewController: UIViewController {
     
     //   MARK: - Methods
     private func setLayout() {
-        
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         
         [titleLabel,
          confirmButton,
@@ -116,7 +116,7 @@ extension CreateCategoryViewController: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField.hasText {
-            confirmButton.backgroundColor = .black
+            confirmButton.backgroundColor = .toggleBlackWhiteColor
             confirmButton.isEnabled = true
         } else {
             confirmButton.backgroundColor = .ypGray

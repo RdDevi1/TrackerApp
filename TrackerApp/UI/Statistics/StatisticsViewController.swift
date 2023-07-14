@@ -104,7 +104,7 @@ final class StatisticsViewController: UIViewController {
     }
     
     private func setLayout() {
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         
         [titleLabel, emptyStatisticsLabel, emptyStatisticsImageView, tableView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

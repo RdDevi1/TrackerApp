@@ -8,6 +8,7 @@ extension UIColor {
     static let ypBlack = UIColor(named: "ypBlack")
     static let ypBackground = UIColor(named: "ypBackground")
     static let ypLightGray = UIColor(named: "ypLightGray")
+    static let ypBackgroundScreen = UIColor(named: "ypBackgroundScreen")
     
     static let toggleBlackWhiteColor = UIColor { (traits: UITraitCollection) -> UIColor in
         if traits.userInterfaceStyle == .light {

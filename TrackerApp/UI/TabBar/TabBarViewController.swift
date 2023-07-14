@@ -12,7 +12,7 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tabBar.backgroundColor = .systemBackground
+        tabBar.backgroundColor = .ypBackgroundScreen
         tabBar.tintColor = .ypBlue
         
         let trackersViewController = TrackersViewController(trackerStore: TrackerStore())

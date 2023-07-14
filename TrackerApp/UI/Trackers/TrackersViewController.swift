@@ -44,13 +44,12 @@ final class TrackersViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.backgroundColor = .white
+        collection.backgroundColor = .clear
         collection.register(TrackerCell.self,
                             forCellWithReuseIdentifier: "trackerCell")
         collection.register(TrackerCategoryView.self,
                             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                             withReuseIdentifier: "header")
-        collection.backgroundColor = .systemBackground
         return collection
     }()
     
@@ -208,7 +207,7 @@ final class TrackersViewController: UIViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypBackgroundScreen
         setConstraints()
     }
     
@@ -440,7 +439,6 @@ extension TrackersViewController: UISearchTextFieldDelegate {
 // MARK: - TrackerCellDelegate
 extension TrackersViewController: TrackerCellDelegate {
     func didTapDoneButton(of cell: TrackerCell, with tracker: Tracker) {
-        analyticsService.reportEvent(event: .click, screen: .main, item: .track)
         if let recordToRemove = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id }) {
             try? trackerRecordStore.remove(recordToRemove)
             cell.toggleDoneButton(false)
@@ -450,6 +448,7 @@ extension TrackersViewController: TrackerCellDelegate {
             try? trackerRecordStore.add(trackerRecord)
             cell.toggleDoneButton(true)
             cell.increaseCount()
+            analyticsService.reportEvent(event: .click, screen: .main, item: .track)
         }
         loadTrackers()
     }

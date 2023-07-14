@@ -23,7 +23,7 @@ final class SelectTypeEventViewController: UIViewController {
     
     private lazy var addRegularEventButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .black
+        button.backgroundColor = .toggleBlackWhiteColor
         button.setTitle(NSLocalizedString("habit", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -35,7 +35,7 @@ final class SelectTypeEventViewController: UIViewController {
     
     private lazy var addIrregularEventButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .black
+        button.backgroundColor = .toggleBlackWhiteColor
         button.setTitle(NSLocalizedString("event", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -47,7 +47,6 @@ final class SelectTypeEventViewController: UIViewController {
     
     //    MARK: - Properties
     weak var delegate: TrackerFormViewControllerDelegate?
-    
     
     //    MARK: - LifeCycle
     override func viewDidLoad() {
@@ -74,7 +73,7 @@ final class SelectTypeEventViewController: UIViewController {
     }
     //    MARK: - Methods
     private func setLayout() {
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         [titleLabel, addRegularEventButton, addIrregularEventButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false

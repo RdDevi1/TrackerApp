@@ -31,7 +31,7 @@ final class CategoriesViewController: UIViewController {
     
     private lazy var addCategoryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .black
+        button.backgroundColor = .toggleBlackWhiteColor
         button.setTitle(NSLocalizedString("addCategory", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -85,8 +85,7 @@ final class CategoriesViewController: UIViewController {
     
     //   MARK: - Methods
     private func setLayout() {
-        
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         
         [titleLabel,
          addCategoryButton,

@@ -20,7 +20,7 @@ final class StatisticCell: UITableViewCell {
     
     private let mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         view.clipsToBounds = true
         view.layer.cornerRadius = 15
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +30,7 @@ final class StatisticCell: UITableViewCell {
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
+        stack.backgroundColor = .clear
         stack.distribution = .fill
         stack.spacing = 7
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -39,14 +40,14 @@ final class StatisticCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        label.textColor = .ypBlack
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .ypBlack
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
     
@@ -93,7 +94,7 @@ final class StatisticCell: UITableViewCell {
         contentView.addSubview(gradientBorderView)
         gradientBorderView.addSubview(mainView)
         mainView.addSubview(stackView)
-        
+        contentView.backgroundColor = .ypBackgroundScreen
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
     }

@@ -12,7 +12,7 @@ final class ScheduleViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
+        label.textColor = .toggleBlackWhiteColor
         label.text = NSLocalizedString("schedule", comment: "")
         
         return label
@@ -22,6 +22,7 @@ final class ScheduleViewController: UIViewController {
         let table = UITableView()
         table.layer.masksToBounds = true
         table.bounces = false
+        table.backgroundColor = .clear
         table.layer.cornerRadius = 16
         table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.separatorColor = .ypGray
@@ -30,7 +31,7 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var confirmButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .black
+        button.backgroundColor = .toggleBlackWhiteColor
         button.setTitle(NSLocalizedString("ready", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -72,7 +73,7 @@ final class ScheduleViewController: UIViewController {
     
     //   MARK: - Methods
     private func setLayout() {
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         [titleLabel, tableView, confirmButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)

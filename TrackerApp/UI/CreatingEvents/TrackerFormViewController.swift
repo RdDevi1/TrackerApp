@@ -11,7 +11,12 @@ protocol TrackerFormViewControllerDelegate: AnyObject {
 final class TrackerFormViewController: UIViewController {
     
     //  MARK: - Layout
-    private let contentView = UIView()
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     var titleLabel: UILabel = {
         let label = UILabel()
@@ -24,7 +29,7 @@ final class TrackerFormViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
-        scroll.backgroundColor = .white
+        scroll.backgroundColor = .clear
         scroll.showsHorizontalScrollIndicator = false
         scroll.showsVerticalScrollIndicator = false
         scroll.frame = view.bounds
@@ -58,7 +63,7 @@ final class TrackerFormViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.backgroundColor = .white
+        collection.backgroundColor = .clear
         collection.allowsMultipleSelection = true
         return collection
     }()
@@ -102,6 +107,7 @@ final class TrackerFormViewController: UIViewController {
         stack.distribution = .fill
         stack.spacing = 8
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.backgroundColor = .ypBackgroundScreen
         return stack
     }()
     
@@ -189,7 +195,6 @@ final class TrackerFormViewController: UIViewController {
         tableView.delegate = self
         
         textField.delegate = self
-        textField.text = trackerLabel
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -265,11 +270,10 @@ final class TrackerFormViewController: UIViewController {
     }
     
     private func setLayout() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypBackgroundScreen
         view.addSubview(titleLabel)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         
         [stackView, tableView, collectionView, createButton, cancelButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
