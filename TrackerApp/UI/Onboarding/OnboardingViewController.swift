@@ -17,7 +17,7 @@ enum Pages: CaseIterable {
         case .pageZero:
             return NSLocalizedString("backgroundImage.blue.text", comment: "")
         case .pageOne:
-            return NSLocalizedString("Even if it's not liters of water or yoga", comment: "")
+            return NSLocalizedString("backgroundImage.red.text", comment: "")
         }
     }
     

@@ -19,7 +19,7 @@ enum Screens: String {
 }
 
 enum Items: String {
-    case add_track = "add_track"
+    case addTrack = "add_track"
     case track = "track"
     case filter = "filter"
     case edit = "edit"

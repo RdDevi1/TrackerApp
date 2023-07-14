@@ -71,11 +71,10 @@ final class StatisticCell: UITableViewCell {
     //MARK: - Lifecycle
     override func layoutSubviews() {
         super.layoutSubviews()
-
         gradientBorder.removeFromSuperlayer()
 
-        DispatchQueue.main.async {
-            self.gradientBorderView.layer.insertSublayer(self.gradientBorder, at: 0)
+        DispatchQueue.main.async { [weak self] in
+            self?.gradientBorderView.layer.insertSublayer(self?.gradientBorder ?? CAGradientLayer(), at: 0)
         }
     }
     

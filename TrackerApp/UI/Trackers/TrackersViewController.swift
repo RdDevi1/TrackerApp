@@ -250,7 +250,7 @@ final class TrackersViewController: UIViewController {
     //    MARK: - Actions
     @objc
     private func didTapAddButton() {
-        analyticsService.reportEvent(event: .click, screen: .main, item: .add_track)
+        analyticsService.reportEvent(event: .click, screen: .main, item: .addTrack)
         let selectTypeEventViewController = SelectTypeEventViewController()
         selectTypeEventViewController.delegate = self
         selectTypeEventViewController.modalPresentationStyle = .pageSheet
