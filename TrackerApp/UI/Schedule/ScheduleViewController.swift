@@ -12,8 +12,8 @@ final class ScheduleViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
-        label.text = "Расписание"
+        label.textColor = .toggleBlackWhiteColor
+        label.text = NSLocalizedString("schedule", comment: "")
         
         return label
     }()
@@ -22,6 +22,7 @@ final class ScheduleViewController: UIViewController {
         let table = UITableView()
         table.layer.masksToBounds = true
         table.bounces = false
+        table.backgroundColor = .clear
         table.layer.cornerRadius = 16
         table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.separatorColor = .ypGray
@@ -30,8 +31,8 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var confirmButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .black
-        button.setTitle("Готово", for: .normal)
+        button.backgroundColor = .toggleBlackWhiteColor
+        button.setTitle(NSLocalizedString("ready", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true
@@ -41,12 +42,21 @@ final class ScheduleViewController: UIViewController {
     }()
     
     //    MARK: - Properties
-    
-    private var selectedDays: [String] = []
+    private let preferredOrder = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+    var selectedDays: [String]
     var provideSelectedDays: (([String]) -> Void)?
     
     
     //    MARK: - LifeCycle
+    init(selectedDays: [String]) {
+        self.selectedDays = selectedDays
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,7 +73,7 @@ final class ScheduleViewController: UIViewController {
     
     //   MARK: - Methods
     private func setLayout() {
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         [titleLabel, tableView, confirmButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
@@ -72,7 +82,6 @@ final class ScheduleViewController: UIViewController {
     }
     
     private func sortSelectedDays(_ days: [String]) -> [String] {
-        let preferredOrder = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
         return days.sorted { preferredOrder.firstIndex(of: $0)! < preferredOrder.firstIndex(of: $1)! }
     }
 
@@ -152,9 +161,14 @@ extension ScheduleViewController: UITableViewDataSource {
         let weekday = WeekDay.allCases[indexPath.row]
         cell.selectionStyle = .none
         cell.backgroundColor = .ypBackground
-        cell.textLabel?.text = weekday.rawValue
+        cell.textLabel?.text = weekday.localizedName
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.accessoryView = switcher
+        if !selectedDays.isEmpty {
+            if selectedDays.contains(weekday.shortForm) {
+                switcher.isOn = true
+            }
+        }
         
         return cell
     }

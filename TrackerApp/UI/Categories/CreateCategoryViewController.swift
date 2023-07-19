@@ -17,15 +17,16 @@ final class CreateCategoryViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "Новая категория"
+        label.text = NSLocalizedString("newCategory", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
    
     private lazy var textField: UITextField = {
         let field = UITextField()
         field.layer.masksToBounds = true
-        field.placeholder = "Введите название категории"
+        field.placeholder = NSLocalizedString("enterCategoryName", comment: "")
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: field.frame.height))
         field.leftView = paddingView
         field.leftViewMode = .always
@@ -39,7 +40,7 @@ final class CreateCategoryViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.backgroundColor = .ypGray
         button.isEnabled = false
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(NSLocalizedString("ready", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true
@@ -67,8 +68,7 @@ final class CreateCategoryViewController: UIViewController {
     
     //   MARK: - Methods
     private func setLayout() {
-        
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         
         [titleLabel,
          confirmButton,
@@ -116,7 +116,7 @@ extension CreateCategoryViewController: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField.hasText {
-            confirmButton.backgroundColor = .black
+            confirmButton.backgroundColor = .toggleBlackWhiteColor
             confirmButton.isEnabled = true
         } else {
             confirmButton.backgroundColor = .ypGray

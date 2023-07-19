@@ -15,9 +15,9 @@ enum Pages: CaseIterable {
     var name: String {
         switch self {
         case .pageZero:
-            return "Отслеживайте только то, что хотите"
+            return NSLocalizedString("backgroundImage.blue.text", comment: "")
         case .pageOne:
-            return "Даже если это не литры воды и йога"
+            return NSLocalizedString("backgroundImage.red.text", comment: "")
         }
     }
     
@@ -46,7 +46,7 @@ final class OnboardingViewController: UIPageViewController {
     
     private lazy var button: UIButton = {
         let button = UIButton()
-        button.setTitle("Вот это технолгии!", for: .normal)
+        button.setTitle(NSLocalizedString("onboardingPageViewController.Button", comment: ""), for: .normal)
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.backgroundColor = .black
         button.tintColor = .white
@@ -149,8 +149,8 @@ extension OnboardingViewController: UIPageViewControllerDataSource, UIPageViewCo
         }
         index -= 1
         pageControl.currentPage = index
-        let vc = OnboardingPageViewController(page: pages[index])
-        return vc
+        
+        return OnboardingPageViewController(page: pages[index])
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -164,8 +164,8 @@ extension OnboardingViewController: UIPageViewControllerDataSource, UIPageViewCo
     
         index += 1
         pageControl.currentPage = index
-        let vc = OnboardingPageViewController(page: pages[index])
-        return vc
+       
+        return OnboardingPageViewController(page: pages[index])
     }
     
 }

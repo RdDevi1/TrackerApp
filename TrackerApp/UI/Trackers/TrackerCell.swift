@@ -44,7 +44,7 @@ final class TrackerCell: UICollectionViewCell {
     private let daysCounterLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = .toggleBlackWhiteColor
         return label
     }()
     
@@ -59,17 +59,32 @@ final class TrackerCell: UICollectionViewCell {
         return button
     }()
     
+    private let pinImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "pin.fill")
+        imageView.tintColor = .white
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     
     //  MARK: - Properties
     
     static let identifier = "trackerCell"
-    private var days = 0 {
-        didSet {
-            daysCounterLabel.text = formatDayString(for: days)
-        }
-    }
     private var tracker: Tracker?
     weak var delegate: TrackerCellDelegate?
+    
+    private var days = 0 {
+        didSet {
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .currency
+            numberFormatter.locale = Locale.current
+            daysCounterLabel.text = String.localizedStringWithFormat(
+                NSLocalizedString("numberOfDays", comment: "Number of checked days"),
+                days
+            )
+        }
+    }
     
     
     // MARK: - Lifecycle
@@ -86,14 +101,16 @@ final class TrackerCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func configCell(with tracker: Tracker, days: Int, isDone: Bool) {
+    func configCell(with tracker: Tracker, days: Int, isDone: Bool, interaction: UIInteraction) {
         self.tracker = tracker
-        self.days = days
+        self.days = tracker.completedDaysCount
         trackerView.backgroundColor = tracker.color
         doneButton.backgroundColor = tracker.color
         trackerLabel.text = tracker.label
         emojiView.text = tracker.emoji
         toggleDoneButton(isDone)
+        trackerView.addInteraction(interaction)
+        changePin(for: tracker)
     }
     
     func toggleDoneButton(_ isDone: Bool) {
@@ -103,6 +120,14 @@ final class TrackerCell: UICollectionViewCell {
         } else {
             doneButton.setImage(UIImage(systemName: "plus"), for: .normal)
             doneButton.layer.opacity = 1
+        }
+    }
+    
+    private func changePin(for tracker: Tracker) {
+        if tracker.isPinned {
+            pinImage.isHidden = false
+        } else {
+            pinImage.isHidden = true
         }
     }
     
@@ -131,8 +156,14 @@ final class TrackerCell: UICollectionViewCell {
     
     
     private func setCellLayout() {
-        [trackerView, trackerLabel, emojiView, doneButton, daysCounterLabel].forEach {
+        [trackerView, doneButton, daysCounterLabel].forEach {
             contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        /* set cell view for call context munu */
+        [trackerLabel, emojiView, pinImage].forEach {
+            trackerView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         setConstraints()
@@ -141,6 +172,7 @@ final class TrackerCell: UICollectionViewCell {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             trackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            trackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             trackerView.heightAnchor.constraint(equalToConstant: 90),
             
@@ -159,8 +191,12 @@ final class TrackerCell: UICollectionViewCell {
             doneButton.widthAnchor.constraint(equalToConstant: 34),
             
             daysCounterLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            daysCounterLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor)
+            daysCounterLabel.centerYAnchor.constraint(equalTo: doneButton.centerYAnchor),
             
+            pinImage.topAnchor.constraint(equalTo: trackerView.topAnchor, constant: 18),
+            pinImage.trailingAnchor.constraint(equalTo: trackerView.trailingAnchor, constant: -12),
+            pinImage.heightAnchor.constraint(equalToConstant: 12),
+            pinImage.widthAnchor.constraint(equalToConstant: 8)
         ])
         
     }

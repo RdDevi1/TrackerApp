@@ -11,7 +11,7 @@ final class CategoriesViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.text = "Категория"
+        label.text = NSLocalizedString("category", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -31,8 +31,8 @@ final class CategoriesViewController: UIViewController {
     
     private lazy var addCategoryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .black
-        button.setTitle("Добавить категорию", for: .normal)
+        button.backgroundColor = .toggleBlackWhiteColor
+        button.setTitle(NSLocalizedString("addCategory", comment: ""), for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.masksToBounds = true
@@ -49,7 +49,7 @@ final class CategoriesViewController: UIViewController {
     
     private lazy var emptyCategoriesLabel: UILabel = {
         let label = UILabel()
-        label.text = "Привычки и события можно объединить по смыслу"
+        label.text = NSLocalizedString("emptyCategories.text", comment: "")
         label.numberOfLines = 2
         label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
@@ -85,8 +85,7 @@ final class CategoriesViewController: UIViewController {
     
     //   MARK: - Methods
     private func setLayout() {
-        
-        view.backgroundColor = .white
+        view.backgroundColor = .ypBackgroundScreen
         
         [titleLabel,
          addCategoryButton,
@@ -122,11 +121,11 @@ final class CategoriesViewController: UIViewController {
     
     private func deleteCategory(category: TrackerCategory) {
         let alert = UIAlertController(title: nil,
-                                      message: "Эта категория точно не нужна?",
+                                      message: NSLocalizedString("alertCategory.text", comment: ""),
                                       preferredStyle: .actionSheet
         )
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
-        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .destructive) { [weak self] _ in
             self?.viewModel.deleteCategory(category: category)
         }
         
@@ -194,10 +193,10 @@ extension CategoriesViewController: UITableViewDelegate {
         
         return UIContextMenuConfiguration(actionProvider:  { _ in
             UIMenu(children: [
-                UIAction(title: "Редактировать") { [weak self] _ in
+                UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                     // TO DO
                 },
-                UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                     self?.deleteCategory(category: category)
                 }
             ])

@@ -14,14 +14,12 @@ protocol TrackerRecordStoreDelegate: AnyObject {
 
 final class TrackerRecordStore: NSObject {
     // MARK: - Properties
-    enum StoreError: Error {
-        case decodeError
-    }
+    static let shared = TrackerRecordStore()
     
     weak var delegate: TrackerRecordStoreDelegate?
     
     private let context: NSManagedObjectContext
-    private let trackerStore = TrackerStore()
+    private let trackerStore = TrackerStore.shared
     private var completedTrackers: Set<TrackerRecord> = []
     
     // MARK: - Lifecycle
@@ -63,6 +61,13 @@ final class TrackerRecordStore: NSObject {
         delegate?.didUpdateRecords(completedTrackers)
     }
     
+    func loadCompletedTrackers() throws -> [TrackerRecord] {
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        let recordsCoreData = try context.fetch(request)
+        let records = try recordsCoreData.map { try makeTrackerRecord(from: $0) }
+        return records
+    }
+    
     func loadCompletedTrackers(by date: Date) throws {
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         request.returnsObjectsAsFaults = false
@@ -79,8 +84,19 @@ final class TrackerRecordStore: NSObject {
             let id = UUID(uuidString: idString),
             let date = coreData.date,
             let trackerCoreData = coreData.tracker,
-            let tracker = try? trackerStore.makeTracker(from: trackerCoreData)
-        else { throw StoreError.decodeError }
+            let tracker = try? trackerStore.getTracker(from: trackerCoreData)
+        else { throw StoreError.getRecordError}
         return TrackerRecord(id: id, trackerId: tracker.id, date: date)
+    }
+    
+    func fetchAllRecords() throws -> [TrackerRecordCoreData] {
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        do {
+            let recordsCoreData = try context.fetch(request)
+            return recordsCoreData
+        } catch {
+            throw error
+        }
     }
 }
