@@ -130,12 +130,12 @@ extension TrackerStore: TrackerStoreProtocol {
         }
         
         sectionsCoreData.forEach { section in
-            var sectionToAdd = [Tracker]()
+            var sectionToAdd: [Tracker] = []
             section.objects?.forEach({ object in
                 guard
                     let trackerCoreData = object as? TrackerCoreData,
                     let tracker = try? getTracker(from: trackerCoreData),
-                    !pinnedTrackers.contains(where: { $0.id == tracker.id })
+                    !tracker.isPinned
                 else { return }
                 sectionToAdd.append(tracker)
             })

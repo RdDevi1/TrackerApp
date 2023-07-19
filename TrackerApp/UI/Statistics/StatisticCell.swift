@@ -37,14 +37,14 @@ final class StatisticCell: UITableViewCell {
         return stack
     }()
     
-    private let titleLabel: UILabel = {
+    private let valueLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         label.textColor = .toggleBlackWhiteColor
         return label
     }()
     
-    private let subtitleLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.textColor = .toggleBlackWhiteColor
@@ -78,24 +78,23 @@ final class StatisticCell: UITableViewCell {
         }
     }
     
-    //MARK: - Helpers
-    func configureCell( _ title: String, _ subtitle: String) {
-        backgroundColor = .clear
+    //MARK: - Methods
+    func configureCell(with model: StatisticsCellModel) {
+        contentView.backgroundColor = .ypBackgroundScreen
                         
         setElements()
         setupConstraints()
         
-        titleLabel.text = title
-        subtitleLabel.text = subtitle
+        valueLabel.text = model.value
+        descriptionLabel.text = model.description
     }
     
     private func setElements() {
         contentView.addSubview(gradientBorderView)
         gradientBorderView.addSubview(mainView)
         mainView.addSubview(stackView)
-        contentView.backgroundColor = .ypBackgroundScreen
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subtitleLabel)
+        stackView.addArrangedSubview(valueLabel)
+        stackView.addArrangedSubview(descriptionLabel)
     }
     
     private func setupConstraints() {

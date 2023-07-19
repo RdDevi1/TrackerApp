@@ -7,27 +7,6 @@
 
 import UIKit
 
-enum StatisticsCases: CaseIterable {
-    case bestPeriod
-    case perfectDays
-    case complitedTrackers
-    case mediumValue
-    
-    var name: String {
-        switch self {
-        case .bestPeriod:
-            return NSLocalizedString("bestPeriod", comment: "")
-        case .perfectDays:
-            return NSLocalizedString("perfectDays", comment: "")
-        case .complitedTrackers:
-            return NSLocalizedString("complitedTrackers", comment: "")
-        case .mediumValue:
-            return NSLocalizedString("mediumValue", comment: "")
-        }
-    }
-}
-
-
 final class StatisticsViewController: UIViewController {
     
     //    MARK: - Layout
@@ -54,8 +33,6 @@ final class StatisticsViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.register(
             StatisticCell.self,
             forCellReuseIdentifier: StatisticCell.identifier
@@ -67,40 +44,83 @@ final class StatisticsViewController: UIViewController {
         return tableView
     }()
     
-    private let trackerRecordStore = TrackerRecordStore.shared
-    private var records: [TrackerRecordCoreData] = []
+    //MARK: - Properties
+    
+    private var viewModel: StatisticsViewModel
     
     //MARK: - Lifecycle
+    init(viewModel: StatisticsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkRecords()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         setLayout()
         setupConstraints()
+        bindingViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        do {
-            records = try trackerRecordStore.fetchAllRecords()
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        tableView.reloadData()
-        checkRecords()
+        viewModel.startObserve()
     }
     
     //   MARK: - Methods
-    private func checkRecords() {
-        if records.count == 0 {
-            emptyStatisticsImageView.isHidden = false
-            emptyStatisticsLabel.isHidden = false
-            tableView.isHidden = true
-        } else {
-            emptyStatisticsImageView.isHidden = true
-            emptyStatisticsLabel.isHidden = true
-            tableView.isHidden = false
+    private func bindingViewModel() {
+        viewModel.$isEmptyPlaceholderHidden.bind { [weak self] isEmptyPlaceholderHidden in
+            if isEmptyPlaceholderHidden == false {
+                self?.showEmptyStatisticsPlaceholder()
+                return
+            } else {
+                self?.showStatistics()
+            }
         }
+        
+        viewModel.$bestPeriod.bind { [weak self] newValue in
+            self?.updateCellModel(for: .bestPeriod, value: newValue)
+        }
+        viewModel.$perfectDays.bind { [weak self] newValue in
+            self?.updateCellModel(for: .perfectDays, value: newValue)
+        }
+        viewModel.$complitedTrackers.bind { [weak self] newValue in
+            self?.updateCellModel(for: .complitedTrackers, value: newValue)
+        }
+        viewModel.$mediumValue.bind { [weak self] newValue in
+            self?.updateCellModel(for: .mediumValue, value: newValue)
+        }
+    }
+    
+    private func updateCellModel(for statisticsCase: StatisticsCases, value: Int) {
+        let cellModel = StatisticsCellModel(value: String(value), description: statisticsCase.description)
+        
+        if let index = viewModel.cellModels.firstIndex(where: { $0.description == statisticsCase.description }) {
+            viewModel.cellModels[index] = cellModel
+        } else {
+            viewModel.cellModels.append(cellModel)
+        }
+        tableView.reloadData()
+    }
+    
+    
+    private func showEmptyStatisticsPlaceholder() {
+        emptyStatisticsImageView.isHidden = false
+        emptyStatisticsLabel.isHidden = false
+        tableView.isHidden = true
+    }
+    
+    private func showStatistics() {
+        emptyStatisticsImageView.isHidden = true
+        emptyStatisticsLabel.isHidden = true
+        tableView.isHidden = false
     }
     
     private func setLayout() {
@@ -132,38 +152,27 @@ final class StatisticsViewController: UIViewController {
 }
 
 //MARK: - UITableViewDataSource, UITableViewDelegate
-extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
+extension StatisticsViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         StatisticsCases.allCases.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        102
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticCell.identifier, for: indexPath) as? StatisticCell else { return UITableViewCell() }
         
-        var title = ""
-        let subtitle = StatisticsCases.allCases[indexPath.row].name
+        let cellModel = viewModel.cellModels[indexPath.row]
+        cell.configureCell(with: cellModel)
         
-        switch indexPath.row {
-        case 0:
-            title = String(0)
-            // TO DO
-        case 1:
-            title = String(0)
-            // TO DO
-        case 2:
-            title = "\(records.count)"
-        case 3:
-            title = String(0)
-            // TO DO
-        default:
-            break
-        }
-        
-        cell.configureCell(title, subtitle)
         return cell
     }
 }
+
+//MARK: - UITableViewDelegate
+extension StatisticsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        102
+    }
+    
+}
+

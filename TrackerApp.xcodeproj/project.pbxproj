@@ -31,6 +31,9 @@
 		C4901E3A2A5D7D54000367BA /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E392A5D7D54000367BA /* StatisticCell.swift */; };
 		C4901E452A5FF195000367BA /* TrackerAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E442A5FF195000367BA /* TrackerAppTests.swift */; };
 		C4901E4D2A5FF498000367BA /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = C4901E4C2A5FF498000367BA /* SnapshotTesting */; };
+		C4901E4F2A668D44000367BA /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E4E2A668D44000367BA /* StatisticsViewModel.swift */; };
+		C4901E512A66BB31000367BA /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E502A66BB31000367BA /* Observable.swift */; };
+		C4901E532A67DD70000367BA /* StatisticsCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4901E522A67DD70000367BA /* StatisticsCellModel.swift */; };
 		C49571282A0BE33E00B43FF9 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */; };
 		C495712A2A0BE36A00B43FF9 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */; };
 		C495712C2A0BE45A00B43FF9 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */; };
@@ -89,6 +92,9 @@
 		C4901E392A5D7D54000367BA /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
 		C4901E422A5FF195000367BA /* TrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4901E442A5FF195000367BA /* TrackerAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerAppTests.swift; sourceTree = "<group>"; };
+		C4901E4E2A668D44000367BA /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
+		C4901E502A66BB31000367BA /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		C4901E522A67DD70000367BA /* StatisticsCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCellModel.swift; sourceTree = "<group>"; };
 		C49571272A0BE33E00B43FF9 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		C49571292A0BE36A00B43FF9 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		C495712B2A0BE45A00B43FF9 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
@@ -189,6 +195,7 @@
 				C4A56D0D29DEE7F800038E38 /* Date+extension.swift */,
 				C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */,
 				C495712F2A1128F100B43FF9 /* UIViewController+hideKeyboard.swift */,
+				C4901E502A66BB31000367BA /* Observable.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -218,6 +225,7 @@
 				C48849DA29D3146D00A80AA6 /* TrackerModel.swift */,
 				C44CA04029D4293400CF44E1 /* TrackerCategory.swift */,
 				C44CA04229D4294300CF44E1 /* TrackerRecord.swift */,
+				C4901E522A67DD70000367BA /* StatisticsCellModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -227,6 +235,7 @@
 			children = (
 				C48849DD29D315D300A80AA6 /* StatisticsViewController.swift */,
 				C4901E392A5D7D54000367BA /* StatisticCell.swift */,
+				C4901E4E2A668D44000367BA /* StatisticsViewModel.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -486,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4901E512A66BB31000367BA /* Observable.swift in Sources */,
 				C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */,
 				C4A56D0829DB0DB700038E38 /* ScheduleViewController.swift in Sources */,
 				C495712C2A0BE45A00B43FF9 /* CreateCategoryViewController.swift in Sources */,
@@ -494,6 +504,7 @@
 				C44CA04A29D5D0DB00CF44E1 /* TrackerFormHeaderView.swift in Sources */,
 				C49571342A12C54100B43FF9 /* StoreError.swift in Sources */,
 				C4901E332A5CAC28000367BA /* WeekDay.swift in Sources */,
+				C4901E4F2A668D44000367BA /* StatisticsViewModel.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
 				C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
@@ -507,6 +518,7 @@
 				C49571282A0BE33E00B43FF9 /* CategoriesViewController.swift in Sources */,
 				C4A9AE9F2A053D8F009ABC10 /* OnboardingViewController.swift in Sources */,
 				C4F8C03229CC788D00284B5A /* SceneDelegate.swift in Sources */,
+				C4901E532A67DD70000367BA /* StatisticsCellModel.swift in Sources */,
 				C44CA04829D5817C00CF44E1 /* TrackerFormCell.swift in Sources */,
 				C495712A2A0BE36A00B43FF9 /* CategoriesViewModel.swift in Sources */,
 				C4C587622A2E03A100C54866 /* AnalyticsService.swift in Sources */,
