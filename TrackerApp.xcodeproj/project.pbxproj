@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C42316192A1DFC7A0081D267 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42316182A1DFC7A0081D267 /* CoreDataManager.swift */; };
 		C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */; };
+		C429EAFE2B0FD76D00706192 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429EAFD2B0FD76D00706192 /* CoordinatorProtocol.swift */; };
+		C429EB002B0FDD4100706192 /* UINavigationController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429EAFF2B0FDD4100706192 /* UINavigationController+Ext.swift */; };
 		C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */; };
 		C44172F429EFFEFC00F53BA0 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C44172F229EFFEFC00F53BA0 /* Model.xcdatamodeld */; };
 		C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44172F629F0010300F53BA0 /* TrackerStore.swift */; };
@@ -69,6 +71,8 @@
 		34459D4E506B50B2FF727B1F /* Pods-TrackerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackerApp.debug.xcconfig"; path = "Target Support Files/Pods-TrackerApp/Pods-TrackerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		C42316182A1DFC7A0081D267 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		C423161A2A1E54820081D267 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		C429EAFD2B0FD76D00706192 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		C429EAFF2B0FDD4100706192 /* UINavigationController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Ext.swift"; sourceTree = "<group>"; };
 		C44172EF29EF162B00F53BA0 /* SelectTypeEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeEventViewController.swift; sourceTree = "<group>"; };
 		C44172F329EFFEFC00F53BA0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		C44172F629F0010300F53BA0 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
@@ -149,6 +153,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C429EAFC2B0FD74400706192 /* Coorditators */ = {
+			isa = PBXGroup;
+			children = (
+				C429EAFD2B0FD76D00706192 /* CoordinatorProtocol.swift */,
+			);
+			path = Coorditators;
+			sourceTree = "<group>";
+		};
 		C44172F129EFFE6100F53BA0 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +208,7 @@
 				C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */,
 				C495712F2A1128F100B43FF9 /* UIViewController+hideKeyboard.swift */,
 				C4901E502A66BB31000367BA /* Observable.swift */,
+				C429EAFF2B0FDD4100706192 /* UINavigationController+Ext.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -308,6 +321,7 @@
 		C4F8C02E29CC788D00284B5A /* TrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				C429EAFC2B0FD74400706192 /* Coorditators */,
 				C4F8C02F29CC788D00284B5A /* AppDelegate.swift */,
 				C4F8C03129CC788D00284B5A /* SceneDelegate.swift */,
 				C44172F129EFFE6100F53BA0 /* UI */,
@@ -385,7 +399,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					C4901E412A5FF195000367BA = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -497,6 +511,7 @@
 			files = (
 				C4901E512A66BB31000367BA /* Observable.swift in Sources */,
 				C44CA03B29D335AF00CF44E1 /* TrackerCell.swift in Sources */,
+				C429EAFE2B0FD76D00706192 /* CoordinatorProtocol.swift in Sources */,
 				C4A56D0829DB0DB700038E38 /* ScheduleViewController.swift in Sources */,
 				C495712C2A0BE45A00B43FF9 /* CreateCategoryViewController.swift in Sources */,
 				C495712E2A0BE77400B43FF9 /* CategoryCell.swift in Sources */,
@@ -506,6 +521,7 @@
 				C4901E332A5CAC28000367BA /* WeekDay.swift in Sources */,
 				C4901E4F2A668D44000367BA /* StatisticsViewModel.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
+				C429EB002B0FDD4100706192 /* UINavigationController+Ext.swift in Sources */,
 				C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
 				C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */,
@@ -652,6 +668,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -713,6 +730,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
