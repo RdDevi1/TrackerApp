@@ -66,6 +66,8 @@ final class OnboardingViewController: UIPageViewController {
         return pageControl
     }()
     
+    weak var coordinator: RootCoordinator?
+    
     private var pageController: UIPageViewController?
     private var pages: [Pages] = Pages.allCases
     private var currentIndex: Int = 0
@@ -129,7 +131,8 @@ final class OnboardingViewController: UIPageViewController {
     //    MARK: - Actions
     @objc
     private func didTapButton() {
-        let tabBarVC = TabBarController()
+        guard let coordinator = coordinator else { return }
+        let tabBarVC = TabBarController(coordinator: coordinator)
         tabBarVC.modalPresentationStyle = .fullScreen
         tabBarVC.modalTransitionStyle = .flipHorizontal
         present(tabBarVC, animated: true)

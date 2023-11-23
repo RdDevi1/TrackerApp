@@ -9,6 +9,8 @@ import UIKit
 
 final class EnterViewController: UIViewController {
 
+    weak var coordinator: RootCoordinator?
+    
     private let userDefaults = UserDefaults.standard
     
     private enum Keys: String {
@@ -27,7 +29,7 @@ final class EnterViewController: UIViewController {
         
             userDefaults.set(true, forKey: Keys.onboardingShown.rawValue)
         } else {
-            let tabBarVC = TabBarController()
+            let tabBarVC = TabBarController(coordinator: coordinator!)
             tabBarVC.modalPresentationStyle = .fullScreen
             present(tabBarVC, animated: false)
         }

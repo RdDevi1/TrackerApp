@@ -22,6 +22,9 @@
 		C44CA04629D46F4300CF44E1 /* TrackerCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */; };
 		C44CA04829D5817C00CF44E1 /* TrackerFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04729D5817C00CF44E1 /* TrackerFormCell.swift */; };
 		C44CA04A29D5D0DB00CF44E1 /* TrackerFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44CA04929D5D0DB00CF44E1 /* TrackerFormHeaderView.swift */; };
+		C475F1662B0FE5F8006FC4A5 /* CoordinatorProtocol .swift in Sources */ = {isa = PBXBuildFile; fileRef = C475F1652B0FE5F8006FC4A5 /* CoordinatorProtocol .swift */; };
+		C475F1682B0FE658006FC4A5 /* UINavigationController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475F1672B0FE658006FC4A5 /* UINavigationController+Ext.swift */; };
+		C475F16A2B0FE6A4006FC4A5 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475F1692B0FE6A4006FC4A5 /* RootCoordinator.swift */; };
 		C48849D229D22F2C00A80AA6 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */; };
 		C48849D429D30A9100A80AA6 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849D329D30A9100A80AA6 /* TabBarViewController.swift */; };
 		C48849DB29D3146D00A80AA6 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48849DA29D3146D00A80AA6 /* TrackerModel.swift */; };
@@ -83,6 +86,9 @@
 		C44CA04529D46F4300CF44E1 /* TrackerCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryView.swift; sourceTree = "<group>"; };
 		C44CA04729D5817C00CF44E1 /* TrackerFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFormCell.swift; sourceTree = "<group>"; };
 		C44CA04929D5D0DB00CF44E1 /* TrackerFormHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFormHeaderView.swift; sourceTree = "<group>"; };
+		C475F1652B0FE5F8006FC4A5 /* CoordinatorProtocol .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoordinatorProtocol .swift"; sourceTree = "<group>"; };
+		C475F1672B0FE658006FC4A5 /* UINavigationController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Ext.swift"; sourceTree = "<group>"; };
+		C475F1692B0FE6A4006FC4A5 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		C48849D129D22F2C00A80AA6 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		C48849D329D30A9100A80AA6 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C48849DA29D3146D00A80AA6 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
@@ -187,6 +193,15 @@
 			path = CreatingEvents;
 			sourceTree = "<group>";
 		};
+		C475F1642B0FE5DE006FC4A5 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				C475F1652B0FE5F8006FC4A5 /* CoordinatorProtocol .swift */,
+				C475F1692B0FE6A4006FC4A5 /* RootCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
 		C48849D029D22F0B00A80AA6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +211,7 @@
 				C44172FC29F004A400F53BA0 /* UIColorMarshalling.swift */,
 				C495712F2A1128F100B43FF9 /* UIViewController+hideKeyboard.swift */,
 				C4901E502A66BB31000367BA /* Observable.swift */,
+				C475F1672B0FE658006FC4A5 /* UINavigationController+Ext.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -308,6 +324,7 @@
 		C4F8C02E29CC788D00284B5A /* TrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				C475F1642B0FE5DE006FC4A5 /* Coordinators */,
 				C4F8C02F29CC788D00284B5A /* AppDelegate.swift */,
 				C4F8C03129CC788D00284B5A /* SceneDelegate.swift */,
 				C44172F129EFFE6100F53BA0 /* UI */,
@@ -507,6 +524,7 @@
 				C4901E4F2A668D44000367BA /* StatisticsViewModel.swift in Sources */,
 				C4F8C03429CC788D00284B5A /* TrackersViewController.swift in Sources */,
 				C4E420A02A1BBA4200F17332 /* EnterViewController.swift in Sources */,
+				C475F1682B0FE658006FC4A5 /* UINavigationController+Ext.swift in Sources */,
 				C4F8C03029CC788D00284B5A /* AppDelegate.swift in Sources */,
 				C423161B2A1E54820081D267 /* OnboardingPageViewController.swift in Sources */,
 				C44172F029EF162B00F53BA0 /* SelectTypeEventViewController.swift in Sources */,
@@ -528,6 +546,8 @@
 				C4901E3A2A5D7D54000367BA /* StatisticCell.swift in Sources */,
 				C44172F729F0010300F53BA0 /* TrackerStore.swift in Sources */,
 				C4A56D0A29DB1B2B00038E38 /* TrackerFormViewController.swift in Sources */,
+				C475F16A2B0FE6A4006FC4A5 /* RootCoordinator.swift in Sources */,
+				C475F1662B0FE5F8006FC4A5 /* CoordinatorProtocol .swift in Sources */,
 				C44CA04629D46F4300CF44E1 /* TrackerCategoryView.swift in Sources */,
 				C48849D429D30A9100A80AA6 /* TabBarViewController.swift in Sources */,
 				C4A56D0E29DEE7F800038E38 /* Date+extension.swift in Sources */,

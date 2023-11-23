@@ -9,6 +9,17 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
+    weak var coordinator: RootCoordinator?
+    
+    init(coordinator: RootCoordinator) {
+        self.coordinator = coordinator
+        super.init(nibName: "TabBarController", bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
